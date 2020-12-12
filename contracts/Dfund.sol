@@ -1,46 +1,52 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.6.0;
 
-contract CampaignFactory{
-    Campaign[] public deployedCampaigns;
+contract DfundFactory{
+    Dfund[] public deployedCampaigns;
     
     function createCampaign(
         string memory title,
         string memory description,
-        string memory imageHash,
+        string memory category,
+        string memory country,
         uint goalAmount,
         uint minimumContrubution,
-        uint deadline    
+        uint deadline,
+        string memory imageHash
     ) public{
-        Campaign newCampaign = new Campaign({
+        Dfund newCampaign = new Dfund({
             creator:msg.sender,
             title:title,
             description:description,
-            imageHash:imageHash,
+            category:category,
+            country:country,
             goalAmount:goalAmount,
             minimumContrubution: minimumContrubution,
-            deadline: deadline
+            deadline: deadline,
+            imageHash:imageHash
         });
         
         deployedCampaigns.push(newCampaign);
     }
     
-    function getDeployedCampaigns() public view returns(Campaign[] memory){
+    function getDeployedCampaigns() public view returns(Dfund[] memory){
        return deployedCampaigns; 
     }
 }
 
-contract Campaign{
+contract Dfund{
     
-    struct Properties{
+    struct Campaign{
         address payable creator;
         string title;
         string description;
-        string imageHash;
+        string category;
+        string country;
         uint goalAmount;
         uint minimumContrubution;
         uint deadline;
         bool active;
+        string imageHash;
     }
     
     struct Contribution {
@@ -57,7 +63,7 @@ contract Campaign{
         mapping(address => bool) approvals;
     }
     
-    Properties public properties;
+    Campaign public campaign;
     Request[] public requests;
     mapping (uint => Contribution) public contributions;
     uint public contributionCount;
@@ -76,7 +82,7 @@ contract Campaign{
     
     
     modifier isCreator {
-         require(msg.sender == properties.creator);
+         require(msg.sender == campaign.creator);
         _;
     }
     
@@ -85,17 +91,21 @@ contract Campaign{
         address creator,
         string memory title,
         string memory description,
-        string memory imageHash,
+        string memory category,
+        string memory country,
         uint goalAmount,
         uint minimumContrubution,
-        uint deadline
+        uint deadline,
+        string memory imageHash
     )
         public
     {
-        properties = Properties({
+        campaign = Campaign({
             creator:address(uint160(creator)),
             title:title,
             description:description,
+            category:category,
+            country:country,
             imageHash:imageHash,
             goalAmount:goalAmount,
             minimumContrubution:minimumContrubution,
@@ -109,7 +119,7 @@ contract Campaign{
     */
     function fund() public payable{
         // when contrubution is greater or equals to min. contrubution add contrubutor to approvers list
-        if(msg.value >= properties.minimumContrubution){
+        if(msg.value >= campaign.minimumContrubution){
             approvers[msg.sender] = true;
             approversCount++;
         }
@@ -171,7 +181,7 @@ contract Campaign{
     
     // kill/destroy contract by creator
      function kill() public isCreator {
-        selfdestruct(properties.creator);
+        selfdestruct(campaign.creator);
     }
     
     /**
