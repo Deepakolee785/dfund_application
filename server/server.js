@@ -2,6 +2,9 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 
+//rotutes
+const authRoutes = require('./routes/api/auth.routes')
+
 // env variables
 require('dotenv').config()
 
@@ -9,13 +12,16 @@ require('dotenv').config()
 const app = express()
 
 //middlewares
-app.use(express.json({ extended: false }))
+app.use(express.json())
 app.use(cors())
 
 // rotues
 app.get('/', (req, res) => {
 	res.status(200).json({ message: 'App is working!' })
 })
+
+// Route Middleware
+app.use('/api/user', authRoutes)
 
 // MongoDB connection
 mongoose.connect(
