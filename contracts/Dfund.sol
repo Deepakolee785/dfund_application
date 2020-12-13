@@ -38,9 +38,9 @@ contract Dfund{
     mapping(address => bool) public approvers;
     uint public approversCount;
     
-    event LogCampaignCreated(uint id, string title, address addr, address creator);
+    // EVENTS
     event LogContributionSent(address projectAddress, address contributor, uint amount);
-    event LogRequestCreated();
+    event LogRequestCreated(address payable maker,string description, uint value, address payable recipient);
     event LogRequestFinilized();
     event LogRequestApproved();
 
@@ -97,6 +97,8 @@ contract Dfund{
             amount:msg.value,
             contributor:msg.sender
         });
+
+        emit LogContributionSent(address(this),msg.sender, msg.value);
        
     }
     
@@ -118,6 +120,8 @@ contract Dfund{
         
         // save to requests array
         requests.push(newRequest);
+
+        emit LogRequestCreated(campaign.creator,description,value,recipient);
     }
     
     /*
