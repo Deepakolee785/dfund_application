@@ -177,7 +177,7 @@ contract Dfund{
     
     
     /// @notice Don't allow Ether to be sent blindly to this contract
-    fallback() external {
+    receive() external payable{
          revert();
     }
     
