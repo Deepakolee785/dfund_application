@@ -33,10 +33,11 @@ contract('DfundFactory', accounts => {
 
 	describe('Campaign Factory', async () => {
 		it('Should create a new Campaign', async () => {
-			await dfundFactory.createCampaign(
+			// FOR SUCCESS CASE
+			const result = await dfundFactory.createCampaign(
 				temp.title,
 				temp.desc,
-				temp.desc,
+				temp.category,
 				temp.country,
 				temp.goal,
 				temp.min,
@@ -46,6 +47,41 @@ contract('DfundFactory', accounts => {
 					from: accounts[0],
 				}
 			)
+
+			const event = result.logs[0].args
+			console.log(event)
+
+			assert.equal(event.creator, accounts[0], 'Creator is OK')
+			assert.equal(event.title, temp.title, 'Title is OK')
+			assert.equal(event.description, temp.desc, 'Description is OK')
+			assert.equal(event.category, temp.category, 'Category is OK')
+			assert.equal(event.country, temp.country, 'Country is OK')
+			assert.equal(
+				event.goalAmount.toNumber(),
+				temp.goal,
+				'Goal amount is OK'
+			)
+			assert.equal(
+				event.minimumContribution.toNumber(),
+				temp.min,
+				'Min contribution is OK'
+			)
+			assert.equal(
+				event.deadline.toNumber(),
+				temp.deadline,
+				'Deadline is OK'
+			)
+			assert.equal(event.imageHash, temp.imageHash, 'Imagehash is OK')
+
+			// FOR FAILURE CASE
+			try {
+				await dfundFactory.createCampaign({ from: accounts[0] })
+				assert(false)
+				return
+			} catch (error) {
+				assert(true)
+				return
+			}
 		})
 		it('Should get all campaign addresses', async () => {
 			const addresses = await dfundFactory.getDeployedCampaigns()
@@ -69,19 +105,106 @@ contract('DfundFactory', accounts => {
 		})
 		it('Should get campaign details', async () => {
 			const result = await myCampaign.campaign()
-			assert(result.creator, accounts[0], 'Creator is OK')
-			assert(result.title, temp.title, 'Title is OK')
-			assert(result.description, temp.desc, 'Description is OK')
-			assert(result.category, temp.category, 'Category is OK')
-			assert(result.country, temp.country, 'Country is OK')
-			assert(result.goalAmount.toNumber(), temp.goal, 'Goal amount is OK')
-			assert(
+			assert.equal(result.creator, accounts[0], 'Creator is OK')
+			assert.equal(result.title, temp.title, 'Title is OK')
+			assert.equal(result.description, temp.desc, 'Description is OK')
+			assert.equal(result.category, temp.category, 'Category is OK')
+			assert.equal(result.country, temp.country, 'Country is OK')
+			assert.equal(
+				result.goalAmount.toNumber(),
+				temp.goal,
+				'Goal amount is OK'
+			)
+			assert.equal(
 				result.minimumContrubution.toNumber(),
 				temp.min,
 				'Min contribution is OK'
 			)
-			assert(result.deadline.toNumber(), temp.deadline, 'Deadline is OK')
-			assert(result.imageHash, temp.imageHash, 'Imagehash is OK')
+			assert.equal(
+				result.deadline.toNumber(),
+				temp.deadline,
+				'Deadline is OK'
+			)
+			assert.equal(result.imageHash, temp.imageHash, 'Imagehash is OK')
+		})
+
+		it('Should allow to fund in campaign and add in contribution list', async () => {
+			const result = await myCampaign.fund({
+				value: '50', //wei
+				from: accounts[1],
+			})
+
+			// Event if emitted
+			assert.ok(result.logs[0].args)
+
+			// added to contribution list
+			const isContributor = await myCampaign.contributions(accounts[1])
+			assert.ok(isContributor)
+		})
+		it('Should add contributor in approver list if funded amount is more than min contribution', async () => {
+			const result = await myCampaign.fund({
+				value: '1000', //wei
+				from: accounts[1],
+			})
+
+			// Event if emitted
+			assert.ok(result.logs[0].args)
+
+			// added to contribution list
+			const isContributor = await myCampaign.contributions(accounts[1])
+			assert.ok(isContributor)
+
+			// added to approver list
+			const isApprover = await myCampaign.approvers(accounts[1])
+			assert.ok(isApprover)
+		})
+		it('Should not add contributor to approver list if funded amount is less than min contribution', async () => {
+			const result = await myCampaign.fund({
+				value: '10', //wei
+				from: accounts[2],
+			})
+
+			// Event if emitted
+			assert.ok(result.logs[0].args)
+
+			// added to contribution list
+			const isContributor = await myCampaign.contributions(accounts[2])
+			assert.ok(isContributor)
+
+			// added to approver list
+			const isApprover = await myCampaign.approvers(accounts[2])
+			assert.ok(!isApprover)
+		})
+		it('Should allow campaign creator to make a spending request', async () => {
+			const result = await myCampaign.createRequest(
+				'DO something',
+				10,
+				accounts[1],
+				{
+					from: accounts[0],
+				}
+			)
+
+			const request = await myCampaign.requests(0)
+
+			assert.equal('DO something', request.description)
+		})
+		it('Should not allow other user except campaign creator to make a spending request', async () => {
+			try {
+				await myCampaign.createRequest(
+					'DO something',
+					10,
+					accounts[1],
+					{
+						from: accounts[1],
+					}
+				)
+				assert(false)
+				return
+			} catch (error) {
+				assert(true)
+				return
+			}
 		})
 	})
 })
