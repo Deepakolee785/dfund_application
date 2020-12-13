@@ -49,7 +49,7 @@ contract('DfundFactory', accounts => {
 			)
 
 			const event = result.logs[0].args
-			console.log(event)
+			// console.log(event)
 
 			assert.equal(event.creator, accounts[0], 'Creator is OK')
 			assert.equal(event.title, temp.title, 'Title is OK')
