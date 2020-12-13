@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.6.0;
 
+/// @title Dfund smart contract
+/// @notice crowdfunding smart contract
+/// @author Deepak Oli
+
 contract Dfund{
     
     struct Campaign{
@@ -53,7 +57,16 @@ contract Dfund{
         _;
     }
     
-    
+
+    /// @param creator campaign creator
+    /// @param title campaign title
+    /// @param description description of campaign
+    /// @param category category to which campaign belong
+    /// @param country country of origin
+    /// @param goalAmount goal amount of campaign
+    /// @param minimumContrubution minimun contribution which determines approver
+    /// @param deadline end date of campaign
+    /// @param imageHash image hash string
     constructor(
         address creator,
         string memory title,
@@ -81,10 +94,15 @@ contract Dfund{
         });
     }
     
-    /*
-    *   @desc funding
-    */
+    /// @notice funding in different campaigns
     function fund() public payable{
+
+          // Check amount sent is greater than 0
+        if (msg.value <= 0) {
+            emit LogFailure("Contributions must be greater than 0 wei");
+            revert();
+        }
+
         // when contrubution is greater or equals to min. contrubution add contrubutor to approvers list
         if(msg.value >= campaign.minimumContrubution){
             approvers[msg.sender] = true;
@@ -102,9 +120,8 @@ contract Dfund{
        
     }
     
-    /*
-    * @make request for withdraw
-    */
+
+    /// @notice make request for withdraw
     function createRequest(
         string memory description,
         uint value, 
@@ -124,9 +141,7 @@ contract Dfund{
         emit LogRequestCreated(campaign.creator,description,value,recipient);
     }
     
-    /*
-    * @ approve request
-    */
+    /// @notice approve request
     function approveRequest(uint index) public {
          Request storage request = requests[index];
         
@@ -135,9 +150,12 @@ contract Dfund{
         
         request.approvals[msg.sender] = true;
         request.approvalCount++;
+
+        emit LogRequestApproved();
     }
     
-    // finialize request
+    /// @notice finalize the request and transfer fund to address
+    /// @param index request index number
     function finializeRequest(uint index) public isCreator{
         
         Request storage request = requests[index];
@@ -147,20 +165,21 @@ contract Dfund{
         
         request.recipient.transfer(request.value);
         request.complete = true;
-        
-    }  
+
+        emit LogRequestFinilized();   
+    } 
+
     
-    // kill/destroy contract by creator
+    /// @notice Kill/Destroy contract by creator
      function kill() public isCreator {
         selfdestruct(campaign.creator);
     }
     
-    /**
-     * Do not allow direct deposits.
-     */
-    // fallback() external payable {
-    //         revert();
-    //     }
+    
+    /// @notice Don't allow Ether to be sent blindly to this contract
+    fallback() external {
+         revert();
+    }
     
     
 }

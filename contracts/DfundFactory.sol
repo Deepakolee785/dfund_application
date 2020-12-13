@@ -2,6 +2,10 @@
 pragma solidity ^0.6.0;
 import "./Dfund.sol";
 
+/// @title Dfund smart contract
+/// @notice crowdfunding smart contract
+/// @author Deepak Oli
+
 contract DfundFactory{
     Dfund[] public deployedCampaigns;
 
@@ -17,7 +21,18 @@ contract DfundFactory{
         string category,
         string imageHash
     );
+
+    event LogFailure(string message);
     
+    /// @notice create campaign and save in network
+    /// @param title campaign title
+    /// @param description description of campaign
+    /// @param category category to which campaign belong
+    /// @param country country of origin
+    /// @param goalAmount goal amount of campaign
+    /// @param minimumContrubution minimun contribution which determines approver
+    /// @param deadline end date of campaign
+    /// @param imageHash image hash string
     function createCampaign(
         string memory title,
         string memory description,
@@ -28,6 +43,17 @@ contract DfundFactory{
         uint deadline,
         string memory imageHash
     ) public{
+
+         if (goalAmount <= 0) {
+            LogFailure("Campaign goal amount must be greater than 0");
+             revert();
+        }
+
+        if (block.number >= deadline) {
+            LogFailure("Campaign deadline must be greater than the current block");
+            revert();
+        }
+
         Dfund newCampaign = new Dfund({
             creator:msg.sender,
             title:title,
@@ -56,6 +82,7 @@ contract DfundFactory{
         );
     }
     
+    /// @return array of deployed campaign addresses
     function getDeployedCampaigns() public view returns(Dfund[] memory){
        return deployedCampaigns; 
     }
