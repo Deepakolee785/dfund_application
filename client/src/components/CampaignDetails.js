@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Alert, Card, Spin } from 'antd'
+import { Alert, Card } from 'antd'
 import { useQuery } from 'react-query'
-import { useParams, Redirect } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { PlusCircleFilled, LikeFilled, HeartFilled } from '@ant-design/icons'
 
 import FactoryContext from '../context/factory/factoryContext'
@@ -21,7 +21,7 @@ const CampaignDetails = () => {
 			accounts.length !== 0
 		) {
 			// setBalance(web3.eth.getBalance(campaign))
-			console.log(web3.utils.isAddress('campaign'))
+			// console.log(web3.utils.isAddress('campaign'))
 		}
 	}, [web3, accounts, contract])
 
@@ -32,13 +32,13 @@ const CampaignDetails = () => {
 			accounts.length !== 0
 		) {
 			// setBalance(web3.eth.getBalance(campaign))
-			console.log(web3.utils.isAddress('campaign'))
+			// console.log(web3.utils.isAddress('campaign'))
 			web3.eth
 				.getBalance(campaign)
 				.then(data => setBalance(data))
 				.catch(err => console.log(err))
 		}
-	}, [web3, accounts, contract])
+	}, [web3, accounts, contract, campaign])
 
 	const { data, isError, error, isLoading } = useQuery(
 		['campaign'],

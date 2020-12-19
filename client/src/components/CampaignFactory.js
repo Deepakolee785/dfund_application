@@ -1,5 +1,5 @@
 import React, { Fragment, useContext } from 'react'
-import { Alert, Button, Card, Divider, Spin } from 'antd'
+import { Button, Card, Divider, Spin } from 'antd'
 import FactoryContext from '../context/factory/factoryContext'
 
 import { useQuery } from 'react-query'
@@ -26,6 +26,10 @@ const CampaignFactory = () => {
 
 	return (
 		<div>
+			<Link to='/create/campaign'>
+				<Button type='primary'>Create campaign</Button>
+			</Link>
+			<Divider />
 			<div>
 				{info.isLoading && <Spin />}
 				{/* {info.isError && <Alert message={info.error} type='error' />} */}
@@ -37,7 +41,7 @@ const CampaignFactory = () => {
 									<Card hoverable>
 										<p>{campaign}</p>
 										<Link to={`/campaign/${campaign}`}>
-											<Button type='primary'>
+											<Button type='default'>
 												View details
 											</Button>
 										</Link>
