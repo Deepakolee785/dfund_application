@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
-import Home from '../components/Home'
+import Home from '../pages/home'
 import CampaignFactory from '../components/CampaignFactory'
 import CampaignDetails from '../components/CampaignDetails'
 import CreateCampaign from '../components/CreateCampaign'
