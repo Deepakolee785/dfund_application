@@ -50,7 +50,14 @@ const CampaignDetails = () => {
 	if (isError) return <Alert message={error} type='error' />
 
 	return (
-		<div>
+		<div
+			style={{
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+				flexDirection: 'column',
+			}}
+		>
 			{/* <pre>{JSON.stringify(data, undefined, 2)}</pre> */}
 
 			<Card

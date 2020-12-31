@@ -59,18 +59,20 @@ const Navbar = () => {
 						Create a Dfund
 					</Button>
 				</Link>
-				<Button
-					style={{
-						width: '130px',
-						marginRight: '1rem',
-						borderRadius: '5px',
-						height: '2.4rem',
-						border: '1px solid #5F66F1',
-						color: '#5F66F1',
-					}}
-				>
-					Login
-				</Button>
+				<Link to='/login'>
+					<Button
+						style={{
+							width: '130px',
+							marginRight: '1rem',
+							borderRadius: '5px',
+							height: '2.4rem',
+							border: '1px solid #5F66F1',
+							color: '#5F66F1',
+						}}
+					>
+						Login
+					</Button>
+				</Link>
 
 				<img src={user_icon} alt='user' />
 			</div>

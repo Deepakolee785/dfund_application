@@ -25,7 +25,14 @@ const CampaignFactory = () => {
 	)
 
 	return (
-		<div>
+		<div
+			style={{
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+				flexDirection: 'column',
+			}}
+		>
 			<Link to='/create/campaign'>
 				<Button type='primary'>Create campaign</Button>
 			</Link>

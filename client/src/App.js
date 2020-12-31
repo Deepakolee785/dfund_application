@@ -6,7 +6,7 @@ import FactoryContext from './context/factory/factoryContext'
 import Routes from './routes/'
 
 const App = () => {
-	const { accounts, contract, initilizeWeb3 } = useContext(FactoryContext)
+	const { initilizeWeb3 } = useContext(FactoryContext)
 	useEffect(() => {
 		initilizeWeb3()
 		// eslint-disable-next-line
@@ -17,7 +17,7 @@ const App = () => {
 			<div>
 				<Routes />
 				{/* Contract details */}
-				<h1>Dfund Application</h1>
+				{/* <h1>Dfund Application</h1>
 				<p>
 					<strong>Account: </strong>
 					{accounts[0]}
@@ -25,7 +25,7 @@ const App = () => {
 				<p>
 					<strong>Address: </strong>
 					{contract._address}
-				</p>
+				</p> */}
 			</div>
 			<ReactQueryDevtools initialIsOpen={false} />
 		</Router>

@@ -41,8 +41,26 @@ const CreateCampaign = () => {
 		console.log('Failed:', errorInfo)
 	}
 
+	const formItemLayout = {
+		labelCol: {
+			xs: { span: 24 },
+			sm: { span: 5 },
+		},
+		wrapperCol: {
+			xs: { span: 24 },
+			sm: { span: 12 },
+		},
+	}
+
 	return (
-		<div>
+		<div
+			style={{
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+				flexDirection: 'column',
+			}}
+		>
 			<h1>Create campaign here</h1>
 			{/* <hr /> */}
 			<Form
@@ -50,6 +68,7 @@ const CreateCampaign = () => {
 				// initialValues={{ : true }}
 				onFinish={onFinish}
 				onFinishFailed={onFinishFailed}
+				{...formItemLayout}
 			>
 				<Form.Item
 					label='Title'
@@ -79,7 +98,7 @@ const CreateCampaign = () => {
 
 				<Form.Item
 					name='category'
-					label='Gender'
+					label='Category'
 					rules={[{ required: true, message: 'Gender is required' }]}
 				>
 					<Select

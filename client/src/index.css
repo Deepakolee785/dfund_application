@@ -21,3 +21,10 @@ body {
 		transform: translateX(-50%);
 	}
 }
+
+.Center {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
