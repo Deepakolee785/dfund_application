@@ -2,6 +2,7 @@ const router = require('express').Router()
 const User = require('../../models/User')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const auth = require('../../middlewares/auth')
 const {
 	registerValidation,
 	loginValidation,
@@ -13,10 +14,21 @@ router.post('/register', async (req, res) => {
 	if (error)
 		return res.status(400).send({ message: error.details[0].message })
 	// Check if user already exists
+	const walletExist = await User.findOne({ wallet: req.body.wallet })
+	if (walletExist)
+		return res.status(400).send({
+			msg: 'Wallet is already used.',
+		})
 	const emailExist = await User.findOne({ email: req.body.email })
 	if (emailExist)
 		return res.status(400).send({
 			msg: 'Email is already taken.',
+		})
+
+	const usernameExist = await User.findOne({ username: req.body.username })
+	if (usernameExist)
+		return res.status(400).send({
+			msg: 'Username is already used.',
 		})
 	// Hash the password
 	const salt = await bcrypt.genSalt(10)
@@ -66,6 +78,19 @@ router.post('/login', async (req, res) => {
 	// generate/assign token
 	const token = jwt.sign({ _id: user.id }, process.env.SECRET_KEY)
 	res.header('auth-token', token).send({ token })
+})
+
+// @route GET api/auth
+// @desc Get login user
+// @access private
+router.get('/authUser', auth, async (req, res) => {
+	try {
+		const user = await User.findById(req.id).select('-password')
+		res.json(user)
+	} catch (err) {
+		console.error(err.message)
+		res.status(500).send('Server error')
+	}
 })
 
 module.exports = router
