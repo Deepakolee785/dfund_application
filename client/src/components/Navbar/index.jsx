@@ -1,12 +1,16 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext, useState } from 'react'
+import { Link, NavLink } from 'react-router-dom'
 import { Button } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
+import AuthContext from '../../context/auth/authContext'
 
 import logo from '../../assets/images/Logo.svg'
 import user_icon from '../../assets/images/user_icon.svg'
 
 const Navbar = () => {
+	const { isAuthenticated, logout } = useContext(AuthContext)
+	const [showMenu, setShowMenu] = useState(false)
+	const toggleMenu = () => setShowMenu(!showMenu)
 	return (
 		<div
 			style={{
@@ -28,23 +32,30 @@ const Navbar = () => {
 					marginTop: '0.75rem',
 				}}
 			>
-				<li
-					style={{
-						fontWeight: 600,
-						color: '#5F66F1',
-						textShadow: '1px 1.3px #BEC0E7',
-					}}
+				<NavLink
+					to='/'
+					exact
+					style={
+						{
+							// fontWeight: 600,
+							// color: 'black',
+							// textShadow: '1px 1.3px #BEC0E7',
+						}
+					}
+					activeClassName='activeNav'
 				>
-					Home
-				</li>
-				<li>Explore</li>
+					<li>Home</li>
+				</NavLink>
+				<NavLink to='/explore' activeClassName='activeNav'>
+					<li>Explore</li>
+				</NavLink>
 				<li>Search</li>
 				<li>How it works?</li>
 				<li>About</li>
 			</ul>
 
 			<div>
-				<Link to='/factory'>
+				<Link to='/create/campaign'>
 					<Button
 						type={'primary'}
 						icon={<PlusOutlined />}
@@ -59,22 +70,53 @@ const Navbar = () => {
 						Create a Dfund
 					</Button>
 				</Link>
-				<Link to='/login'>
-					<Button
-						style={{
-							width: '130px',
-							marginRight: '1rem',
-							borderRadius: '5px',
-							height: '2.4rem',
-							border: '1px solid #5F66F1',
-							color: '#5F66F1',
-						}}
-					>
-						Login
-					</Button>
-				</Link>
-
-				<img src={user_icon} alt='user' />
+				{!isAuthenticated ? (
+					<Link to='/login'>
+						<Button
+							style={{
+								width: '130px',
+								marginRight: '1rem',
+								borderRadius: '5px',
+								height: '2.4rem',
+								border: '1px solid #5F66F1',
+								color: '#5F66F1',
+							}}
+						>
+							Login
+						</Button>
+					</Link>
+				) : (
+					<>
+						{/* <div onClick={toggle}> */}
+						<span
+							onClick={toggleMenu}
+							style={{ cursor: 'pointer' }}
+						>
+							<img src={user_icon} alt='user' />
+						</span>
+						<div
+							style={{
+								border: 'red',
+								position: 'absolute',
+								top: 60,
+								right: 90,
+								zIndex: 99,
+								display: showMenu ? 'block' : 'none',
+							}}
+						>
+							<Button
+								type='primary'
+								danger
+								onClick={() => {
+									logout()
+									setShowMenu(false)
+								}}
+							>
+								Logout
+							</Button>
+						</div>
+					</>
+				)}
 			</div>
 		</div>
 	)

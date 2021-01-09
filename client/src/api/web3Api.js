@@ -16,6 +16,16 @@ export const getCampaignDetails = (web3, campaign) => {
 		.call()
 		.then(data => data)
 }
+export const fundAmount = (web3, campaign, amount, account) => {
+	let myCampaign = new web3.eth.Contract(DfundContract.abi, campaign)
+	return myCampaign.methods
+		.fund()
+		.send({
+			from: account,
+			value: `${amount}`,
+		})
+		.then(data => data)
+}
 
 export const toWei = (web3, ethValue) => {
 	return web3.toWei(ethValue, 'ether')

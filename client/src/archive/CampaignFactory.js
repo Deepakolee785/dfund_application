@@ -33,14 +33,25 @@ const CampaignFactory = () => {
 				flexDirection: 'column',
 			}}
 		>
-			<Link to='/create/campaign'>
+			{/* <Link to='/create/campaign'>
 				<Button type='primary'>Create campaign</Button>
 			</Link>
-			<Divider />
+			<Divider /> */}
 			<div>
 				{info.isLoading && <Spin />}
+				{info.data && info.data.length === 0 && (
+					<div className='Center' style={{ height: '100vh' }}>
+						<h4 style={{ color: 'red' }}>
+							No Campaigns available right now. Create your
+							campaign here.
+						</h4>
+						<Link to='/create/campaign'>
+							<Button type='primary'>Create campaign</Button>
+						</Link>
+					</div>
+				)}
 				{/* {info.isError && <Alert message={info.error} type='error' />} */}
-				{info.isSuccess && (
+				{info.isSuccess && info.data && (
 					<div>
 						{info.data.map((campaign, index) => {
 							return (

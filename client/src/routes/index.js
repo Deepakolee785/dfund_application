@@ -2,20 +2,22 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
 import Home from '../pages/home'
-import CampaignFactory from '../components/CampaignFactory'
+// import CampaignFactory from '../components/CampaignFactory'
 import CampaignDetails from '../components/CampaignDetails'
-import CreateCampaign from '../components/CreateCampaign'
+import CreateCampaign from '../pages/create_campaign'
 import LoginPage from '../pages/login/index'
 import RegisterPage from '../pages/register'
+import { PublicRoute, PrivateRoute } from '../hoc/Route'
+import ExplorePage from '../pages/explore'
 
 const Routes = () => (
 	<Switch>
 		<Route exact path='/' component={Home} />
-		<Route exact path='/factory' component={CampaignFactory} />
+		<Route exact path='/explore' component={ExplorePage} />
 		<Route exact path='/campaign/:campaign' component={CampaignDetails} />
-		<Route path='/create/campaign' component={CreateCampaign} />
-		<Route path='/login' component={LoginPage} />
-		<Route path='/register' component={RegisterPage} />
+		<PrivateRoute path='/create/campaign' component={CreateCampaign} />
+		<PublicRoute path='/login' component={LoginPage} />
+		<PublicRoute path='/register' component={RegisterPage} />
 	</Switch>
 )
 

@@ -28,3 +28,9 @@ body {
 	justify-content: center;
 	align-items: center;
 }
+
+.activeNav {
+	font-weight: 600;
+	color: #5f66f1;
+	text-shadow: 1px 1.3px #bec0e7;
+}

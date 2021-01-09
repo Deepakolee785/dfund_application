@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Alert, Card } from 'antd'
-import { useQuery } from 'react-query'
+import { Alert, Card, Form, InputNumber, Button } from 'antd'
+import { useQuery, useMutation } from 'react-query'
 import { useParams } from 'react-router-dom'
 import { PlusCircleFilled, LikeFilled, HeartFilled } from '@ant-design/icons'
 
 import FactoryContext from '../context/factory/factoryContext'
-import { getCampaignDetails, fromWei } from '../api/web3Api'
+import { getCampaignDetails, fromWei, fundAmount } from '../api/web3Api'
 
 const CampaignDetails = () => {
 	const { campaign } = useParams()
@@ -46,6 +46,25 @@ const CampaignDetails = () => {
 		{ enabled: typeof web3 !== 'undefined' }
 	)
 
+	const fund = useMutation(
+		amount => {
+			return fundAmount(web3, campaign, amount, accounts[0])
+		},
+		{
+			onSuccess: data => {
+				console.log('success', data)
+			},
+		}
+	)
+
+	const onFinish = values => {
+		console.log('Success:', values)
+		fund.mutate(values.amount)
+	}
+
+	const onFinishFailed = errorInfo => {
+		console.log('Failed:', errorInfo)
+	}
 	// if (isLoading) return <Spin />
 	if (isError) return <Alert message={error} type='error' />
 
@@ -87,8 +106,33 @@ const CampaignDetails = () => {
 					Status: {data ? (data.active ? 'active' : 'inactive') : ''}
 				</p>
 				<p>Image: {data ? data.imageHash : ''}</p>
-				<p>{balance !== 0 && `Balance: ${balance}`}</p>
+				<p>
+					{balance !== 0 && `Balance: ${fromWei(web3, balance)} WEI`}
+				</p>
 			</Card>
+
+			<Form
+				name='basic'
+				onFinish={onFinish}
+				onFinishFailed={onFinishFailed}
+				style={{ width: '20rem', marginTop: '1rem' }}
+			>
+				<Form.Item
+					label='Amount'
+					name='amount'
+					rules={[
+						{
+							required: true,
+							message: 'Please input amount!',
+						},
+					]}
+				>
+					<InputNumber min={0.00001} style={{ width: '100%' }} />
+				</Form.Item>
+				<Button type='primary' htmlType='submit'>
+					Fund
+				</Button>
+			</Form>
 		</div>
 	)
 }

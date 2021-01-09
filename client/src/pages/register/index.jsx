@@ -1,11 +1,12 @@
 import React, { useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { Form, Input, Button } from 'antd'
+import { Form, Input, Button, message } from 'antd'
 import FactoryContext from '../../context/factory/factoryContext.js'
 
 import { useMutation } from 'react-query'
 import axios from 'axios'
 import { DEV_URL } from '../../config'
+import history from '../../utils/history.js'
 
 const RegisterPage = () => {
 	const [form] = Form.useForm()
@@ -13,7 +14,7 @@ const RegisterPage = () => {
 
 	const register = useMutation(data => {
 		return axios.post(`${DEV_URL}/api/user/register`, data).then(res => {
-			console.log(res)
+			// console.log(res)
 			return res.data
 		})
 	})
@@ -25,13 +26,20 @@ const RegisterPage = () => {
 	}, [accounts, form])
 
 	const onFinish = values => {
-		console.log('Success:', values)
+		// console.log('Success:', values)
 		register.mutate(values)
 	}
 
 	const onFinishFailed = errorInfo => {
 		console.log('Failed:', errorInfo)
 	}
+
+	useEffect(() => {
+		if (register.isSuccess) {
+			message.success('Successfully registered')
+			history.push('/login')
+		}
+	}, [register])
 	return (
 		<div style={{ height: '70vh' }} className='Center'>
 			<Form
@@ -126,7 +134,7 @@ const RegisterPage = () => {
 					</Button>
 				</Form.Item>
 
-				{console.log('register data', register)}
+				{/* {console.log('register data', register)} */}
 				<p>
 					Already have an Dfund account?<Link to='/login'>Login</Link>
 				</p>
