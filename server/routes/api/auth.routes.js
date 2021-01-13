@@ -17,18 +17,18 @@ router.post('/register', async (req, res) => {
 	const walletExist = await User.findOne({ wallet: req.body.wallet })
 	if (walletExist)
 		return res.status(400).send({
-			msg: 'Wallet is already used.',
+			message: 'Wallet is already used.',
 		})
 	const emailExist = await User.findOne({ email: req.body.email })
 	if (emailExist)
 		return res.status(400).send({
-			msg: 'Email is already taken.',
+			message: 'Email is already taken.',
 		})
 
 	const usernameExist = await User.findOne({ username: req.body.username })
 	if (usernameExist)
 		return res.status(400).send({
-			msg: 'Username is already used.',
+			message: 'Username is already used.',
 		})
 	// Hash the password
 	const salt = await bcrypt.genSalt(10)
@@ -44,7 +44,7 @@ router.post('/register', async (req, res) => {
 	})
 	try {
 		const savedUser = await user.save()
-		res.send({ user: savedUser._id, msg: 'Successfully registered' })
+		res.send({ user: savedUser._id, message: 'Successfully registered' })
 	} catch (error) {
 		res.status(400).send(error)
 	}
