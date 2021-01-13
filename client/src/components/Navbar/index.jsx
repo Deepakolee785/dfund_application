@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { Button } from 'antd'
+import { Button, Menu, Dropdown } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import AuthContext from '../../context/auth/authContext'
 
@@ -9,8 +9,24 @@ import user_icon from '../../assets/images/user_icon.svg'
 
 const Navbar = () => {
 	const { isAuthenticated, logout } = useContext(AuthContext)
-	const [showMenu, setShowMenu] = useState(false)
-	const toggleMenu = () => setShowMenu(!showMenu)
+	// const [showMenu, setShowMenu] = useState(false)
+	// const toggleMenu = () => setShowMenu(!showMenu)
+
+	const menu = (
+		<Menu>
+			<Menu.Item key='0'>
+				<Button
+					type='primary'
+					danger
+					onClick={() => {
+						logout()
+					}}
+				>
+					Logout
+				</Button>
+			</Menu.Item>
+		</Menu>
+	)
 	return (
 		<div
 			style={{
@@ -88,7 +104,15 @@ const Navbar = () => {
 				) : (
 					<>
 						{/* <div onClick={toggle}> */}
-						<span
+						<Dropdown overlay={menu} trigger={['click']}>
+							<img
+								src={user_icon}
+								alt='user'
+								style={{ cursor: 'pointer' }}
+							/>
+						</Dropdown>
+
+						{/* <span
 							onClick={toggleMenu}
 							style={{ cursor: 'pointer' }}
 						>
@@ -114,7 +138,7 @@ const Navbar = () => {
 							>
 								Logout
 							</Button>
-						</div>
+						</div> */}
 					</>
 				)}
 			</div>

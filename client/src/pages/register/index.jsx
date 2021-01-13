@@ -1,23 +1,13 @@
 import React, { useEffect, useContext } from 'react'
-import { Link } from 'react-router-dom'
 import { Form, Input, Button, message } from 'antd'
-import FactoryContext from '../../context/factory/factoryContext.js'
-
-import { useMutation } from 'react-query'
-import axios from 'axios'
-import { DEV_URL } from '../../config'
-import history from '../../utils/history.js'
+import FactoryContext from '../../context/factory/factoryContext'
+import AuthContext from '../../context/auth/authContext'
+import history from '../../utils/history'
 
 const RegisterPage = () => {
 	const [form] = Form.useForm()
 	const { accounts } = useContext(FactoryContext)
-
-	const register = useMutation(data => {
-		return axios.post(`${DEV_URL}/api/user/register`, data).then(res => {
-			// console.log(res)
-			return res.data
-		})
-	})
+	const { register, loading, success, error } = useContext(AuthContext)
 
 	useEffect(() => {
 		form.setFieldsValue({
@@ -26,8 +16,8 @@ const RegisterPage = () => {
 	}, [accounts, form])
 
 	const onFinish = values => {
-		// console.log('Success:', values)
-		register.mutate(values)
+		console.log('Success:', values)
+		register(values)
 	}
 
 	const onFinishFailed = errorInfo => {
@@ -35,11 +25,17 @@ const RegisterPage = () => {
 	}
 
 	useEffect(() => {
-		if (register.isSuccess) {
-			message.success('Successfully registered')
+		if (error) {
+			message.error(error)
+		}
+	}, [error])
+	useEffect(() => {
+		if (success) {
+			message.success(success)
 			history.push('/login')
 		}
-	}, [register])
+	}, [success])
+
 	return (
 		<div style={{ height: '70vh' }} className='Center'>
 			<Form
@@ -125,27 +121,10 @@ const RegisterPage = () => {
 				</Form.Item>
 
 				<Form.Item>
-					<Button
-						type='primary'
-						htmlType='submit'
-						loading={register.isLoading}
-					>
+					<Button type='primary' htmlType='submit' loading={loading}>
 						Register
 					</Button>
 				</Form.Item>
-
-				{/* {console.log('register data', register)} */}
-				<p>
-					Already have an Dfund account?<Link to='/login'>Login</Link>
-				</p>
-				<pre style={{ width: '30rem' }}>
-					{register.error &&
-						JSON.stringify(register.error.response.data, null, 2)}
-				</pre>
-
-				<pre style={{ width: '30rem' }}>
-					{register.data && JSON.stringify(register.data, null, 2)}
-				</pre>
 			</Form>
 		</div>
 	)

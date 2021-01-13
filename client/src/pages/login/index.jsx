@@ -2,10 +2,8 @@ import React, { useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { Form, Input, Button, message } from 'antd'
 import FactoryContext from '../../context/factory/factoryContext.js'
-import { useMutation } from 'react-query'
-import axios from 'axios'
-import { DEV_URL } from '../../config'
-import history from '../../utils/history.js'
+import AuthContext from '../../context/auth/authContext'
+import history from '../../utils/history'
 
 import wallet_icon from '../../assets/icons/wallet.svg'
 import user_icon from '../../assets/icons/user.svg'
@@ -14,15 +12,8 @@ import lock_icon from '../../assets/icons/lock.svg'
 const LoginPage = () => {
 	const [form] = Form.useForm()
 	const { accounts } = useContext(FactoryContext)
+	const { login, loading, success, error } = useContext(AuthContext)
 
-	const login = useMutation(data => {
-		return axios.post(`${DEV_URL}/api/user/login`, data).then(res => {
-			// console.log(res)
-			return res.data
-		})
-	})
-
-	// console.log(login)
 	useEffect(() => {
 		form.setFieldsValue({
 			wallet: accounts[0],
@@ -30,8 +21,8 @@ const LoginPage = () => {
 	}, [accounts, form])
 
 	const onFinish = values => {
-		// console.log('Success:', values)
-		login.mutate(values)
+		console.log('Success:', values)
+		login(values)
 	}
 
 	const onFinishFailed = errorInfo => {
@@ -39,18 +30,17 @@ const LoginPage = () => {
 	}
 
 	useEffect(() => {
-		if (login.isSuccess) {
-			message.success('Successfully logged in.')
-			localStorage.setItem('token', login.data.token)
+		if (error) {
+			message.error(error)
+		}
+	}, [error])
+	useEffect(() => {
+		if (success) {
+			message.success(success)
 			history.push('/')
 		}
-	}, [login])
-	useEffect(() => {
-		if (login.isError) {
-			// message.error(login.error.response.data.message)
-			message.error(login.error.response)
-		}
-	}, [login])
+	}, [success])
+
 	return (
 		<div style={{ height: '70vh' }} className='Center'>
 			<div>
@@ -187,7 +177,11 @@ const LoginPage = () => {
 						</div>
 					</div>
 					<Form.Item>
-						<Button type='primary' htmlType='submit'>
+						<Button
+							type='primary'
+							htmlType='submit'
+							loading={loading}
+						>
 							Login
 						</Button>
 					</Form.Item>
@@ -195,13 +189,6 @@ const LoginPage = () => {
 						Didn't have an Dfund account?
 						<Link to='/register'>Register</Link>
 					</p>
-					{/* <pre style={{ width: '30rem' }}>
-					{login.error &&
-						JSON.stringify(login.error.response.data, null, 2)}
-				</pre>
-				<pre style={{ width: '30rem' }}>
-					{login.data && JSON.stringify(login.data, null, 2)}
-				</pre> */}
 				</Form>
 			</div>
 		</div>

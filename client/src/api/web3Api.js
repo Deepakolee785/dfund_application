@@ -15,6 +15,7 @@ export const getCampaignDetails = (web3, campaign) => {
 		.campaign()
 		.call()
 		.then(data => data)
+		.catch(err => err)
 }
 export const fundAmount = (web3, campaign, amount, account) => {
 	let myCampaign = new web3.eth.Contract(DfundContract.abi, campaign)
