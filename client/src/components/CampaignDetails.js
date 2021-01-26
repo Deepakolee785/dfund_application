@@ -1,15 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Alert, Card, Form, InputNumber, Button } from 'antd'
+import { Alert, Card, Form, InputNumber, Button, Table } from 'antd'
 import { useQuery, useMutation } from 'react-query'
 import { Link, useParams } from 'react-router-dom'
 import { PlusCircleFilled, LikeFilled, HeartFilled } from '@ant-design/icons'
 
 import FactoryContext from '../context/factory/factoryContext'
+import DfundContract from '../contracts/Dfund.json'
 import {
 	getCampaignDetails,
 	fromWeiToEther,
+	fromEtherToWei,
 	fundAmount,
-	// getContributions,
+	getContributionsCount,
 	// getCampaignSpendingRequests,
 } from '../api/web3Api'
 
@@ -21,16 +23,62 @@ const CampaignDetails = () => {
 
 	const [balance, setBalance] = useState(0)
 
-	useEffect(() => {
-		if (
-			typeof web3 !== 'undefined' &&
-			contract.length !== 0 &&
-			accounts.length !== 0
-		) {
-			// setBalance(web3.eth.getBalance(campaign))
-			// console.log(web3.utils.isAddress('campaign'))
+	const isReady =
+		typeof web3 !== 'undefined' &&
+		contract.length !== 0 &&
+		accounts.length !== 0
+
+	const { data, isError, error, isLoading } = useQuery(
+		['campaign'],
+		() => getCampaignDetails(web3, campaign),
+		{ enabled: typeof web3 !== 'undefined' }
+	)
+	const contributionCount = useQuery(
+		['contribution_count'],
+		() => getContributionsCount(web3, campaign),
+		{ enabled: typeof web3 !== 'undefined' }
+	)
+	console.log('contribution', contributionCount.data)
+
+	const contributions = useQuery(
+		['contribution'],
+		() => {
+			let myCampaign = new web3.eth.Contract(DfundContract.abi, campaign)
+
+			return Promise.all(
+				Array(parseInt(contributionCount.data))
+					.fill()
+					.map((element, index) => {
+						console.log('called')
+						return myCampaign.methods
+							.contributions(index + 1)
+							.call()
+							.then(res => res)
+					})
+			)
+		},
+		{
+			enabled: isReady && !!contributionCount.data,
 		}
-	}, [web3, accounts, contract])
+	)
+
+	console.log(contributions)
+
+	const fund = useMutation(
+		amount => {
+			return fundAmount(web3, campaign, amount, accounts[0])
+		},
+		{
+			onSuccess: data => {
+				console.log('success', data)
+			},
+		}
+	)
+
+	// useEffect(() => {
+	// 	contributions.refetch()
+	// 	// eslint-disable-next-line
+	// }, [contributionCount.data])
 
 	useEffect(() => {
 		if (
@@ -45,45 +93,47 @@ const CampaignDetails = () => {
 				.then(data => setBalance(data))
 				.catch(err => console.log(err))
 		}
-	}, [web3, accounts, contract, campaign])
-
-	const { data, isError, error, isLoading } = useQuery(
-		['campaign'],
-		() => getCampaignDetails(web3, campaign),
-		{ enabled: typeof web3 !== 'undefined' }
-	)
-	// const contribution = useQuery(
-	// 	['contribution_count'],
-	// 	() => getContributions(web3, campaign),
-	// 	{ enabled: typeof web3 !== 'undefined' }
-	// )
-	// console.log('contribution', contribution)
-	// const spendingRequests = useQuery(
-	// 	['requests'],
-	// 	() => getCampaignSpendingRequests(web3, campaign),
-	// 	{ enabled: typeof web3 !== 'undefined' }
-	// )
-	// console.log('requests', spendingRequests)
-
-	const fund = useMutation(
-		amount => {
-			return fundAmount(web3, campaign, amount, accounts[0])
-		},
-		{
-			onSuccess: data => {
-				console.log('success', data)
-			},
-		}
-	)
+	}, [web3, accounts, contract, campaign, fund])
 
 	const onFinish = values => {
 		console.log('Success:', values)
-		fund.mutate(values.amount)
+		fund.mutate(fromEtherToWei(web3, values.amount.toString()))
 	}
 
 	const onFinishFailed = errorInfo => {
 		console.log('Failed:', errorInfo)
 	}
+
+	const columns = [
+		{
+			title: 'SN',
+			dataIndex: 'sn',
+			key: 'sn',
+		},
+		{
+			title: 'Contributor',
+			dataIndex: 'contributor',
+			key: 'contributor',
+		},
+		{
+			title: 'Amount(ETH)',
+			dataIndex: 'amt',
+			key: 'amt',
+		},
+	]
+
+	const dataSource =
+		contributions.isSuccess &&
+		contributions.data.length > 0 &&
+		contributions.data.map((item, index) => {
+			return {
+				key: index,
+				sn: index + 1,
+				contributor: item.contributor,
+				amt: fromWeiToEther(web3, item.amount),
+			}
+		})
+
 	// if (isLoading) return <Spin />
 	if (isError) return <Alert message={error} type='error' />
 
@@ -119,20 +169,12 @@ const CampaignDetails = () => {
 				<p>Description: {data ? data.description : ''}</p>
 				<p>creator: {data ? data.creator : ''}</p>
 				<p>
-					Goal:{' '}
-					{data
-						? fromWeiToEther(web3, data.goalAmount.toString())
-						: ''}{' '}
+					Goal: {data ? fromWeiToEther(web3, data.goalAmount) : ''}{' '}
 					ETH
 				</p>
 				<p>
 					Minimum Contrubution:{' '}
-					{data
-						? fromWeiToEther(
-								web3,
-								data.minimumContrubution.toString()
-						  )
-						: ''}{' '}
+					{data ? fromWeiToEther(web3, data.minimumContrubution) : ''}{' '}
 					ETH
 				</p>
 				<p>Deadline: {data ? data.deadline : ''}</p>
@@ -164,12 +206,21 @@ const CampaignDetails = () => {
 						},
 					]}
 				>
-					<InputNumber min={0.00001} style={{ width: '100%' }} />
+					<InputNumber
+						min={0.00001}
+						style={{ width: '100%' }}
+						placeholder='amount in Eth'
+					/>
 				</Form.Item>
-				<Button type='primary' htmlType='submit'>
+				<Button
+					type='primary'
+					htmlType='submit'
+					loading={fund.isLoading}
+				>
 					Fund
 				</Button>
 			</Form>
+			<Table columns={columns} dataSource={dataSource} />
 		</div>
 	)
 }

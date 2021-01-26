@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Button, Table } from 'antd'
 import { Link, useParams } from 'react-router-dom'
 import FactoryContext from '../../context/factory/factoryContext'
@@ -7,6 +7,7 @@ import DfundContract from '../../contracts/Dfund.json'
 
 import { useQuery } from 'react-query'
 const ViewRequestPage = () => {
+	// const history = useHistory()
 	const { web3, accounts, contract } = useContext(FactoryContext)
 
 	const { campaign } = useParams()
@@ -47,6 +48,16 @@ const ViewRequestPage = () => {
 			enabled: isReady && !!requestCount.data,
 		}
 	)
+
+	useEffect(() => {
+		if (requestCount.data) {
+			requests.refetch()
+			console.log('1111111lkasdlk')
+		}
+		// eslint-disable-next-line
+	}, [requestCount.data])
+
+	// console.log(requestCount)
 
 	// console.log(requests)
 	const columns = [

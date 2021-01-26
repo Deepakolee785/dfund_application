@@ -18,8 +18,8 @@ const CreateCampaign = () => {
 					data.description,
 					data.category,
 					data.country,
-					fromEtherToWei(web3, data.goalAmount),
-					fromEtherToWei(web3, data.minContribution),
+					data.goalAmount,
+					data.minContribution,
 					data.deadline,
 					data.imagehash
 				)

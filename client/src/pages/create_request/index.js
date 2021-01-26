@@ -2,11 +2,12 @@ import React, { useContext } from 'react'
 import { Form, Input, Button, InputNumber } from 'antd'
 import { useMutation } from 'react-query'
 import FactoryContext from '../../context/factory/factoryContext'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import DfundContract from '../../contracts/Dfund.json'
 
 const CreateRequestPage = () => {
 	const { campaign } = useParams()
+	const history = useHistory()
 	const { accounts, web3 } = useContext(FactoryContext)
 	const createRequest = useMutation(
 		data => {
@@ -24,7 +25,7 @@ const CreateRequestPage = () => {
 		},
 		{
 			onSuccess: () => {
-				// history.push('/')
+				history.push(`/campaign/${campaign}/requests`)
 			},
 		}
 	)

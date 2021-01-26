@@ -36,7 +36,7 @@ export const getRequestsCount = (web3, campaign) => {
 			return res
 		})
 }
-export const getContributions = (web3, campaign) => {
+export const getContributionsCount = (web3, campaign) => {
 	let myCampaign = new web3.eth.Contract(DfundContract.abi, campaign)
 	return myCampaign.methods
 		.contributionCount()
