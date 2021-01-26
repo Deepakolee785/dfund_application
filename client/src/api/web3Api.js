@@ -55,10 +55,10 @@ export const getCampaignSpendingRequests = async (web3, campaign) => {
 		})
 }
 
-export const toWei = (web3, ethValue) => {
-	return web3.toWei(ethValue, 'ether')
+export const fromEtherToWei = (web3, ethValue) => {
+	return web3.utils.toWei(ethValue, 'ether')
 }
 
-export const fromWei = (web3, weiValue) => {
+export const fromWeiToEther = (web3, weiValue) => {
 	return web3.utils.fromWei(weiValue, 'ether')
 }

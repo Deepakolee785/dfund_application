@@ -1,8 +1,8 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { Button, Table } from 'antd'
 import { Link, useParams } from 'react-router-dom'
 import FactoryContext from '../../context/factory/factoryContext'
-import { getRequestsCount, fromWei } from '../../api/web3Api'
+import { getRequestsCount, fromWeiToEther } from '../../api/web3Api'
 import DfundContract from '../../contracts/Dfund.json'
 
 import { useQuery } from 'react-query'
@@ -90,7 +90,7 @@ const ViewRequestPage = () => {
 				key: index,
 				id: index + 1,
 				desc: item.description,
-				amt: fromWei(web3, item.value),
+				amt: fromWeiToEther(web3, item.value),
 				recipient: item.recipient,
 				approval: item.approvalCount,
 				action: item,

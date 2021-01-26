@@ -7,7 +7,7 @@ import { PlusCircleFilled, LikeFilled, HeartFilled } from '@ant-design/icons'
 import FactoryContext from '../context/factory/factoryContext'
 import {
 	getCampaignDetails,
-	fromWei,
+	fromWeiToEther,
 	fundAmount,
 	// getContributions,
 	// getCampaignSpendingRequests,
@@ -118,10 +118,22 @@ const CampaignDetails = () => {
 			>
 				<p>Description: {data ? data.description : ''}</p>
 				<p>creator: {data ? data.creator : ''}</p>
-				<p>Goal: {data ? fromWei(web3, data.goalAmount) : ''} ETH</p>
+				<p>
+					Goal:{' '}
+					{data
+						? fromWeiToEther(web3, data.goalAmount.toString())
+						: ''}{' '}
+					ETH
+				</p>
 				<p>
 					Minimum Contrubution:{' '}
-					{data ? fromWei(web3, data.minimumContrubution) : ''} ETH
+					{data
+						? fromWeiToEther(
+								web3,
+								data.minimumContrubution.toString()
+						  )
+						: ''}{' '}
+					ETH
 				</p>
 				<p>Deadline: {data ? data.deadline : ''}</p>
 				<p>Country: {data ? data.country : ''}</p>
@@ -131,7 +143,8 @@ const CampaignDetails = () => {
 				</p>
 				<p>Image: {data ? data.imageHash : ''}</p>
 				<p>
-					{balance !== 0 && `Balance: ${fromWei(web3, balance)} ETH`}
+					{balance !== 0 &&
+						`Balance: ${fromWeiToEther(web3, balance)} ETH`}
 				</p>
 			</Card>
 

@@ -4,11 +4,12 @@ import TextArea from 'antd/lib/input/TextArea'
 import { useMutation } from 'react-query'
 import FactoryContext from '../../context/factory/factoryContext'
 // import history from '../utils/history'
+import { fromEtherToWei } from '../../api/web3Api'
 
 const { Option } = Select
 
 const CreateCampaign = () => {
-	const { contract, accounts } = useContext(FactoryContext)
+	const { contract, accounts, web3 } = useContext(FactoryContext)
 	const create = useMutation(
 		data => {
 			return contract.methods
@@ -17,8 +18,8 @@ const CreateCampaign = () => {
 					data.description,
 					data.category,
 					data.country,
-					data.goalAmount,
-					data.minContribution,
+					fromEtherToWei(web3, data.goalAmount),
+					fromEtherToWei(web3, data.minContribution),
 					data.deadline,
 					data.imagehash
 				)
@@ -39,9 +40,17 @@ const CreateCampaign = () => {
 	const onFinish = values => {
 		// console.log('Success:', values)
 
-		const data = { ...values, deadline: Number(values.deadline) }
+		const data = {
+			...values,
+			goalAmount: fromEtherToWei(web3, values.goalAmount.toString()),
+			minContribution: fromEtherToWei(
+				web3,
+				values.minContribution.toString()
+			),
+			deadline: Number(values.deadline),
+		}
 		console.log(data)
-
+		//create campaign
 		create.mutate(data)
 	}
 
@@ -146,7 +155,7 @@ const CreateCampaign = () => {
 					</Form.Item>
 
 					<Form.Item
-						label='Goal'
+						label='Goal(ETH)'
 						name='goalAmount'
 						rules={[
 							{
@@ -155,10 +164,16 @@ const CreateCampaign = () => {
 							},
 						]}
 					>
-						<InputNumber />
+						<InputNumber
+							style={{ width: '100%' }}
+							placeholder='Goal amount (in Eth)'
+
+							// formatter={value => `ETH ${value}`}
+							// parser={value => value.replace('ETH ', '')}
+						/>
 					</Form.Item>
 					<Form.Item
-						label='Min contribution'
+						label='Min contribution(ETH)'
 						name='minContribution'
 						rules={[
 							{
@@ -167,7 +182,10 @@ const CreateCampaign = () => {
 							},
 						]}
 					>
-						<InputNumber />
+						<InputNumber
+							style={{ width: '100%' }}
+							placeholder='min contribution (in Eth)'
+						/>
 					</Form.Item>
 
 					<Form.Item
