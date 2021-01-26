@@ -1,14 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Alert, Card, Form, InputNumber, Button } from 'antd'
 import { useQuery, useMutation } from 'react-query'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { PlusCircleFilled, LikeFilled, HeartFilled } from '@ant-design/icons'
 
 import FactoryContext from '../context/factory/factoryContext'
-import { getCampaignDetails, fromWei, fundAmount } from '../api/web3Api'
+import {
+	getCampaignDetails,
+	fromWei,
+	fundAmount,
+	// getContributions,
+	// getCampaignSpendingRequests,
+} from '../api/web3Api'
 
 const CampaignDetails = () => {
 	const { campaign } = useParams()
+	// console.log(campaign)
 
 	const { web3, accounts, contract } = useContext(FactoryContext)
 
@@ -45,6 +52,18 @@ const CampaignDetails = () => {
 		() => getCampaignDetails(web3, campaign),
 		{ enabled: typeof web3 !== 'undefined' }
 	)
+	// const contribution = useQuery(
+	// 	['contribution_count'],
+	// 	() => getContributions(web3, campaign),
+	// 	{ enabled: typeof web3 !== 'undefined' }
+	// )
+	// console.log('contribution', contribution)
+	// const spendingRequests = useQuery(
+	// 	['requests'],
+	// 	() => getCampaignSpendingRequests(web3, campaign),
+	// 	{ enabled: typeof web3 !== 'undefined' }
+	// )
+	// console.log('requests', spendingRequests)
 
 	const fund = useMutation(
 		amount => {
@@ -75,8 +94,13 @@ const CampaignDetails = () => {
 				justifyContent: 'center',
 				alignItems: 'center',
 				flexDirection: 'column',
+				marginTop: '2rem',
 			}}
 		>
+			<Link to={`/campaign/${campaign}/requests`}>
+				<Button type='primary'>View request</Button>
+			</Link>
+
 			{/* <pre>{JSON.stringify(data, undefined, 2)}</pre> */}
 
 			<Card
@@ -107,7 +131,7 @@ const CampaignDetails = () => {
 				</p>
 				<p>Image: {data ? data.imageHash : ''}</p>
 				<p>
-					{balance !== 0 && `Balance: ${fromWei(web3, balance)} WEI`}
+					{balance !== 0 && `Balance: ${fromWei(web3, balance)} ETH`}
 				</p>
 			</Card>
 

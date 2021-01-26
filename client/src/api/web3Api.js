@@ -27,6 +27,33 @@ export const fundAmount = (web3, campaign, amount, account) => {
 		})
 		.then(data => data)
 }
+export const getRequestsCount = (web3, campaign) => {
+	let myCampaign = new web3.eth.Contract(DfundContract.abi, campaign)
+	return myCampaign.methods
+		.getRequestsCount()
+		.call()
+		.then(res => {
+			return res
+		})
+}
+export const getContributions = (web3, campaign) => {
+	let myCampaign = new web3.eth.Contract(DfundContract.abi, campaign)
+	return myCampaign.methods
+		.contributionCount()
+		.call()
+		.then(response => {
+			return response
+		})
+}
+export const getCampaignSpendingRequests = async (web3, campaign) => {
+	let myCampaign = new web3.eth.Contract(DfundContract.abi, campaign)
+	return myCampaign.methods
+		.requests()
+		.call()
+		.then(response => {
+			return response
+		})
+}
 
 export const toWei = (web3, ethValue) => {
 	return web3.toWei(ethValue, 'ether')

@@ -169,6 +169,10 @@ contract Dfund{
         emit LogRequestFinilized();   
     } 
 
+    function getRequestsCount() public view returns (uint256){
+        return requests.length;
+    }
+
     
     /// @notice Kill/Destroy contract by creator
      function kill() public isCreator {

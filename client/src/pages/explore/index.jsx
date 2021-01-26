@@ -38,7 +38,7 @@ const ExplorePage = () => {
 					if (campaignAdd) {
 						getCampaignDetails(web3, campaignAdd)
 							.then(data => {
-								console.log(data)
+								// console.log(data)
 								myCampaignsList.push(data)
 								setMyData(oldData => [...oldData, data])
 							})
@@ -46,7 +46,7 @@ const ExplorePage = () => {
 					}
 					// eslint-disable-next-line
 				})
-				console.log(myCampaignsList)
+				// console.log(myCampaignsList)
 				// setMyData(myCampaignsList)
 			}
 		}
