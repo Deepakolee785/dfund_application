@@ -36,6 +36,37 @@ export const getRequestsCount = (web3, campaign) => {
 			return res
 		})
 }
+export const getApproversCount = (web3, campaign) => {
+	let myCampaign = new web3.eth.Contract(DfundContract.abi, campaign)
+	return myCampaign.methods
+		.approversCount()
+		.call()
+		.then(res => {
+			return res
+		})
+}
+export const approveRequest = (web3, campaign, requestId, account) => {
+	let myCampaign = new web3.eth.Contract(DfundContract.abi, campaign)
+	return myCampaign.methods
+		.approveRequest(requestId)
+		.send({
+			from: account,
+		})
+		.then(res => {
+			return res
+		})
+}
+export const finilizeRequest = (web3, campaign, requestId, account) => {
+	let myCampaign = new web3.eth.Contract(DfundContract.abi, campaign)
+	return myCampaign.methods
+		.finializeRequest(requestId)
+		.send({
+			from: account,
+		})
+		.then(res => {
+			return res
+		})
+}
 export const getContributionsCount = (web3, campaign) => {
 	let myCampaign = new web3.eth.Contract(DfundContract.abi, campaign)
 	return myCampaign.methods

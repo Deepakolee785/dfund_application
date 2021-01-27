@@ -2,10 +2,16 @@ import React, { useContext, useEffect } from 'react'
 import { Button, Table } from 'antd'
 import { Link, useParams } from 'react-router-dom'
 import FactoryContext from '../../context/factory/factoryContext'
-import { getRequestsCount, fromWeiToEther } from '../../api/web3Api'
+import {
+	getRequestsCount,
+	fromWeiToEther,
+	getApproversCount,
+	approveRequest,
+	finilizeRequest,
+} from '../../api/web3Api'
 import DfundContract from '../../contracts/Dfund.json'
 
-import { useQuery } from 'react-query'
+import { useQuery, useMutation } from 'react-query'
 const ViewRequestPage = () => {
 	// const history = useHistory()
 	const { web3, accounts, contract } = useContext(FactoryContext)
@@ -17,9 +23,32 @@ const ViewRequestPage = () => {
 		contract.length !== 0 &&
 		accounts.length !== 0
 
+	const approveCampaignRequest = useMutation(
+		data => approveRequest(web3, campaign, data, accounts[0]),
+		{
+			onSuccess: () => {
+				// history.push('/')
+			},
+		}
+	)
+	const finilizeCampaignRequest = useMutation(
+		data => finilizeRequest(web3, campaign, data, accounts[0]),
+		{
+			onSuccess: () => {
+				// history.push('/')
+			},
+		}
+	)
 	const requestCount = useQuery(
 		['campaign_requests'],
 		() => getRequestsCount(web3, campaign),
+		{
+			enabled: isReady,
+		}
+	)
+	const approversCount = useQuery(
+		['approvers_count'],
+		() => getApproversCount(web3, campaign),
 		{
 			enabled: isReady,
 		}
@@ -36,7 +65,7 @@ const ViewRequestPage = () => {
 				Array(parseInt(requestCount.data))
 					.fill()
 					.map((element, index) => {
-						console.log('called')
+						// console.log('called')
 						return myCampaign.methods
 							.requests(index)
 							.call()
@@ -52,14 +81,23 @@ const ViewRequestPage = () => {
 	useEffect(() => {
 		if (requestCount.data) {
 			requests.refetch()
-			console.log('1111111lkasdlk')
 		}
 		// eslint-disable-next-line
 	}, [requestCount.data])
 
-	// console.log(requestCount)
+	const onApproveRequest = requestId => {
+		// console.log(requestId)
+		if (requestId) {
+			approveCampaignRequest.mutate(requestId)
+		}
+	}
+	const onFinilizeRequest = requestId => {
+		// console.log(requestId)
+		if (requestId) {
+			finilizeCampaignRequest.mutate(requestId)
+		}
+	}
 
-	// console.log(requests)
 	const columns = [
 		{
 			title: 'ID',
@@ -90,6 +128,35 @@ const ViewRequestPage = () => {
 			title: 'Action',
 			dataIndex: 'action',
 			key: 'action',
+			render: ({ index, item }) => {
+				const isCompleted = item.complete
+				const isReadyToFinilize =
+					parseInt(item.approvalCount) >
+					parseInt(approversCount.data) / 2
+
+				return (
+					<div>
+						<Button
+							type='primary'
+							onClick={() => onApproveRequest(index)}
+							loading={approveCampaignRequest.isLoading}
+							disabled={isCompleted}
+						>
+							Approve
+						</Button>
+						<Button
+							type='primary'
+							danger
+							// disabled
+							onClick={() => onFinilizeRequest(index)}
+							loading={finilizeCampaignRequest.isLoading}
+							disabled={isCompleted || !isReadyToFinilize}
+						>
+							Finilize
+						</Button>
+					</div>
+				)
+			},
 		},
 	]
 
@@ -103,8 +170,8 @@ const ViewRequestPage = () => {
 				desc: item.description,
 				amt: fromWeiToEther(web3, item.value),
 				recipient: item.recipient,
-				approval: item.approvalCount,
-				action: item,
+				approval: `${item.approvalCount}/${approversCount.data}`,
+				action: { index, item },
 			}
 		})
 
@@ -119,6 +186,7 @@ const ViewRequestPage = () => {
 				dataSource={dataSource}
 				loading={requests.isLoading}
 			/>
+			<p>{requestCount.data} requests found.</p>
 		</div>
 	)
 }

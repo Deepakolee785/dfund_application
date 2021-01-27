@@ -4,6 +4,7 @@ import { useMutation } from 'react-query'
 import FactoryContext from '../../context/factory/factoryContext'
 import { useParams, useHistory } from 'react-router-dom'
 import DfundContract from '../../contracts/Dfund.json'
+import { fromEtherToWei } from '../../api/web3Api'
 
 const CreateRequestPage = () => {
 	const { campaign } = useParams()
@@ -31,7 +32,12 @@ const CreateRequestPage = () => {
 	)
 	const onFinish = values => {
 		console.log('Success:', values)
-		createRequest.mutate(values)
+		const data = {
+			...values,
+			value: fromEtherToWei(web3, values.value.toString()),
+		}
+		console.log(data)
+		createRequest.mutate(data)
 	}
 
 	const onFinishFailed = errorInfo => {
@@ -52,11 +58,14 @@ const CreateRequestPage = () => {
 			</Form.Item>
 
 			<Form.Item
-				label='Amount'
+				label='Amount(Eth)'
 				name='value'
 				rules={[{ required: true, message: 'Please input  value!' }]}
 			>
-				<InputNumber />
+				<InputNumber
+					style={{ width: '100%' }}
+					placeholder='amount in eth'
+				/>
 			</Form.Item>
 			<Form.Item
 				label='Recipient address'
