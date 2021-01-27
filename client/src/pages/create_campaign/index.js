@@ -84,7 +84,7 @@ const CreateCampaign = () => {
 					width: '40vw',
 				}}
 			>
-				<h1>Create campaign here</h1>
+				<h1>Create a new Dfund campaign here </h1>
 				{/* <hr /> */}
 				<Form
 					name='basic'
@@ -219,8 +219,9 @@ const CreateCampaign = () => {
 							type='primary'
 							htmlType='submit'
 							loading={create.isLoading}
+							block
 						>
-							Submit
+							Create new Dfund!
 						</Button>
 					</Form.Item>
 				</Form>

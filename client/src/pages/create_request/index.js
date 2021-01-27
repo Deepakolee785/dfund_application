@@ -44,43 +44,54 @@ const CreateRequestPage = () => {
 		console.log('Failed:', errorInfo)
 	}
 	return (
-		<Form
-			initialValues={{}}
-			onFinish={onFinish}
-			onFinishFailed={onFinishFailed}
+		<div
+			className='Center'
+			style={{
+				minHeight: '60vh',
+			}}
 		>
-			<Form.Item
-				label='Description'
-				name='description'
-				rules={[{ required: true, message: 'Please input your desc!' }]}
-			>
-				<Input />
-			</Form.Item>
+			<h1>Create Campaign Request</h1>
+			<br />
+			<Form onFinish={onFinish} onFinishFailed={onFinishFailed}>
+				<Form.Item
+					label='Description'
+					name='description'
+					rules={[
+						{ required: true, message: 'Please input your desc!' },
+					]}
+				>
+					<Input />
+				</Form.Item>
 
-			<Form.Item
-				label='Amount(Eth)'
-				name='value'
-				rules={[{ required: true, message: 'Please input  value!' }]}
-			>
-				<InputNumber
-					style={{ width: '100%' }}
-					placeholder='amount in eth'
-				/>
-			</Form.Item>
-			<Form.Item
-				label='Recipient address'
-				name='recipient'
-				rules={[{ required: true, message: 'Please input your desc!' }]}
-			>
-				<Input />
-			</Form.Item>
+				<Form.Item
+					label='Amount(Eth)'
+					name='value'
+					rules={[
+						{ required: true, message: 'Please input  value!' },
+					]}
+				>
+					<InputNumber
+						style={{ width: '100%' }}
+						placeholder='amount in eth'
+					/>
+				</Form.Item>
+				<Form.Item
+					label='Recipient address'
+					name='recipient'
+					rules={[
+						{ required: true, message: 'Please input your desc!' },
+					]}
+				>
+					<Input />
+				</Form.Item>
 
-			<Form.Item>
-				<Button type='primary' htmlType='submit'>
-					Submit
-				</Button>
-			</Form.Item>
-		</Form>
+				<Form.Item>
+					<Button type='primary' htmlType='submit' block>
+						Create Request!
+					</Button>
+				</Form.Item>
+			</Form>
+		</div>
 	)
 }
 export default CreateRequestPage

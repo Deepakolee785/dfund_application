@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Alert, Card, Form, InputNumber, Button, Table } from 'antd'
+import { Alert, Card, Form, InputNumber, Button, Table, Divider } from 'antd'
 import { useQuery, useMutation } from 'react-query'
 import { Link, useParams } from 'react-router-dom'
-import { PlusCircleFilled, LikeFilled, HeartFilled } from '@ant-design/icons'
+// import { PlusCircleFilled, LikeFilled, HeartFilled } from '@ant-design/icons'
 
 import FactoryContext from '../context/factory/factoryContext'
 import DfundContract from '../contracts/Dfund.json'
@@ -147,8 +147,13 @@ const CampaignDetails = () => {
 				marginTop: '2rem',
 			}}
 		>
-			<Link to={`/campaign/${campaign}/requests`}>
-				<Button type='primary'>View request</Button>
+			<h1>Campaign Details</h1>
+			<br />
+			<Link
+				to={`/campaign/${campaign}/requests`}
+				style={{ marginBottom: '2rem' }}
+			>
+				<Button type='primary'>View all requests</Button>
 			</Link>
 
 			{/* <pre>{JSON.stringify(data, undefined, 2)}</pre> */}
@@ -160,11 +165,11 @@ const CampaignDetails = () => {
 				bordered
 				headStyle={{ background: '#eee' }}
 				style={{ width: 480 }}
-				actions={[
-					<PlusCircleFilled key='add' />,
-					<HeartFilled key='edit' />,
-					<LikeFilled key='ellipsis' />,
-				]}
+				// actions={[
+				// 	<PlusCircleFilled key='add' />,
+				// 	<HeartFilled key='edit' />,
+				// 	<LikeFilled key='ellipsis' />,
+				// ]}
 			>
 				<p>Description: {data ? data.description : ''}</p>
 				<p>creator: {data ? data.creator : ''}</p>
@@ -189,7 +194,8 @@ const CampaignDetails = () => {
 						`Balance: ${fromWeiToEther(web3, balance)} ETH`}
 				</p>
 			</Card>
-
+			<Divider style={{ backgroundColor: '#ccc' }} />
+			<h2 style={{}}>Contribute to this campaing from here!</h2>
 			<Form
 				name='basic'
 				onFinish={onFinish}
@@ -216,10 +222,13 @@ const CampaignDetails = () => {
 					type='primary'
 					htmlType='submit'
 					loading={fund.isLoading}
+					block
 				>
 					Fund
 				</Button>
 			</Form>
+			<Divider style={{ backgroundColor: '#ccc' }} />
+			<h2>Contributors of this campaigns!!</h2>
 			<Table columns={columns} dataSource={dataSource} />
 		</div>
 	)

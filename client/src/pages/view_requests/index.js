@@ -176,8 +176,18 @@ const ViewRequestPage = () => {
 		})
 
 	return (
-		<div>
-			<Link to={`/campaign/${campaign}/requests/new`}>
+		<div
+			className='Center'
+			style={{
+				minHeight: '60vh',
+			}}
+		>
+			<h1> Campaign Requests Details</h1>
+			<br />
+			<Link
+				to={`/campaign/${campaign}/requests/new`}
+				style={{ marginBottom: '2rem' }}
+			>
 				<Button type='primary'>Create Request</Button>
 			</Link>
 			<br />
