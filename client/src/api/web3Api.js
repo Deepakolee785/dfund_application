@@ -112,7 +112,19 @@ export const getContributions = (web3, campaign, count) => {
 			})
 	)
 }
-export const getCampaignSpendingRequests = async (web3, campaign) => {
+export const getCampaignSpendingRequests = (web3, campaign, data, account) => {
+	let myCampaign = new web3.eth.Contract(DfundContract.abi, campaign)
+
+	return myCampaign.methods
+		.createRequest(data.description, data.value, data.recipient)
+		.send({
+			from: account,
+		})
+		.then(result => {
+			return result
+		})
+}
+export const createCampaignSpendingRequest = (web3, campaign) => {
 	let myCampaign = new web3.eth.Contract(DfundContract.abi, campaign)
 	return myCampaign.methods
 		.requests()

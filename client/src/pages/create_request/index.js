@@ -3,46 +3,57 @@ import { Form, Input, Button, InputNumber } from 'antd'
 import { useMutation } from 'react-query'
 import FactoryContext from '../../context/factory/factoryContext'
 import { useParams, useHistory } from 'react-router-dom'
-import DfundContract from '../../contracts/Dfund.json'
-import { fromEtherToWei } from '../../api/web3Api'
+import { fromEtherToWei, getCampaignSpendingRequests } from '../../api/web3Api'
 
 const CreateRequestPage = () => {
 	const { campaign } = useParams()
 	const history = useHistory()
 	const { accounts, web3 } = useContext(FactoryContext)
 	const createRequest = useMutation(
-		data => {
-			let myCampaign = new web3.eth.Contract(DfundContract.abi, campaign)
-
-			return myCampaign.methods
-				.createRequest(data.description, data.value, data.recipient)
-				.send({
-					from: accounts[0],
-				})
-				.then(result => {
-					console.log('created', result)
-					return result
-				})
-		},
+		data => getCampaignSpendingRequests(web3, campaign, data, accounts[0]),
 		{
-			onSuccess: () => {
+			onSuccess: data => {
 				history.push(`/campaign/${campaign}/requests`)
+				const {
+					blockHash,
+					blockNumber,
+					cumulativeGasUsed,
+					status,
+					to,
+					transactionHash,
+					// events: {
+					// 	LogContributionSent: {
+					// 		type,
+					// 		returnValues: {
+					// 			amount,
+					// 			contributor,
+					// 			projectAddress,
+					// 		},
+					// 	},
+					// },
+				} = data
+				const myData = {
+					blockHash,
+					blockNumber,
+					cumulativeGasUsed,
+					status,
+					to,
+					transactionHash,
+				}
+				console.log(myData)
 			},
 		}
 	)
 	const onFinish = values => {
-		console.log('Success:', values)
+		// console.log('Success:', values)
 		const data = {
 			...values,
 			value: fromEtherToWei(web3, values.value.toString()),
 		}
-		console.log(data)
+		// console.log(data)
 		createRequest.mutate(data)
 	}
 
-	const onFinishFailed = errorInfo => {
-		console.log('Failed:', errorInfo)
-	}
 	return (
 		<div
 			className='Center'
@@ -52,7 +63,7 @@ const CreateRequestPage = () => {
 		>
 			<h1>Create Campaign Request</h1>
 			<br />
-			<Form onFinish={onFinish} onFinishFailed={onFinishFailed}>
+			<Form onFinish={onFinish}>
 				<Form.Item
 					label='Description'
 					name='description'
