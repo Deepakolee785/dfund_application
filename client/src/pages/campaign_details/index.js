@@ -5,14 +5,13 @@ import { Link, useParams } from 'react-router-dom'
 // import { PlusCircleFilled, LikeFilled, HeartFilled } from '@ant-design/icons'
 
 import FactoryContext from '../../context/factory/factoryContext'
-import DfundContract from '../../contracts/Dfund.json'
 import {
 	getCampaignDetails,
 	fromWeiToEther,
 	fromEtherToWei,
 	fundAmount,
 	getContributionsCount,
-	// getCampaignSpendingRequests,
+	getContributions,
 } from '../../api/web3Api'
 
 const CampaignDetails = () => {
@@ -41,21 +40,7 @@ const CampaignDetails = () => {
 
 	const contributions = useQuery(
 		['contribution'],
-		() => {
-			let myCampaign = new web3.eth.Contract(DfundContract.abi, campaign)
-
-			return Promise.all(
-				Array(parseInt(contributionCount.data))
-					.fill()
-					.map((element, index) => {
-						// console.log('called')
-						return myCampaign.methods
-							.contributions(index + 1)
-							.call()
-							.then(res => res)
-					})
-			)
-		},
+		() => getContributions(web3, campaign, contributionCount.data),
 		{
 			enabled: isReady && !!contributionCount.data,
 		}
@@ -127,10 +112,7 @@ const CampaignDetails = () => {
 		fund.mutate(fromEtherToWei(web3, values.amount.toString()))
 	}
 
-	const onFinishFailed = errorInfo => {
-		console.log('Failed:', errorInfo)
-	}
-
+	// Contribution table list
 	const columns = [
 		{
 			title: 'SN',
@@ -224,9 +206,8 @@ const CampaignDetails = () => {
 			<Divider style={{ backgroundColor: '#ccc' }} />
 			<h2 style={{}}>Contribute to this campaing from here!</h2>
 			<Form
-				name='basic'
+				name='fundInCampaign'
 				onFinish={onFinish}
-				onFinishFailed={onFinishFailed}
 				style={{ width: '20rem', marginTop: '1rem' }}
 			>
 				<Form.Item

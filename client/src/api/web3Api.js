@@ -97,6 +97,21 @@ export const getContributionsCount = (web3, campaign) => {
 			return response
 		})
 }
+export const getContributions = (web3, campaign, count) => {
+	let myCampaign = new web3.eth.Contract(DfundContract.abi, campaign)
+
+	return Promise.all(
+		Array(parseInt(count))
+			.fill()
+			.map((element, index) => {
+				// console.log('called')
+				return myCampaign.methods
+					.contributions(index + 1)
+					.call()
+					.then(res => res)
+			})
+	)
+}
 export const getCampaignSpendingRequests = async (web3, campaign) => {
 	let myCampaign = new web3.eth.Contract(DfundContract.abi, campaign)
 	return myCampaign.methods
