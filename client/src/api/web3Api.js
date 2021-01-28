@@ -17,6 +17,27 @@ export const getCampaignDetails = (web3, campaign) => {
 		.then(data => data)
 		.catch(err => err)
 }
+
+export const createCampaign = (contract, data, account) => {
+	return contract.methods
+		.createCampaign(
+			data.title,
+			data.description,
+			data.category,
+			data.country,
+			data.goalAmount,
+			data.minContribution,
+			data.deadline,
+			data.imagehash
+		)
+		.send({
+			from: account,
+		})
+		.then(result => {
+			// console.log('created', result)
+			return result
+		})
+}
 export const fundAmount = (web3, campaign, amount, account) => {
 	let myCampaign = new web3.eth.Contract(DfundContract.abi, campaign)
 	return myCampaign.methods

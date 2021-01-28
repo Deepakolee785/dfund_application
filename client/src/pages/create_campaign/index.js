@@ -2,44 +2,71 @@ import React, { useContext } from 'react'
 import { Form, Input, Button, DatePicker, InputNumber, Select } from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
 import { useMutation } from 'react-query'
+
 import FactoryContext from '../../context/factory/factoryContext'
-// import history from '../utils/history'
-import { fromEtherToWei } from '../../api/web3Api'
+import { fromEtherToWei, createCampaign } from '../../api/web3Api'
 
 const { Option } = Select
 
 const CreateCampaign = () => {
 	const { contract, accounts, web3 } = useContext(FactoryContext)
 	const create = useMutation(
-		data => {
-			return contract.methods
-				.createCampaign(
-					data.title,
-					data.description,
-					data.category,
-					data.country,
-					data.goalAmount,
-					data.minContribution,
-					data.deadline,
-					data.imagehash
-				)
-				.send({
-					from: accounts[0],
-				})
-				.then(result => {
-					console.log('created', result)
-					return result
-				})
-		},
+		data => createCampaign(contract, data, accounts[0]),
 		{
-			onSuccess: () => {
-				// history.push('/')
+			onSuccess: data => {
+				console.log('created success', data)
+				const {
+					blockHash,
+					blockNumber,
+					cumulativeGasUsed,
+					status,
+					to,
+					transactionHash,
+					events: {
+						LogCampaignCreated: {
+							type,
+							returnValues: {
+								addr,
+								category,
+								country,
+								creator,
+								deadline,
+								description,
+								goalAmount,
+								imageHash,
+								minimumContribution,
+								title,
+							},
+						},
+					},
+				} = data
+
+				const myData = {
+					blockHash,
+					blockNumber,
+					cumulativeGasUsed,
+					type,
+					addr,
+					category,
+					country,
+					creator,
+					deadline,
+					description,
+					goalAmount,
+					imageHash,
+					minimumContribution,
+					title,
+					status,
+					to,
+					transactionHash,
+				}
+
+				console.log(myData)
 			},
 		}
 	)
-	const onFinish = values => {
-		// console.log('Success:', values)
 
+	const onFinish = values => {
 		const data = {
 			...values,
 			goalAmount: fromEtherToWei(web3, values.goalAmount.toString()),
@@ -49,25 +76,10 @@ const CreateCampaign = () => {
 			),
 			deadline: Number(values.deadline),
 		}
-		console.log(data)
+
 		//create campaign
 		create.mutate(data)
 	}
-
-	const onFinishFailed = errorInfo => {
-		console.log('Failed:', errorInfo)
-	}
-
-	// const formItemLayout = {
-	// 	labelCol: {
-	// 		xs: { span: 24 },
-	// 		sm: { span: 5 },
-	// 	},
-	// 	wrapperCol: {
-	// 		xs: { span: 24 },
-	// 		sm: { span: 12 },
-	// 	},
-	// }
 
 	return (
 		<div
@@ -86,13 +98,7 @@ const CreateCampaign = () => {
 			>
 				<h1>Create a new Dfund campaign here </h1>
 				{/* <hr /> */}
-				<Form
-					name='basic'
-					// initialValues={{ : true }}
-					onFinish={onFinish}
-					onFinishFailed={onFinishFailed}
-					// {...formItemLayout}
-				>
+				<Form name='createCampaign' onFinish={onFinish}>
 					<Form.Item
 						label='Title'
 						name='title'
