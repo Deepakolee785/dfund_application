@@ -1,10 +1,20 @@
-import React, { useContext } from 'react'
-import { Form, Input, Button, DatePicker, InputNumber, Select } from 'antd'
+import React, { useContext, useState } from 'react'
+import {
+	Form,
+	Input,
+	Button,
+	DatePicker,
+	InputNumber,
+	Select,
+	message,
+	Spin,
+} from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
 import { useMutation } from 'react-query'
 
 import FactoryContext from '../../context/factory/factoryContext'
 import { fromEtherToWei, createCampaign } from '../../api/web3Api'
+import ipfs from '../../services/ipfs'
 
 const { Option } = Select
 
@@ -66,7 +76,34 @@ const CreateCampaign = () => {
 		}
 	)
 
+	const [imageHash, setImageHash] = useState('')
+	const [uploading, setUploading] = useState(false)
+	const captureImage = e => {
+		setUploading(true)
+		const file = e.target.files[0]
+		const reader = new window.FileReader()
+		reader.readAsArrayBuffer(file)
+		reader.onloadend = () => {
+			const bufferArray = Buffer(reader.result)
+			console.log('buffer', bufferArray)
+			if (bufferArray) {
+				ipfs.add(bufferArray)
+					.then(result => {
+						console.log(result)
+						message.success('Uploaded to IPFS')
+						return setImageHash(result.path)
+					})
+					.catch(err => {
+						message.err('Error uploading to IPFS')
+						console.error(err)
+					})
+					.finally(() => setUploading(false))
+			}
+		}
+	}
+
 	const onFinish = values => {
+		console.log(values)
 		const data = {
 			...values,
 			goalAmount: fromEtherToWei(web3, values.goalAmount.toString()),
@@ -75,7 +112,9 @@ const CreateCampaign = () => {
 				values.minContribution.toString()
 			),
 			deadline: Number(values.deadline),
+			imagehash: imageHash,
 		}
+		console.log(data)
 
 		//create campaign
 		create.mutate(data)
@@ -111,7 +150,6 @@ const CreateCampaign = () => {
 					>
 						<Input />
 					</Form.Item>
-
 					<Form.Item
 						label='Description'
 						name='description'
@@ -124,7 +162,6 @@ const CreateCampaign = () => {
 					>
 						<TextArea />
 					</Form.Item>
-
 					<Form.Item
 						name='category'
 						label='Category'
@@ -159,7 +196,6 @@ const CreateCampaign = () => {
 							<Option value='India'>India</Option>
 						</Select>
 					</Form.Item>
-
 					<Form.Item
 						label='Goal(ETH)'
 						name='goalAmount'
@@ -193,7 +229,6 @@ const CreateCampaign = () => {
 							placeholder='min contribution (in Eth)'
 						/>
 					</Form.Item>
-
 					<Form.Item
 						label='Deadline'
 						name='deadline'
@@ -206,9 +241,8 @@ const CreateCampaign = () => {
 					>
 						<DatePicker />
 					</Form.Item>
-
 					<Form.Item
-						label='Image hash'
+						label='Image '
 						name='imagehash'
 						rules={[
 							{
@@ -217,9 +251,26 @@ const CreateCampaign = () => {
 							},
 						]}
 					>
-						<Input />
+						<Input type='file' onChange={captureImage} />
 					</Form.Item>
-
+					{uploading && <Spin />}
+					{imageHash !== '' && (
+						<img
+							src={`https://ipfs.infura.io/ipfs/${imageHash}`}
+							alt=''
+						/>
+					)}
+					{/* <button onClick={submit} type='button'>
+						ipfs upload
+					</button> */}
+					{/* <label htmlFor=''>Upload File</label>
+					<input
+						type='file'
+						onChange={e => {
+							console.log(e.target.files[0])
+						}}
+					/> */}
+					<br />
 					<Form.Item>
 						<Button
 							type='primary'
