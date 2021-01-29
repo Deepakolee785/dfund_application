@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import {
 	Form,
 	Input,
@@ -21,6 +22,7 @@ import { getCountries } from '../../api/getCountries'
 const { Option } = Select
 
 const CreateCampaign = () => {
+	const history = useHistory()
 	const { contract, accounts, web3 } = useContext(FactoryContext)
 	const create = useMutation(
 		data => createCampaign(contract, data, accounts[0]),
@@ -74,6 +76,7 @@ const CreateCampaign = () => {
 				}
 
 				console.log(myData)
+				history.push(`/campaign/${addr}`)
 			},
 		}
 	)
