@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import {
 	Form,
 	Input,
@@ -16,6 +16,7 @@ import FactoryContext from '../../context/factory/factoryContext'
 import { fromEtherToWei, createCampaign } from '../../api/web3Api'
 import ipfs from '../../services/ipfs'
 import { IPFS_INFURA_URL } from '../../config'
+import { getCountries } from '../../api/getCountries'
 
 const { Option } = Select
 
@@ -121,6 +122,17 @@ const CreateCampaign = () => {
 		create.mutate(data)
 	}
 
+	const [countires, setCountires] = useState([])
+
+	useEffect(() => {
+		getCountries().then(data => {
+			if (data) {
+				setCountires(data)
+			}
+			return
+		})
+	}, [])
+
 	return (
 		<div
 			style={{
@@ -191,10 +203,23 @@ const CreateCampaign = () => {
 							placeholder='Select Country'
 							// onChange={onGenderChange}
 							allowClear
+							showSearch
+							filterOption={(input, option) =>
+								option.children
+									.toLowerCase()
+									.indexOf(input.toLowerCase()) >= 0
+							}
 						>
-							<Option value='Nepal'>Nepal</Option>
+							{countires.map((country, index) => {
+								return (
+									<Option key={index} value={country.name}>
+										{country.name}
+									</Option>
+								)
+							})}
+							{/* <Option value='Nepal'>Nepal</Option>
 							<Option value='China'>China</Option>
-							<Option value='India'>India</Option>
+							<Option value='India'>India</Option> */}
 						</Select>
 					</Form.Item>
 					<Form.Item
