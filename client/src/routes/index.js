@@ -21,7 +21,7 @@ const Routes = () => (
 			path='/campaign/:campaign/requests'
 			component={ViewRequestPage}
 		/>
-		<Route
+		<PrivateRoute
 			exact
 			path='/campaign/:campaign/requests/new'
 			component={CreateRequestPage}
