@@ -30,6 +30,7 @@ const ExplorePage = () => {
 
 	const [myData, setMyData] = useState([])
 	useEffect(() => {
+		let isMounted = true
 		if (info.data && info.data.length !== 0 && isReady) {
 			// eslint-disable-next-line
 			{
@@ -41,7 +42,8 @@ const ExplorePage = () => {
 							.then(data => {
 								// console.log(data)
 								myCampaignsList.push(data)
-								setMyData(oldData => [...oldData, data])
+								if (isMounted)
+									setMyData(oldData => [...oldData, data])
 							})
 							.catch(err => console.log(err))
 					}
@@ -50,6 +52,9 @@ const ExplorePage = () => {
 				// console.log(myCampaignsList)
 				// setMyData(myCampaignsList)
 			}
+		}
+		return () => {
+			isMounted = false
 		}
 		// eslint-disable-next-line
 	}, [info.data])
