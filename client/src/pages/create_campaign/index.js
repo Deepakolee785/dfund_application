@@ -125,12 +125,16 @@ const CreateCampaign = () => {
 	const [countires, setCountires] = useState([])
 
 	useEffect(() => {
+		let isMounted = true
 		getCountries().then(data => {
 			if (data) {
-				setCountires(data)
+				if (isMounted) setCountires(data)
 			}
 			return
 		})
+		return () => {
+			isMounted = false
+		}
 	}, [])
 
 	return (
