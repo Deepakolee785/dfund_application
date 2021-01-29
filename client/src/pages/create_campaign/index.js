@@ -15,6 +15,7 @@ import { useMutation } from 'react-query'
 import FactoryContext from '../../context/factory/factoryContext'
 import { fromEtherToWei, createCampaign } from '../../api/web3Api'
 import ipfs from '../../services/ipfs'
+import { IPFS_INFURA_URL } from '../../config'
 
 const { Option } = Select
 
@@ -255,10 +256,7 @@ const CreateCampaign = () => {
 					</Form.Item>
 					{uploading && <Spin />}
 					{imageHash !== '' && (
-						<img
-							src={`https://ipfs.infura.io/ipfs/${imageHash}`}
-							alt=''
-						/>
+						<img src={`${IPFS_INFURA_URL}/${imageHash}`} alt='' />
 					)}
 					{/* <button onClick={submit} type='button'>
 						ipfs upload
