@@ -18,6 +18,7 @@ import { fromEtherToWei, createCampaign } from '../../api/web3Api'
 import ipfs from '../../services/ipfs'
 import { IPFS_INFURA_URL } from '../../config'
 import { getCountries } from '../../api/getCountries'
+import { saveCampaign } from '../../api/campaign'
 
 const { Option } = Select
 
@@ -76,7 +77,14 @@ const CreateCampaign = () => {
 				}
 
 				console.log('Created Data: ', myData)
-				history.push(`/campaign/${addr}`)
+				saveCampaign(myData)
+					.then(res => {
+						console.log(res.data)
+						history.push(`/campaign/${addr}`)
+					})
+					.catch(err => {
+						console.log(err)
+					})
 			},
 		}
 	)
