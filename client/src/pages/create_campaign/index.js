@@ -28,7 +28,7 @@ const CreateCampaign = () => {
 		data => createCampaign(contract, data, accounts[0]),
 		{
 			onSuccess: data => {
-				console.log('created success', data)
+				// console.log('created success', data)
 				const {
 					blockHash,
 					blockNumber,
@@ -75,7 +75,7 @@ const CreateCampaign = () => {
 					transactionHash,
 				}
 
-				console.log(myData)
+				console.log('Created Data: ', myData)
 				history.push(`/campaign/${addr}`)
 			},
 		}
@@ -108,7 +108,7 @@ const CreateCampaign = () => {
 	}
 
 	const onFinish = values => {
-		console.log(values)
+		// console.log(values)
 		const data = {
 			...values,
 			goalAmount: fromEtherToWei(web3, values.goalAmount.toString()),
@@ -119,7 +119,7 @@ const CreateCampaign = () => {
 			deadline: Number(values.deadline),
 			imagehash: imageHash,
 		}
-		console.log(data)
+		// console.log(data)
 
 		//create campaign
 		create.mutate(data)
