@@ -5,6 +5,7 @@ const cors = require('cors')
 //rotutes
 const authRoutes = require('./routes/api/auth.routes')
 const campaignRoutes = require('./routes/api/campaign.routes')
+const adminRoutes = require('./routes/api/admin.routes')
 
 // env variables
 require('dotenv').config()
@@ -24,6 +25,7 @@ app.get('/', (req, res) => {
 // Route Middleware
 app.use('/api/user', authRoutes)
 app.use('/api/campaign', campaignRoutes)
+app.use('/api/admin', adminRoutes)
 
 // MongoDB connection
 mongoose.connect(
