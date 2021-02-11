@@ -24,6 +24,7 @@ const AdminLogin = () => {
 	}
 	return (
 		<div className='Center' style={{ height: '60vh' }}>
+			<h3>Admin Login</h3>
 			<Form
 				{...layout}
 				name='basic'
