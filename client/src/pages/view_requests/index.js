@@ -2,6 +2,8 @@ import React, { useContext, useEffect } from 'react'
 import { Button, Table } from 'antd'
 import { Link, useParams } from 'react-router-dom'
 import FactoryContext from '../../context/factory/factoryContext'
+import Layout from '../../layout/user_layout'
+
 import {
 	getRequestsCount,
 	fromWeiToEther,
@@ -176,28 +178,30 @@ const ViewRequestPage = () => {
 		})
 
 	return (
-		<div
-			className='Center'
-			style={{
-				minHeight: '60vh',
-			}}
-		>
-			<h1> Campaign Requests Details</h1>
-			<br />
-			<Link
-				to={`/campaign/${campaign}/requests/new`}
-				style={{ marginBottom: '2rem' }}
+		<Layout>
+			<div
+				className='Center'
+				style={{
+					minHeight: '60vh',
+				}}
 			>
-				<Button type='primary'>Create Request</Button>
-			</Link>
-			<br />
-			<Table
-				columns={columns}
-				dataSource={dataSource}
-				loading={requests.isLoading}
-			/>
-			<p>{requestCount.data} requests found.</p>
-		</div>
+				<h1> Campaign Requests Details</h1>
+				<br />
+				<Link
+					to={`/campaign/${campaign}/requests/new`}
+					style={{ marginBottom: '2rem' }}
+				>
+					<Button type='primary'>Create Request</Button>
+				</Link>
+				<br />
+				<Table
+					columns={columns}
+					dataSource={dataSource}
+					loading={requests.isLoading}
+				/>
+				<p>{requestCount.data} requests found.</p>
+			</div>
+		</Layout>
 	)
 }
 

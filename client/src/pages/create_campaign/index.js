@@ -19,6 +19,7 @@ import ipfs from '../../services/ipfs'
 import { IPFS_INFURA_URL } from '../../config'
 import { getCountries } from '../../api/getCountries'
 import { saveCampaign } from '../../api/campaign'
+import Layout from '../../layout/user_layout'
 
 const { Option } = Select
 
@@ -149,179 +150,193 @@ const CreateCampaign = () => {
 	}, [])
 
 	return (
-		<div
-			style={{
-				display: 'flex',
-				justifyContent: 'center',
-				alignItems: 'center',
-				flexDirection: 'column',
-				// width: '60vw',
-			}}
-		>
+		<Layout>
 			<div
 				style={{
-					width: '40vw',
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+					flexDirection: 'column',
+					// width: '60vw',
 				}}
 			>
-				<h1>Create a new Dfund campaign here </h1>
-				{/* <hr /> */}
-				<Form name='createCampaign' onFinish={onFinish}>
-					<Form.Item
-						label='Title'
-						name='title'
-						rules={[
-							{
-								required: true,
-								message: 'Title is required',
-							},
-						]}
-					>
-						<Input />
-					</Form.Item>
-					<Form.Item
-						label='Description'
-						name='description'
-						rules={[
-							{
-								required: true,
-								message: 'Description is required',
-							},
-						]}
-					>
-						<TextArea />
-					</Form.Item>
-					<Form.Item
-						name='category'
-						label='Category'
-						rules={[
-							{ required: true, message: 'Gender is required' },
-						]}
-					>
-						<Select
-							placeholder='Select category'
-							// onChange={onGenderChange}
-							allowClear
+				<div
+					style={{
+						width: '40vw',
+					}}
+				>
+					<h1>Create a new Dfund campaign here </h1>
+					{/* <hr /> */}
+					<Form name='createCampaign' onFinish={onFinish}>
+						<Form.Item
+							label='Title'
+							name='title'
+							rules={[
+								{
+									required: true,
+									message: 'Title is required',
+								},
+							]}
 						>
-							<Option value='food'>Food</Option>
-							<Option value='technology'>Technology</Option>
-							<Option value='art'>Art</Option>
-						</Select>
-					</Form.Item>
-					<Form.Item
-						name='country'
-						label='country'
-						rules={[
-							{ required: true, message: 'Country is required' },
-						]}
-					>
-						<Select
-							placeholder='Select Country'
-							// onChange={onGenderChange}
-							allowClear
-							showSearch
-							filterOption={(input, option) =>
-								option.children
-									.toLowerCase()
-									.indexOf(input.toLowerCase()) >= 0
-							}
+							<Input />
+						</Form.Item>
+						<Form.Item
+							label='Description'
+							name='description'
+							rules={[
+								{
+									required: true,
+									message: 'Description is required',
+								},
+							]}
 						>
-							{countires.map((country, index) => {
-								return (
-									<Option key={index} value={country.name}>
-										{country.name}
-									</Option>
-								)
-							})}
-							{/* <Option value='Nepal'>Nepal</Option>
+							<TextArea />
+						</Form.Item>
+						<Form.Item
+							name='category'
+							label='Category'
+							rules={[
+								{
+									required: true,
+									message: 'Gender is required',
+								},
+							]}
+						>
+							<Select
+								placeholder='Select category'
+								// onChange={onGenderChange}
+								allowClear
+							>
+								<Option value='food'>Food</Option>
+								<Option value='technology'>Technology</Option>
+								<Option value='art'>Art</Option>
+							</Select>
+						</Form.Item>
+						<Form.Item
+							name='country'
+							label='country'
+							rules={[
+								{
+									required: true,
+									message: 'Country is required',
+								},
+							]}
+						>
+							<Select
+								placeholder='Select Country'
+								// onChange={onGenderChange}
+								allowClear
+								showSearch
+								filterOption={(input, option) =>
+									option.children
+										.toLowerCase()
+										.indexOf(input.toLowerCase()) >= 0
+								}
+							>
+								{countires.map((country, index) => {
+									return (
+										<Option
+											key={index}
+											value={country.name}
+										>
+											{country.name}
+										</Option>
+									)
+								})}
+								{/* <Option value='Nepal'>Nepal</Option>
 							<Option value='China'>China</Option>
 							<Option value='India'>India</Option> */}
-						</Select>
-					</Form.Item>
-					<Form.Item
-						label='Goal(ETH)'
-						name='goalAmount'
-						rules={[
-							{
-								required: true,
-								message: 'Goal amount is required',
-							},
-						]}
-					>
-						<InputNumber
-							style={{ width: '100%' }}
-							placeholder='Goal amount (in Eth)'
+							</Select>
+						</Form.Item>
+						<Form.Item
+							label='Goal(ETH)'
+							name='goalAmount'
+							rules={[
+								{
+									required: true,
+									message: 'Goal amount is required',
+								},
+							]}
+						>
+							<InputNumber
+								style={{ width: '100%' }}
+								placeholder='Goal amount (in Eth)'
 
-							// formatter={value => `ETH ${value}`}
-							// parser={value => value.replace('ETH ', '')}
-						/>
-					</Form.Item>
-					<Form.Item
-						label='Min contribution(ETH)'
-						name='minContribution'
-						rules={[
-							{
-								required: true,
-								message: 'Min contribution is required',
-							},
-						]}
-					>
-						<InputNumber
-							style={{ width: '100%' }}
-							placeholder='min contribution (in Eth)'
-						/>
-					</Form.Item>
-					<Form.Item
-						label='Deadline'
-						name='deadline'
-						rules={[
-							{
-								required: true,
-								message: 'deadline is required',
-							},
-						]}
-					>
-						<DatePicker />
-					</Form.Item>
-					<Form.Item
-						label='Image '
-						name='imagehash'
-						rules={[
-							{
-								required: true,
-								message: 'imagehash is required',
-							},
-						]}
-					>
-						<Input type='file' onChange={captureImage} />
-					</Form.Item>
-					{uploading && <Spin />}
-					{imageHash !== '' && (
-						<img src={`${IPFS_INFURA_URL}/${imageHash}`} alt='' />
-					)}
-					{/* <button onClick={submit} type='button'>
+								// formatter={value => `ETH ${value}`}
+								// parser={value => value.replace('ETH ', '')}
+							/>
+						</Form.Item>
+						<Form.Item
+							label='Min contribution(ETH)'
+							name='minContribution'
+							rules={[
+								{
+									required: true,
+									message: 'Min contribution is required',
+								},
+							]}
+						>
+							<InputNumber
+								style={{ width: '100%' }}
+								placeholder='min contribution (in Eth)'
+							/>
+						</Form.Item>
+						<Form.Item
+							label='Deadline'
+							name='deadline'
+							rules={[
+								{
+									required: true,
+									message: 'deadline is required',
+								},
+							]}
+						>
+							<DatePicker />
+						</Form.Item>
+						<Form.Item
+							label='Image '
+							name='imagehash'
+							rules={[
+								{
+									required: true,
+									message: 'imagehash is required',
+								},
+							]}
+						>
+							<Input type='file' onChange={captureImage} />
+						</Form.Item>
+						{uploading && <Spin />}
+						{imageHash !== '' && (
+							<img
+								src={`${IPFS_INFURA_URL}/${imageHash}`}
+								alt=''
+							/>
+						)}
+						{/* <button onClick={submit} type='button'>
 						ipfs upload
 					</button> */}
-					{/* <label htmlFor=''>Upload File</label>
+						{/* <label htmlFor=''>Upload File</label>
 					<input
 						type='file'
 						onChange={e => {
 							console.log(e.target.files[0])
 						}}
 					/> */}
-					<br />
-					<Form.Item>
-						<Button
-							type='primary'
-							htmlType='submit'
-							loading={create.isLoading}
-							block
-						>
-							Create new Dfund!
-						</Button>
-					</Form.Item>
-				</Form>
+						<br />
+						<Form.Item>
+							<Button
+								type='primary'
+								htmlType='submit'
+								loading={create.isLoading}
+								block
+							>
+								Create new Dfund!
+							</Button>
+						</Form.Item>
+					</Form>
+				</div>
 			</div>
-		</div>
+		</Layout>
 	)
 }
 

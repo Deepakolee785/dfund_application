@@ -4,6 +4,7 @@ import { useMutation } from 'react-query'
 import FactoryContext from '../../context/factory/factoryContext'
 import { useParams, useHistory } from 'react-router-dom'
 import { fromEtherToWei, getCampaignSpendingRequests } from '../../api/web3Api'
+import Layout from '../../layout/user_layout'
 
 const CreateRequestPage = () => {
 	const { campaign } = useParams()
@@ -55,54 +56,62 @@ const CreateRequestPage = () => {
 	}
 
 	return (
-		<div
-			className='Center'
-			style={{
-				minHeight: '60vh',
-			}}
-		>
-			<h1>Create Campaign Request</h1>
-			<br />
-			<Form onFinish={onFinish}>
-				<Form.Item
-					label='Description'
-					name='description'
-					rules={[
-						{ required: true, message: 'Please input your desc!' },
-					]}
-				>
-					<Input />
-				</Form.Item>
+		<Layout>
+			<div
+				className='Center'
+				style={{
+					minHeight: '60vh',
+				}}
+			>
+				<h1>Create Campaign Request</h1>
+				<br />
+				<Form onFinish={onFinish}>
+					<Form.Item
+						label='Description'
+						name='description'
+						rules={[
+							{
+								required: true,
+								message: 'Please input your desc!',
+							},
+						]}
+					>
+						<Input />
+					</Form.Item>
 
-				<Form.Item
-					label='Amount(Eth)'
-					name='value'
-					rules={[
-						{ required: true, message: 'Please input  value!' },
-					]}
-				>
-					<InputNumber
-						style={{ width: '100%' }}
-						placeholder='amount in eth'
-					/>
-				</Form.Item>
-				<Form.Item
-					label='Recipient address'
-					name='recipient'
-					rules={[
-						{ required: true, message: 'Please input your desc!' },
-					]}
-				>
-					<Input />
-				</Form.Item>
+					<Form.Item
+						label='Amount(Eth)'
+						name='value'
+						rules={[
+							{ required: true, message: 'Please input  value!' },
+						]}
+					>
+						<InputNumber
+							style={{ width: '100%' }}
+							placeholder='amount in eth'
+						/>
+					</Form.Item>
+					<Form.Item
+						label='Recipient address'
+						name='recipient'
+						rules={[
+							{
+								required: true,
+								message: 'Please input your desc!',
+							},
+						]}
+					>
+						<Input />
+					</Form.Item>
 
-				<Form.Item>
-					<Button type='primary' htmlType='submit' block>
-						Create Request!
-					</Button>
-				</Form.Item>
-			</Form>
-		</div>
+					<Form.Item>
+						<Button type='primary' htmlType='submit' block>
+							Create Request!
+						</Button>
+					</Form.Item>
+				</Form>
+			</div>
+		</Layout>
 	)
 }
 export default CreateRequestPage

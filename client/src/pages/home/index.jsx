@@ -1,7 +1,8 @@
-import React, { Fragment, useContext, useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useQuery } from 'react-query'
 import HeaderBottom from '../../components/header_bottom'
 
+import Layout from '../../layout/user_layout'
 import HeroSection from '../../components/hero_section'
 import { loadAuthUser } from '../../api/loadUser'
 import AuthContext from '../../context/auth/authContext'
@@ -23,10 +24,10 @@ const Home = () => {
 		// eslint-disable-next-line
 	}, [])
 	return (
-		<Fragment>
+		<Layout>
 			<HeroSection />
 			<HeaderBottom />
-		</Fragment>
+		</Layout>
 	)
 }
 
