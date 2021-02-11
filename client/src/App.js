@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { Router } from 'react-router-dom'
+import { Router, Switch, Route } from 'react-router-dom'
 import { ReactQueryDevtools } from 'react-query/devtools'
 
 import FactoryContext from './context/factory/factoryContext'
@@ -10,6 +10,8 @@ import history from './utils/history'
 import Navbar from './components/Navbar'
 
 import setAuthToken from './utils/setAuthToken'
+
+import AdminLogin from './pages/admin/login'
 
 if (localStorage.token) {
 	setAuthToken(localStorage.token)
@@ -25,11 +27,12 @@ const App = () => {
 
 	return (
 		<Router history={history}>
-			<Navbar />
 			<div>
-				<Routes />
-				{/* Contract details */}
-				{/* <h1>Dfund Application</h1>
+				<Navbar />
+				<Switch>
+					<Routes />
+					{/* Contract details */}
+					{/* <h1>Dfund Application</h1>
 				<p>
 					<strong>Account: </strong>
 					{accounts[0]}
@@ -38,6 +41,8 @@ const App = () => {
 					<strong>Address: </strong>
 					{contract._address}
 				</p> */}
+					<Route path='/control' component={AdminLogin} />
+				</Switch>
 			</div>
 			<ReactQueryDevtools initialIsOpen={false} />
 		</Router>

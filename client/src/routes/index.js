@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 
 import Home from '../pages/home'
 import CampaignDetails from '../pages/campaign_details'
@@ -10,9 +10,10 @@ import { PublicRoute, PrivateRoute } from '../hoc/Route'
 import ExplorePage from '../pages/explore'
 import ViewRequestPage from '../pages/view_requests'
 import CreateRequestPage from '../pages/create_request'
+//
 
 const Routes = () => (
-	<Switch>
+	<>
 		<Route exact path='/' component={Home} />
 		<Route exact path='/explore' component={ExplorePage} />
 		<Route exact path='/campaign/:campaign' component={CampaignDetails} />
@@ -29,7 +30,8 @@ const Routes = () => (
 		<PrivateRoute path='/create/campaign' component={CreateCampaign} />
 		<PublicRoute path='/login' component={LoginPage} />
 		<PublicRoute path='/register' component={RegisterPage} />
-	</Switch>
+		{/* Admin */}
+	</>
 )
 
 export default Routes
