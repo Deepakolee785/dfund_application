@@ -7,6 +7,7 @@ import CreateCampaign from '../pages/create_campaign'
 import LoginPage from '../pages/login/index'
 import RegisterPage from '../pages/register'
 import { PublicRoute, PrivateRoute } from '../hoc/Route'
+import { AdminRoute } from '../hoc/AdminRoute'
 import ExplorePage from '../pages/explore'
 import ViewRequestPage from '../pages/view_requests'
 import CreateRequestPage from '../pages/create_request'
@@ -34,8 +35,8 @@ const Routes = () => (
 		<PublicRoute path='/login' component={LoginPage} />
 		<PublicRoute path='/register' component={RegisterPage} />
 		{/* Admin */}
-		<Route path='/control' component={AdminPage} />
-		<Route path='/control/home' component={AdminHome} />
+		<Route exact path='/control' component={AdminPage} />
+		<AdminRoute path='/control/home' component={AdminHome} />
 	</Switch>
 )
 
