@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react'
 import axios from 'axios'
-import setAuthToken from '../../utils/setAuthToken'
+import setAuthToken from '../../utils/setAuthTokenAdmin'
 import AdminAuthContext from './adminAuthContext'
 import adminAuthReducer from './adminAuthReducter'
 
@@ -22,13 +22,13 @@ const AdminAuthState = props => {
 	// const resetLoading = () => dispatch({ type: 'RESET_LOADING' })
 	// Load User
 	const loadUser = async () => {
-		if (localStorage.admin_token) {
+		if (sessionStorage.admin_token) {
 			setAuthToken(setAuthToken.admin_token)
 		}
 		setLoading()
 
 		try {
-			const res = await axios.get(`${DEV_URL}/api/user/authUser`)
+			const res = await axios.get(`${DEV_URL}/api/admin/authAdmin`)
 
 			dispatch({
 				type: 'USER_LOADED',
@@ -51,7 +51,7 @@ const AdminAuthState = props => {
 		setLoading()
 		try {
 			const res = await axios.post(
-				`${DEV_URL}/api/user/register`,
+				`${DEV_URL}/api/admin/register`,
 				FormData,
 				config
 			)

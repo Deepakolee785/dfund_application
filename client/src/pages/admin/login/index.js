@@ -1,5 +1,8 @@
-import React from 'react'
+import React, { useEffect, useContext } from 'react'
+
 import { Form, Input, Button } from 'antd'
+
+import AdminAuthContext from '../../../context/admin_auth/adminAuthContext'
 const layout = {
 	labelCol: {
 		span: 8,
@@ -15,6 +18,12 @@ const tailLayout = {
 	},
 }
 const AdminLogin = () => {
+	const { loadUser } = useContext(AdminAuthContext)
+
+	useEffect(() => {
+		loadUser()
+		// eslint-disable-next-line
+	}, [])
 	const onFinish = values => {
 		console.log('Success:', values)
 	}

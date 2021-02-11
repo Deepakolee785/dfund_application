@@ -12,7 +12,7 @@ import ViewRequestPage from '../pages/view_requests'
 import CreateRequestPage from '../pages/create_request'
 
 //
-import AdminLogin from '../pages/admin/login'
+import AdminPage from '../pages/admin'
 import AdminHome from '../pages/admin/admin_home'
 
 const Routes = () => (
@@ -34,7 +34,7 @@ const Routes = () => (
 		<PublicRoute path='/login' component={LoginPage} />
 		<PublicRoute path='/register' component={RegisterPage} />
 		{/* Admin */}
-		<Route path='/control' component={AdminLogin} />
+		<Route path='/control' component={AdminPage} />
 		<Route path='/control/home' component={AdminHome} />
 	</Switch>
 )
