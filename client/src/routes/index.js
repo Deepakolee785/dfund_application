@@ -13,6 +13,7 @@ import CreateRequestPage from '../pages/create_request'
 
 //
 import AdminLogin from '../pages/admin/login'
+import AdminHome from '../pages/admin/admin_home'
 
 const Routes = () => (
 	<Switch>
@@ -34,6 +35,7 @@ const Routes = () => (
 		<PublicRoute path='/register' component={RegisterPage} />
 		{/* Admin */}
 		<Route path='/control' component={AdminLogin} />
+		<Route path='/control/home' component={AdminHome} />
 	</Switch>
 )
 
