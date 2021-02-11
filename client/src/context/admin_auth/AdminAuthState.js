@@ -22,14 +22,15 @@ const AdminAuthState = props => {
 	// const resetLoading = () => dispatch({ type: 'RESET_LOADING' })
 	// Load User
 	const loadUser = async () => {
-		if (sessionStorage.admin_token) {
-			setAuthToken(setAuthToken.admin_token)
+		// console.log(sessionStorage.getItem('admin_token'))
+		if (sessionStorage.getItem('admin_token')) {
+			setAuthToken(sessionStorage.getItem('admin_token'))
 		}
 		setLoading()
 
 		try {
 			const res = await axios.get(`${DEV_URL}/api/admin/authAdmin`)
-
+			console.log(res)
 			dispatch({
 				type: 'USER_LOADED',
 				payload: res.data,
@@ -87,6 +88,7 @@ const AdminAuthState = props => {
 				FormData,
 				config
 			)
+			// console.log(res)
 
 			dispatch({
 				type: 'LOGIN_SUCCESS',
