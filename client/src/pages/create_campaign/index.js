@@ -310,6 +310,8 @@ const CreateCampaign = () => {
 							<img
 								src={`${IPFS_INFURA_URL}/${imageHash}`}
 								alt=''
+								height='300'
+								width='300'
 							/>
 						)}
 						{/* <button onClick={submit} type='button'>
