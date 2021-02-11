@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Route, Redirect } from 'react-router-dom'
+import { Route, Redirect, useHistory } from 'react-router-dom'
 import AuthContext from '../context/auth/authContext'
 
 export const PrivateRoute = ({ component: Component, ...rest }) => {
@@ -20,6 +20,8 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
 }
 
 export const PublicRoute = ({ component: Component, ...rest }) => {
+	const history = useHistory()
+
 	const authContext = useContext(AuthContext)
 	const { isAuthenticated, loading } = authContext
 	return (
@@ -27,7 +29,8 @@ export const PublicRoute = ({ component: Component, ...rest }) => {
 			{...rest}
 			render={props =>
 				isAuthenticated && !loading ? (
-					<Redirect to='/' />
+					// <Redirect to='/' />
+					<>{history.goBack()}</>
 				) : (
 					<Component {...props} />
 				)
