@@ -6,6 +6,7 @@ const {
 	adminLoginValidation,
 	adminRegisterValidation,
 } = require('../../validation/auth.validation')
+const auth_admin = require('../../middlewares/admin_auth')
 
 router.post('/register', async (req, res) => {
 	// Validate
@@ -69,6 +70,19 @@ router.post('/login', async (req, res) => {
 	// generate/assign token
 	const token = jwt.sign({ _id: admin.id }, process.env.SECRET_KEY)
 	res.header('auth-token', token).send({ token })
+})
+
+// @route GET api/auth
+// @desc Get login user
+// @access private
+router.get('/authAdmin', auth_admin, async (req, res) => {
+	try {
+		const admin = await Admin.findById(req.id).select('-password')
+		res.json(admin)
+	} catch (err) {
+		console.error(err.message)
+		res.status(500).send('Server error')
+	}
 })
 
 module.exports = router
