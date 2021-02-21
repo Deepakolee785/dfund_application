@@ -30,7 +30,7 @@ const AdminAuthState = props => {
 
 		try {
 			const res = await axios.get(`${DEV_URL}/api/admin/authAdmin`)
-			console.log(res)
+			// console.log(res)
 			dispatch({
 				type: 'USER_LOADED',
 				payload: res.data,
