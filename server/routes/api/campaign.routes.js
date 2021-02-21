@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const auth = require('../../middlewares/auth')
+const auth = require('../../middlewares/admin_auth')
 const Campaign = require('../../models/Campaign')
 
 router.post('/save-campaign', async (req, res) => {
@@ -48,6 +48,16 @@ router.post('/save-campaign', async (req, res) => {
 			campaign_add: savedCampaign.addr,
 			message: 'Successfully registered',
 		})
+	} catch (error) {
+		res.status(400).send(error)
+	}
+})
+
+router.get('/get-campaigns', auth, async (req, res) => {
+	try {
+		const campaigns = await Campaign.find({})
+		// console.log(campaigns)
+		res.json({ data: campaigns })
 	} catch (error) {
 		res.status(400).send(error)
 	}
