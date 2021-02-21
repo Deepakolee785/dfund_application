@@ -53,10 +53,11 @@ const AdminHome = () => {
 						className='logo'
 						style={{
 							height: '50px',
-							fontSize: '1.2rem',
+							fontSize: !collapsed ? '1.2rem' : '0.95rem',
 							marginLeft: '1.5rem',
 							paddingTop: '1.5rem',
-							fontWeight: 600,
+							fontWeight: !collapsed ? 600 : 500,
+
 							color: '#fff',
 						}}
 					>
