@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 
-import { Layout, Menu, Avatar, Button } from 'antd'
+import { Layout, Menu, Avatar, Button, Dropdown } from 'antd'
 import {
 	MenuUnfoldOutlined,
 	MenuFoldOutlined,
@@ -18,9 +18,12 @@ import Transaction from './Transaction'
 import Users from './Users'
 import Admin from './Admin'
 
+import AdminAuthContext from '../../../context/admin_auth/adminAuthContext'
+
 const { Header, Sider, Content } = Layout
 
 const AdminHome = () => {
+	const { logout } = useContext(AdminAuthContext)
 	const [selectedMenuIndex, setSelectedMenuIndex] = useState('1')
 
 	const [collapsed, setCollapsed] = useState(false)
@@ -47,6 +50,20 @@ const AdminHome = () => {
 				break
 		}
 	}
+
+	const menu = (
+		<Menu>
+			<strong style={{ margin: '1rem' }}>Admin</strong>
+			{/* <Menu.Item key='0'>admin</Menu.Item> */}
+
+			<Menu.Divider />
+			<Menu.Item key='2'>
+				<Button type='text' danger onClick={logout}>
+					Logout
+				</Button>
+			</Menu.Item>
+		</Menu>
+	)
 	return (
 		<div>
 			<Layout style={{ minHeight: '100vh' }}>
@@ -117,8 +134,16 @@ const AdminHome = () => {
 							}
 						/>
 
-						<span style={{ float: 'right', marginRight: '2rem' }}>
-							<Avatar icon={<UserOutlined />} />
+						<span
+							style={{
+								float: 'right',
+								marginRight: '2rem',
+								cursor: 'pointer',
+							}}
+						>
+							<Dropdown overlay={menu} trigger={['click']}>
+								<Avatar icon={<UserOutlined />} />
+							</Dropdown>
 							{/* <DownCircleFilled
 								style={{ color: '#ccc', marginLeft: '0.2rem' }}
 							/> */}
