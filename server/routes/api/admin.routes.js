@@ -99,5 +99,19 @@ router.get('/get-all-users', auth_admin, async (req, res) => {
 		res.status(500).send('Server error')
 	}
 })
+// @route GET
+// @desc Get
+// @access private
+router.get('/get-all-admins', auth_admin, async (req, res) => {
+	try {
+		// const admin = await Admin.findById(req.id).select('-password')
+		const admins = await Admin.find({}).select('-password')
+		// console.log(campaigns)
+		res.json({ admins })
+	} catch (err) {
+		console.error(err.message)
+		res.status(500).send('Server error')
+	}
+})
 
 module.exports = router
