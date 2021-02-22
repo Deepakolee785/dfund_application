@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const Admin = require('../../models/Admin')
+const User = require('../../models/User')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const {
@@ -72,13 +73,27 @@ router.post('/login', async (req, res) => {
 	res.header('auth-token', token).send({ token })
 })
 
-// @route GET api/auth
-// @desc Get login user
+// @route GET
+// @desc Get
 // @access private
 router.get('/authAdmin', auth_admin, async (req, res) => {
 	try {
 		const admin = await Admin.findById(req.id).select('-password')
 		res.json(admin)
+	} catch (err) {
+		console.error(err.message)
+		res.status(500).send('Server error')
+	}
+})
+// @route GET
+// @desc Get
+// @access private
+router.get('/get-all-users', auth_admin, async (req, res) => {
+	try {
+		// const admin = await Admin.findById(req.id).select('-password')
+		const users = await User.find({}).select('-password')
+		// console.log(campaigns)
+		res.json({ users })
 	} catch (err) {
 		console.error(err.message)
 		res.status(500).send('Server error')
