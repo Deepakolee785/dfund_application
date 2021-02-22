@@ -69,7 +69,6 @@ const Users = () => {
 			imageHash,
 			country,
 		} = user
-		console.log(user)
 
 		return {
 			key: id,
