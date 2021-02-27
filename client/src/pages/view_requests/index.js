@@ -88,14 +88,14 @@ const ViewRequestPage = () => {
 	}, [requestCount.data])
 
 	const onApproveRequest = requestId => {
-		// console.log(requestId)
-		if (requestId) {
+		if (requestId || requestId === 0) {
+			console.log(requestId)
 			approveCampaignRequest.mutate(requestId)
 		}
 	}
 	const onFinilizeRequest = requestId => {
-		// console.log(requestId)
-		if (requestId) {
+		console.log(requestId)
+		if (requestId || requestId === 0) {
 			finilizeCampaignRequest.mutate(requestId)
 		}
 	}
@@ -140,7 +140,10 @@ const ViewRequestPage = () => {
 					<div>
 						<Button
 							type='primary'
-							onClick={() => onApproveRequest(index)}
+							onClick={() => {
+								// console.log(index)
+								onApproveRequest(index)
+							}}
 							loading={approveCampaignRequest.isLoading}
 							disabled={isCompleted}
 						>
@@ -150,7 +153,10 @@ const ViewRequestPage = () => {
 							type='primary'
 							danger
 							// disabled
-							onClick={() => onFinilizeRequest(index)}
+							onClick={() => {
+								// console.log(index)
+								onFinilizeRequest(index)
+							}}
 							loading={finilizeCampaignRequest.isLoading}
 							disabled={isCompleted || !isReadyToFinilize}
 						>
