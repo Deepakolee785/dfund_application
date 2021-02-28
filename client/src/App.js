@@ -9,6 +9,7 @@ import Routes from './routes/'
 import history from './utils/history'
 
 import setAuthToken from './utils/setAuthToken'
+// import { getCurrentAcount } from './services/metamaskAccount'
 
 if (localStorage.token) {
 	setAuthToken(localStorage.token)
@@ -18,12 +19,17 @@ if (localStorage.token) {
 const Mode = 'standard'
 const App = () => {
 	const { initilizeWeb3 } = useContext(FactoryContext)
-	const { loadUser } = useContext(AuthContext)
+	const { loadUser, logout } = useContext(AuthContext)
 	useEffect(() => {
 		initilizeWeb3()
 		loadUser()
 		// eslint-disable-next-line
 	}, [])
+
+	//logout from system on account change in Metamask
+	window.ethereum.on('accountsChanged', accounts => {
+		logout()
+	})
 
 	return (
 		<ThemeProvider theme={{ mode: Mode }}>

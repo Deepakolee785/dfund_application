@@ -21,13 +21,19 @@ const LoginPage = () => {
 		})
 	}, [accounts, form])
 
+	window.ethereum.on('accountsChanged', accounts => {
+		form.setFieldsValue({
+			wallet: accounts[0],
+		})
+	})
+
 	const onFinish = values => {
-		console.log('Success:', values)
+		// console.log('Success:', values)
 		login(values)
 	}
 
 	const onFinishFailed = errorInfo => {
-		console.log('Failed:', errorInfo)
+		// console.log('Failed:', errorInfo)
 	}
 
 	useEffect(() => {
