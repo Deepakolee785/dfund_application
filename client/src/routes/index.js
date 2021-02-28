@@ -15,6 +15,7 @@ import CreateRequestPage from '../pages/create_request'
 //
 import AdminPage from '../pages/admin'
 import AdminHome from '../pages/admin/admin_home'
+import NotFoundPage from '../pages/not_found_page'
 
 const Routes = () => (
 	<Switch>
@@ -37,6 +38,7 @@ const Routes = () => (
 		{/* Admin */}
 		<Route exact path='/control' component={AdminPage} />
 		<AdminRoute path='/control/home' component={AdminHome} />
+		<Route component={NotFoundPage} />
 	</Switch>
 )
 
