@@ -9,10 +9,11 @@ const InputEl = ({
 	icon,
 	disabled,
 	isPasswordField = false,
+	type = 'text',
 }) => {
 	return (
-		<div>
-			<h4>{label}</h4>
+		<div style={{ marginBottom: '-0.5rem' }}>
+			<h4 style={{ marginBottom: '0.1rem', opacity: 0.85 }}>{label}</h4>
 			<div>
 				<Form.Item name={name} rules={validationRule}>
 					{isPasswordField ? (
@@ -22,8 +23,8 @@ const InputEl = ({
 								<img
 									src={icon}
 									alt=''
-									width='25'
-									height='25'
+									width='24'
+									height='24'
 									style={{ marginLeft: '-6px' }}
 								/>
 							}
@@ -38,12 +39,13 @@ const InputEl = ({
 						<Input
 							disabled={disabled}
 							placeholder={placeholder}
+							type={type}
 							prefix={
 								<img
 									src={icon}
 									alt=''
-									width='25'
-									height='25'
+									width='24'
+									height='24'
 									style={{ marginLeft: '-6px' }}
 								/>
 							}
