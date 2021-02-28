@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react'
-import { Button as AntButton } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 
 import { Button } from '../button'
@@ -32,36 +31,21 @@ const HeroItem = ({
 						type={'primary'}
 						icon={<PlusOutlined />}
 						style={{ marginRight: '1rem' }}
+						variant='primary'
 					>
 						Create a Dfund
 					</Button>
 					{buttonType === 'secondary' ? (
-						<AntButton
-							type='ghost'
-							style={{
-								width: '130px',
-								marginRight: '1rem',
-								borderRadius: '5px',
-								height: '2.4rem',
-								border: '1px solid #fff',
-								color: '#fff',
-							}}
+						<Button
+							variant='default'
+							className='outline_btn transparent'
 						>
 							Explore
-						</AntButton>
+						</Button>
 					) : (
-						<AntButton
-							style={{
-								width: '130px',
-								marginRight: '1rem',
-								borderRadius: '5px',
-								height: '2.4rem',
-								border: '1px solid #5F66F1',
-								color: '#5F66F1',
-							}}
-						>
+						<Button variant='default' className='outline_btn'>
 							Explore
-						</AntButton>
+						</Button>
 					)}
 				</div>
 			</HeroContainer>
