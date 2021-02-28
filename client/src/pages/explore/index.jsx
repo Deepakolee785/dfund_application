@@ -32,9 +32,6 @@ const ExplorePage = () => {
 		() => getAllCampaigns(contract),
 		{
 			enabled: isReady,
-			// refetchOnReconnect: false,
-			// refetchOnWindowFocus: false,
-			// refetchOnMount: false,
 		}
 	)
 	const getContractBalance = campaignAdd => {
