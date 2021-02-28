@@ -31,8 +31,25 @@ body {
 
 .activeNav {
 	font-weight: 600;
+	color: #5f66f1 !important;
+	transition: all 0.5s;
+}
+.activeNav::after {
+	content: '';
+	display: block;
+	padding: 1px;
+	margin-top: -2.2px;
+	width: 10px;
+	background-color: #5f66f1;
+}
+
+.inactiveNav {
+	/* color: initial; */
+	color: #454547;
+}
+
+.inactiveNav:hover {
 	color: #5f66f1;
-	text-shadow: 1px 1.3px #bec0e7;
 }
 
 #components-layout-demo-custom-trigger .trigger {

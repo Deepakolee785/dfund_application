@@ -8,6 +8,7 @@ import { Button } from '../button'
 
 import logo from '../../assets/images/Logo.svg'
 import user_icon from '../../assets/images/user_icon.svg'
+import { NavContainer, NavMenuList } from './style'
 
 const Navbar = () => {
 	const { isAuthenticated, logout } = useContext(AuthContext)
@@ -30,47 +31,59 @@ const Navbar = () => {
 		</Menu>
 	)
 	return (
-		<div
-			style={{
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'space-around',
-				justifyItems: 'center',
-				borderBottom: '1px solid #CCCDE7',
-				height: '4.5rem',
-			}}
-		>
+		<NavContainer>
 			<img src={logo} alt='Dfund' />
-
-			<ul
-				style={{
-					display: 'flex',
-					gap: '2rem',
-					listStyleType: 'none',
-					marginTop: '0.75rem',
-				}}
-			>
-				<NavLink
-					to='/'
-					exact
-					style={
-						{
-							// fontWeight: 600,
-							// color: 'black',
-							// textShadow: '1px 1.3px #BEC0E7',
-						}
-					}
-					activeClassName='activeNav'
-				>
-					<li>Home</li>
-				</NavLink>
-				<NavLink to='/explore' activeClassName='activeNav'>
-					<li>Explore</li>
-				</NavLink>
-				<li>Search</li>
-				<li>How it works?</li>
-				<li>About</li>
-			</ul>
+			<NavMenuList>
+				<li>
+					<NavLink
+						to='/'
+						className='inactiveNav'
+						exact
+						activeClassName='activeNav'
+					>
+						Home
+					</NavLink>
+				</li>
+				<li>
+					<NavLink
+						to='/explore'
+						className='inactiveNav'
+						activeClassName='activeNav'
+					>
+						Explore
+					</NavLink>
+				</li>
+				<li>
+					<NavLink
+						to='/404'
+						className='inactiveNav'
+						exact
+						activeClassName='activeNav'
+					>
+						Search
+					</NavLink>
+				</li>
+				<li>
+					<NavLink
+						to='/405'
+						className='inactiveNav'
+						exact
+						activeClassName='activeNav'
+					>
+						How it works?
+					</NavLink>
+				</li>
+				<li>
+					<NavLink
+						to='/406'
+						className='inactiveNav'
+						exact
+						activeClassName='activeNav'
+					>
+						About
+					</NavLink>
+				</li>
+			</NavMenuList>
 
 			<div>
 				<Link to='/create/campaign'>
@@ -78,77 +91,28 @@ const Navbar = () => {
 						type={'primary'}
 						variant='primary'
 						icon={<PlusOutlined />}
-						// style={{
-						// 	marginRight: '1rem',
-						// 	background: '#5F66F1',
-						// 	border: 0,
-						// 	borderRadius: '5px',
-						// 	height: '2.4rem',
-						// }}
+						style={{ marginRight: '0.65rem' }}
 					>
 						Create a Dfund
 					</Button>
 				</Link>
 				{!isAuthenticated ? (
 					<Link to='/login'>
-						<Button
-							// style={{
-							// 	width: '130px',
-							// 	marginRight: '1rem',
-							// 	borderRadius: '5px',
-							// 	height: '2.4rem',
-							// 	border: '1px solid #5F66F1',
-							// 	color: '#5F66F1',
-							// }}
-							variant='default'
-							className='outline_btn'
-							style={{ marginLeft: '0.75rem' }}
-						>
+						<Button variant='default' className='outline_btn'>
 							Login
 						</Button>
 					</Link>
 				) : (
-					<>
-						{/* <div onClick={toggle}> */}
-						<Dropdown overlay={menu} trigger={['click']}>
-							<img
-								src={user_icon}
-								alt='user'
-								style={{ cursor: 'pointer' }}
-							/>
-						</Dropdown>
-
-						{/* <span
-							onClick={toggleMenu}
+					<Dropdown overlay={menu} trigger={['click']}>
+						<img
+							src={user_icon}
+							alt='user'
 							style={{ cursor: 'pointer' }}
-						>
-							<img src={user_icon} alt='user' />
-						</span>
-						<div
-							style={{
-								border: 'red',
-								position: 'absolute',
-								top: 60,
-								right: 90,
-								zIndex: 99,
-								display: showMenu ? 'block' : 'none',
-							}}
-						>
-							<Button
-								type='primary'
-								danger
-								onClick={() => {
-									logout()
-									setShowMenu(false)
-								}}
-							>
-								Logout
-							</Button>
-						</div> */}
-					</>
+						/>
+					</Dropdown>
 				)}
 			</div>
-		</div>
+		</NavContainer>
 	)
 }
 
