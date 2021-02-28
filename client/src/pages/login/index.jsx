@@ -121,7 +121,13 @@ const LoginPage = () => {
 						<p>
 							Didn't have an Dfund account?{' '}
 							<Link to='/register'>
-								<strong style={{ textDecoration: 'underline' }}>
+								<strong
+									style={{
+										textDecoration: 'underline',
+										color: '#5f66f1',
+										fontWeight: 500,
+									}}
+								>
 									Register
 								</strong>
 							</Link>

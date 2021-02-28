@@ -93,6 +93,7 @@ const RegisterPage = () => {
 					<h2 style={{ color: '#294859' }}>
 						Register into Dfund Network
 					</h2>
+					<br />
 					<Form
 						name='basic'
 						form={form}
@@ -225,7 +226,13 @@ const RegisterPage = () => {
 						<p>
 							Already have an Dfund account?{' '}
 							<Link to='/login'>
-								<strong style={{ textDecoration: 'underline' }}>
+								<strong
+									style={{
+										textDecoration: 'underline',
+										color: '#5f66f1',
+										fontWeight: 500,
+									}}
+								>
 									Login
 								</strong>
 							</Link>
