@@ -7,7 +7,7 @@ const registerValidation = data => {
 		email: Joi.string().min(6).required().email(),
 		wallet: Joi.string().required(),
 		password: Joi.string().min(6).required(),
-		imageHash: Joi.string(),
+		imageHash: Joi.string().optional(),
 		country: Joi.string().required(),
 	})
 	return schema.validate(data)
