@@ -1,8 +1,10 @@
 import React, { useContext } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { Button, Menu, Dropdown } from 'antd'
+import { Menu, Dropdown } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import AuthContext from '../../context/auth/authContext'
+
+import { Button } from '../button'
 
 import logo from '../../assets/images/Logo.svg'
 import user_icon from '../../assets/images/user_icon.svg'
@@ -74,14 +76,15 @@ const Navbar = () => {
 				<Link to='/create/campaign'>
 					<Button
 						type={'primary'}
+						variant='primary'
 						icon={<PlusOutlined />}
-						style={{
-							marginRight: '1rem',
-							background: '#5F66F1',
-							border: 0,
-							borderRadius: '5px',
-							height: '2.4rem',
-						}}
+						// style={{
+						// 	marginRight: '1rem',
+						// 	background: '#5F66F1',
+						// 	border: 0,
+						// 	borderRadius: '5px',
+						// 	height: '2.4rem',
+						// }}
 					>
 						Create a Dfund
 					</Button>
@@ -89,14 +92,17 @@ const Navbar = () => {
 				{!isAuthenticated ? (
 					<Link to='/login'>
 						<Button
-							style={{
-								width: '130px',
-								marginRight: '1rem',
-								borderRadius: '5px',
-								height: '2.4rem',
-								border: '1px solid #5F66F1',
-								color: '#5F66F1',
-							}}
+							// style={{
+							// 	width: '130px',
+							// 	marginRight: '1rem',
+							// 	borderRadius: '5px',
+							// 	height: '2.4rem',
+							// 	border: '1px solid #5F66F1',
+							// 	color: '#5F66F1',
+							// }}
+							variant='default'
+							className='outline_btn'
+							style={{ marginLeft: '0.75rem' }}
 						>
 							Login
 						</Button>

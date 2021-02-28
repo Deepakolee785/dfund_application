@@ -23,7 +23,7 @@ const color = theme.variants('mode', 'variant', {
 export const Button = styled(AntButton)`
 	/* background: mainColor; */
 	border: 0;
-	border-radius: 5px;
+	border-radius: 0.2rem;
 	padding: 0.45rem 1rem;
 	height: auto;
 	border: none;
@@ -51,7 +51,7 @@ export const Button = styled(AntButton)`
 	}
 
 	&.outline_btn {
-		width: 7.8rem;
+		/* width: 7.8rem; */
 		border: 1px solid ${mainColor};
 		margin-right: 1rem;
 		transition: all 0.2s ease-in;
