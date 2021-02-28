@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { Router } from 'react-router-dom'
 import { ReactQueryDevtools } from 'react-query/devtools'
+import { ThemeProvider } from 'styled-components'
 
 import FactoryContext from './context/factory/factoryContext'
 import AuthContext from './context/auth/authContext'
@@ -12,6 +13,9 @@ import setAuthToken from './utils/setAuthToken'
 if (localStorage.token) {
 	setAuthToken(localStorage.token)
 }
+
+// theme
+const Mode = 'standard'
 const App = () => {
 	const { initilizeWeb3 } = useContext(FactoryContext)
 	const { loadUser } = useContext(AuthContext)
@@ -22,11 +26,12 @@ const App = () => {
 	}, [])
 
 	return (
-		<Router history={history}>
-			<div>
-				<Routes />
-				{/* Contract details */}
-				{/* <h1>Dfund Application</h1>
+		<ThemeProvider theme={{ mode: Mode }}>
+			<Router history={history}>
+				<div>
+					<Routes />
+					{/* Contract details */}
+					{/* <h1>Dfund Application</h1>
 				<p>
 					<strong>Account: </strong>
 					{accounts[0]}
@@ -35,9 +40,10 @@ const App = () => {
 					<strong>Address: </strong>
 					{contract._address}
 				</p> */}
-			</div>
-			<ReactQueryDevtools initialIsOpen={false} />
-		</Router>
+				</div>
+				<ReactQueryDevtools initialIsOpen={false} />
+			</Router>
+		</ThemeProvider>
 	)
 }
 
