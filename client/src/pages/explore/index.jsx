@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { Button, Card, Divider, Spin, Image, Progress, Row, Col } from 'antd'
+import { Card, Divider, Spin, Image, Progress, Row, Col } from 'antd'
 import FactoryContext from '../../context/factory/factoryContext'
+import { PlusOutlined } from '@ant-design/icons'
 
 import { useQuery } from 'react-query'
 
@@ -11,9 +12,12 @@ import {
 	getCampaignDetails,
 	fromWeiToEther,
 } from '../../api/web3Api'
+import { Button } from '../../components/button'
 import { IPFS_INFURA_URL } from '../../config'
 
 import Layout from '../../layout/user_layout'
+
+import CampaignsNotFound from '../../assets/images/campaign_not_found.svg'
 
 const ExplorePage = () => {
 	const { web3, accounts, contract } = useContext(FactoryContext)
@@ -94,13 +98,24 @@ const ExplorePage = () => {
 				<div>
 					{info.isLoading && <Spin />}
 					{info.data && info.data.length === 0 && (
-						<div className='Center' style={{ height: '100vh' }}>
-							<h4 style={{ color: 'red' }}>
+						<div className='Center' style={{ minHeight: '70vh' }}>
+							{/* <h4 style={{ color: 'red' }}>
 								No Campaigns available right now. Create your
 								campaign here.
-							</h4>
+							</h4> */}
+							<img
+								src={CampaignsNotFound}
+								alt='No Campaigns available'
+								style={{ marginBottom: '2rem', width: '25rem' }}
+							/>
 							<Link to='/create/campaign'>
-								<Button type='primary'>Create campaign</Button>
+								<Button
+									type='primary'
+									variant='primary'
+									icon={<PlusOutlined />}
+								>
+									Create campaign
+								</Button>
 							</Link>
 						</div>
 					)}
