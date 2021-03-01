@@ -3,6 +3,7 @@ import { PlusOutlined } from '@ant-design/icons'
 
 import { Button } from '../button'
 import { HeroContainer, Title, SubSubTitle, SubTitle } from './style'
+import { Link } from 'react-router-dom'
 
 const HeroItem = ({
 	bgUrl,
@@ -27,25 +28,31 @@ const HeroItem = ({
 				<br />
 				<br />
 				<div>
-					<Button
-						type={'primary'}
-						icon={<PlusOutlined />}
-						style={{ marginRight: '1rem' }}
-						variant='primary'
-					>
-						Create a Dfund
-					</Button>
-					{buttonType === 'secondary' ? (
+					<Link to='/create/campaign'>
 						<Button
-							variant='default'
-							className='outline_btn transparent'
+							type={'primary'}
+							icon={<PlusOutlined />}
+							style={{ marginRight: '1rem' }}
+							variant='primary'
 						>
-							Explore
+							Create a Dfund
 						</Button>
+					</Link>
+					{buttonType === 'secondary' ? (
+						<Link to='/explore'>
+							<Button
+								variant='default'
+								className='outline_btn transparent'
+							>
+								Explore
+							</Button>
+						</Link>
 					) : (
-						<Button variant='default' className='outline_btn'>
-							Explore
-						</Button>
+						<Link to='/explore'>
+							<Button variant='default' className='outline_btn'>
+								Explore
+							</Button>
+						</Link>
 					)}
 				</div>
 			</HeroContainer>
