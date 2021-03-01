@@ -1,6 +1,7 @@
 import React, { useReducer } from 'react'
 import FactoryContext from './factoryContext'
 import factoryReducer from './factoryReducer'
+import { notification } from 'antd'
 
 import getWeb3 from '../../getWeb3'
 import CampaignFactory from '../../contracts/DfundFactory.json'
@@ -48,9 +49,16 @@ const FactoryState = props => {
 			})
 		} catch (error) {
 			// Catch any errors for any of the above operations.
-			alert(
-				`Failed to load web3, accounts, or contract. Check console for details.`
-			)
+			// alert(
+			// 	`Failed to load web3, accounts, or contract. Check console for details.`
+			// )
+			notification.error({
+				message: `Network Error`,
+				description:
+					'Failed to load web3, accounts, or contract. Check console for details.',
+				duration: 20,
+			})
+
 			console.error(error)
 
 			dispatch({
