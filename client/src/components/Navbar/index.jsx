@@ -97,11 +97,18 @@ const Navbar = () => {
 					</Button>
 				</Link>
 				{!isAuthenticated ? (
-					<Link to='/login'>
-						<Button variant='default' className='outline_btn'>
-							Login
-						</Button>
-					</Link>
+					<>
+						<Link to='/login'>
+							<Button variant='default' className='outline_btn'>
+								Login
+							</Button>
+						</Link>
+						{/* <Link to='/Register'>
+							<Button variant='default' className='outline_btn'>
+								Register
+							</Button>
+						</Link> */}
+					</>
 				) : (
 					<Dropdown overlay={menu} trigger={['click']}>
 						<img
