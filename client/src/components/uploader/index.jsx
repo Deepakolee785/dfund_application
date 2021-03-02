@@ -44,7 +44,7 @@ const Uploader = ({ setImageHash, label, description }) => {
 	return (
 		<div>
 			<Label htmlFor=''>{label}</Label>
-			<Row gutter={10}>
+			<Row gutter={[10, 10]} justify='center'>
 				<Col flex='auto'>
 					<Dragger
 						name='Image'
