@@ -36,6 +36,7 @@ const CreateCampaign = () => {
 		campaignForm.setFieldsValue({
 			deadline: moment(new Date(), dateFormat).add('days', 30),
 		})
+		// eslint-disable-next-line
 	}, [])
 	const create = useMutation(
 		data => createCampaign(contract, data, accounts[0]),
