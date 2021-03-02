@@ -1,11 +1,16 @@
 import styled from 'styled-components'
 
+export const NavComponent = styled.div`
+	border-bottom: 1px solid #cccde7;
+`
+
 export const NavContainer = styled.div`
+	width: 90%;
+	margin: 0 auto;
 	display: flex;
 	align-items: center;
-	justify-content: space-around;
+	justify-content: space-between;
 	justify-items: center;
-	border-bottom: 1px solid #cccde7;
 	height: 4.5rem;
 `
 export const NavMenuList = styled.ul`
