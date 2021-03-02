@@ -1,22 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import {
-	Form,
-	Input,
-	Button,
-	DatePicker,
-	InputNumber,
-	Select,
-	message,
-	Spin,
-} from 'antd'
+import { Form, Input, Button, DatePicker, InputNumber, Select } from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
 import { useMutation } from 'react-query'
 
 import FactoryContext from '../../context/factory/factoryContext'
 import { fromEtherToWei, createCampaign } from '../../api/web3Api'
-import ipfs from '../../services/ipfs'
-import { IPFS_INFURA_URL } from '../../config'
 import { getCountries } from '../../api/getCountries'
 import { saveCampaign } from '../../api/campaign'
 import Layout from '../../layout/user_layout'
@@ -93,30 +82,30 @@ const CreateCampaign = () => {
 	)
 
 	const [imageHash, setImageHash] = useState('')
-	const [uploading, setUploading] = useState(false)
-	const captureImage = e => {
-		setUploading(true)
-		const file = e.target.files[0]
-		const reader = new window.FileReader()
-		reader.readAsArrayBuffer(file)
-		reader.onloadend = () => {
-			const bufferArray = Buffer(reader.result)
-			console.log('buffer', bufferArray)
-			if (bufferArray) {
-				ipfs.add(bufferArray)
-					.then(result => {
-						console.log(result)
-						message.success('Uploaded to IPFS')
-						return setImageHash(result.path)
-					})
-					.catch(err => {
-						message.err('Error uploading to IPFS')
-						console.error(err)
-					})
-					.finally(() => setUploading(false))
-			}
-		}
-	}
+	// const [uploading, setUploading] = useState(false)
+	// const captureImage = e => {
+	// 	setUploading(true)
+	// 	const file = e.target.files[0]
+	// 	const reader = new window.FileReader()
+	// 	reader.readAsArrayBuffer(file)
+	// 	reader.onloadend = () => {
+	// 		const bufferArray = Buffer(reader.result)
+	// 		console.log('buffer', bufferArray)
+	// 		if (bufferArray) {
+	// 			ipfs.add(bufferArray)
+	// 				.then(result => {
+	// 					console.log(result)
+	// 					message.success('Uploaded to IPFS')
+	// 					return setImageHash(result.path)
+	// 				})
+	// 				.catch(err => {
+	// 					message.err('Error uploading to IPFS')
+	// 					console.error(err)
+	// 				})
+	// 				.finally(() => setUploading(false))
+	// 		}
+	// 	}
+	// }
 
 	const onFinish = values => {
 		// console.log(values)
