@@ -11,7 +11,8 @@ import wallet_icon from '../../assets/icons/wallet.svg'
 import user_icon from '../../assets/icons/user.svg'
 import lock_icon from '../../assets/icons/lock.svg'
 import Layout from '../../layout/user_layout'
-import InputEl from '../../components/input/index.jsx'
+import InputEl from '../../components/input'
+import Header from '../../components/header'
 
 const LoginPage = () => {
 	const [form] = Form.useForm()
@@ -53,86 +54,89 @@ const LoginPage = () => {
 
 	return (
 		<Layout>
-			<div style={{ height: '70vh' }} className='Center'>
+			<div style={{ minHeight: '70vh' }}>
 				<div>
-					<h2 style={{ color: '#294859' }}>
+					{/* <h2 style={{ color: '#294859' }}>
 						Login to Your Dfund Account
-					</h2>
+					</h2> */}
+					<Header heading='Login to Your Dfund Account' />
 					<br />
-					<Form
-						// {...layout}
-						name='basic'
-						form={form}
-						onFinish={onFinish}
-						onFinishFailed={onFinishFailed}
-					>
-						<InputEl
-							label='Your Ethereum walllet'
-							name='wallet'
-							validationRule={[
-								{
-									required: true,
-									message: 'Wallet is required!',
-								},
-							]}
-							placeholder=''
-							icon={wallet_icon}
-							disabled={true}
-						/>
-						<InputEl
-							label='Username'
-							name='username'
-							validationRule={[
-								{
-									required: true,
-									message: 'Please input your username!',
-								},
-							]}
-							placeholder='Username'
-							icon={user_icon}
-							disabled={false}
-						/>
-						<InputEl
-							label='Password'
-							name='password'
-							validationRule={[
-								{
-									required: true,
-									message: 'Please input your password!',
-								},
-							]}
-							placeholder='Username'
-							icon={lock_icon}
-							disabled={false}
-							isPasswordField={true}
-						/>
+					<div className='Center'>
+						<Form
+							// {...layout}
+							name='basic'
+							form={form}
+							onFinish={onFinish}
+							onFinishFailed={onFinishFailed}
+						>
+							<InputEl
+								label='Your Ethereum walllet'
+								name='wallet'
+								validationRule={[
+									{
+										required: true,
+										message: 'Wallet is required!',
+									},
+								]}
+								placeholder=''
+								icon={wallet_icon}
+								disabled={true}
+							/>
+							<InputEl
+								label='Username'
+								name='username'
+								validationRule={[
+									{
+										required: true,
+										message: 'Please input your username!',
+									},
+								]}
+								placeholder='Username'
+								icon={user_icon}
+								disabled={false}
+							/>
+							<InputEl
+								label='Password'
+								name='password'
+								validationRule={[
+									{
+										required: true,
+										message: 'Please input your password!',
+									},
+								]}
+								placeholder='Username'
+								icon={lock_icon}
+								disabled={false}
+								isPasswordField={true}
+							/>
 
-						<Form.Item>
-							<Button
-								type='primary'
-								variant='primary'
-								htmlType='submit'
-								block
-								loading={loading}
-							>
-								Login
-							</Button>
-						</Form.Item>
-						<p>
-							Didn't have an Dfund account?{' '}
-							<Link to='/register'>
-								<strong
-									style={{
-										textDecoration: 'underline',
-										color: '#5f66f1',
-										fontWeight: 500,
-									}}
+							<Form.Item>
+								<Button
+									type='primary'
+									variant='primary'
+									htmlType='submit'
+									block
+									loading={loading}
 								>
-									Register
-								</strong>
-							</Link>
-						</p>
-					</Form>
+									Login
+								</Button>
+							</Form.Item>
+							<p>
+								Didn't have an Dfund account?{' '}
+								<Link to='/register'>
+									<strong
+										style={{
+											textDecoration: 'underline',
+											color: '#5f66f1',
+											fontWeight: 500,
+										}}
+									>
+										Register
+									</strong>
+								</Link>
+							</p>
+						</Form>
+					</div>
 				</div>
 			</div>
 		</Layout>

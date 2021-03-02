@@ -18,6 +18,7 @@ import email_icon from '../../assets/icons/email.svg'
 import location_icon from '../../assets/icons/location.svg'
 import image_icon from '../../assets/icons/image.svg'
 import { Link } from 'react-router-dom'
+import Header from '../../components/header'
 
 const RegisterPage = () => {
 	const [form] = Form.useForm()
@@ -88,156 +89,158 @@ const RegisterPage = () => {
 
 	return (
 		<Layout>
-			<div style={{ minHeight: '95vh' }} className='Center'>
+			<div style={{ minHeight: '95vh' }}>
 				<div>
-					<h2 style={{ color: '#294859' }}>
-						Register into Dfund Network
-					</h2>
+					<Header heading='Register into Dfund Network' />
 					<br />
-					<Form
-						name='basic'
-						form={form}
-						onFinish={onFinish}
-						onFinishFailed={onFinishFailed}
-					>
-						<InputEl
-							label='Your Ethereum walllet'
-							name='wallet'
-							validationRule={[
-								{
-									required: true,
-									message: 'You need to have your wallet!',
-								},
-							]}
-							placeholder=''
-							icon={wallet_icon}
-							disabled={true}
-						/>
+					<div className='Center'>
+						<Form
+							name='basic'
+							form={form}
+							onFinish={onFinish}
+							onFinishFailed={onFinishFailed}
+						>
+							<InputEl
+								label='Your Ethereum walllet'
+								name='wallet'
+								validationRule={[
+									{
+										required: true,
+										message:
+											'You need to have your wallet!',
+									},
+								]}
+								placeholder=''
+								icon={wallet_icon}
+								disabled={true}
+							/>
 
-						<InputEl
-							label='Username'
-							name='username'
-							validationRule={[
-								{
-									required: true,
-									message: 'Please input your username!',
-								},
-							]}
-							placeholder='Username'
-							icon={user_icon}
-							disabled={false}
-						/>
+							<InputEl
+								label='Username'
+								name='username'
+								validationRule={[
+									{
+										required: true,
+										message: 'Please input your username!',
+									},
+								]}
+								placeholder='Username'
+								icon={user_icon}
+								disabled={false}
+							/>
 
-						<InputEl
-							label='Email'
-							name='email'
-							validationRule={[
-								{
-									required: true,
-									message: 'Please input your email!',
-								},
-							]}
-							placeholder='Email Address'
-							icon={email_icon}
-							disabled={false}
-						/>
+							<InputEl
+								label='Email'
+								name='email'
+								validationRule={[
+									{
+										required: true,
+										message: 'Please input your email!',
+									},
+								]}
+								placeholder='Email Address'
+								icon={email_icon}
+								disabled={false}
+							/>
 
-						<InputEl
-							label='Country'
-							name='country'
-							validationRule={[
-								{
-									required: true,
-									message: 'Please input your country',
-								},
-							]}
-							placeholder='Country'
-							icon={location_icon}
-							disabled={false}
-						/>
+							<InputEl
+								label='Country'
+								name='country'
+								validationRule={[
+									{
+										required: true,
+										message: 'Please input your country',
+									},
+								]}
+								placeholder='Country'
+								icon={location_icon}
+								disabled={false}
+							/>
 
-						<div>
-							<h4
-								style={{
-									marginBottom: '0.1rem',
-									opacity: 0.85,
-								}}
-							>
-								Profile Picture
-							</h4>
-							<Form.Item name='imageHash'>
-								<Input
-									prefix={
-										<img
-											src={image_icon}
-											alt=''
-											width='24'
-											height='24'
-											style={{ marginLeft: '-6px' }}
-										/>
-									}
-									type='file'
-									onChange={captureImage}
+							<div>
+								<h4
 									style={{
-										height: '2.5rem',
-										width: '26rem',
-										border: '1px solid rgba(0,0,0,0,0.2)',
-										borderLeft: '7px solid #5F66F1',
-									}}
-								/>
-							</Form.Item>
-							{uploading && <Spin />}
-							{imageHash !== '' && (
-								<img
-									src={`${IPFS_INFURA_URL}/${imageHash}`}
-									alt=''
-									height='100'
-									width='100'
-								/>
-							)}
-						</div>
-
-						<InputEl
-							label='Password'
-							name='password'
-							validationRule={[
-								{
-									required: true,
-									message: 'Please input your password!',
-								},
-							]}
-							placeholder='Password'
-							icon={lock_icon}
-							disabled={false}
-							isPasswordField={true}
-						/>
-
-						<Form.Item>
-							<Button
-								type='primary'
-								htmlType='submit'
-								variant='primary'
-								block
-								loading={loading}
-							>
-								Register
-							</Button>
-						</Form.Item>
-						<p>
-							Already have an Dfund account?{' '}
-							<Link to='/login'>
-								<strong
-									style={{
-										textDecoration: 'underline',
-										color: '#5f66f1',
-										fontWeight: 500,
+										marginBottom: '0.1rem',
+										opacity: 0.85,
 									}}
 								>
-									Login
-								</strong>
-							</Link>
-						</p>
-					</Form>
+									Profile Picture
+								</h4>
+								<Form.Item name='imageHash'>
+									<Input
+										prefix={
+											<img
+												src={image_icon}
+												alt=''
+												width='24'
+												height='24'
+												style={{ marginLeft: '-6px' }}
+											/>
+										}
+										type='file'
+										onChange={captureImage}
+										style={{
+											height: '2.5rem',
+											width: '26rem',
+											border:
+												'1px solid rgba(0,0,0,0,0.2)',
+											borderLeft: '7px solid #5F66F1',
+										}}
+									/>
+								</Form.Item>
+								{uploading && <Spin />}
+								{imageHash !== '' && (
+									<img
+										src={`${IPFS_INFURA_URL}/${imageHash}`}
+										alt=''
+										height='100'
+										width='100'
+									/>
+								)}
+							</div>
+
+							<InputEl
+								label='Password'
+								name='password'
+								validationRule={[
+									{
+										required: true,
+										message: 'Please input your password!',
+									},
+								]}
+								placeholder='Password'
+								icon={lock_icon}
+								disabled={false}
+								isPasswordField={true}
+							/>
+
+							<Form.Item>
+								<Button
+									type='primary'
+									htmlType='submit'
+									variant='primary'
+									block
+									loading={loading}
+								>
+									Register
+								</Button>
+							</Form.Item>
+							<p>
+								Already have an Dfund account?{' '}
+								<Link to='/login'>
+									<strong
+										style={{
+											textDecoration: 'underline',
+											color: '#5f66f1',
+											fontWeight: 500,
+										}}
+									>
+										Login
+									</strong>
+								</Link>
+							</p>
+						</Form>
+					</div>
 				</div>
 			</div>
 		</Layout>
