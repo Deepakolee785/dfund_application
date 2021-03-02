@@ -79,3 +79,16 @@ body {
 .site-layout .site-layout-background {
 	background: #fff;
 }
+
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+	border: 0 !important;
+	outline: none !important;
+	border-bottom: 2px solid rgba(0, 0, 0, 0.24) !important;
+}
+.ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input)
+	.ant-select-selector {
+	box-shadow: none !important;
+}
+.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+	padding: 0 !important;
+}
