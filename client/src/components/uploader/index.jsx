@@ -9,6 +9,7 @@ import { IPFS_INFURA_URL } from '../../config'
 const { Dragger } = Upload
 
 const acceptedTypes = 'image/jpeg,image/jpg,image/png,image/gif'
+const acceptedTypesArray = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif']
 
 const Uploader = ({ setImageHash, label, description }) => {
 	const [uploading, setUploading] = useState(false)
@@ -26,7 +27,7 @@ const Uploader = ({ setImageHash, label, description }) => {
 				ipfs.add(bufferArray)
 					.then(result => {
 						// console.log(result)
-						// message.success('Uploaded to IPFS')
+						message.success('Uploaded to IPFS')
 						setHash(result.path)
 						return setImageHash(result.path)
 					})
@@ -39,7 +40,25 @@ const Uploader = ({ setImageHash, label, description }) => {
 		}
 	}
 	const handleOnChange = ({ file }) => {
-		captureImage(file.originFileObj)
+		if (file.status === 'uploading') {
+			const target_copy = Object.assign({}, file)
+			// console.log(target_copy.originFileObj)
+			captureImage(target_copy.originFileObj)
+		}
+
+		// captureImage(file.originFileObj)
+	}
+
+	const beforeUpload = file => {
+		const isAccepted = acceptedTypesArray.includes(file.type)
+		if (!isAccepted) {
+			message.error('You can only upload JPEG, PNG, JPG or GIF file!')
+		}
+		const isLt50MB = file.size / 1024 / 1024 < 50
+		if (!isLt50MB) {
+			message.error('Image must smaller than 50MB!')
+		}
+		return isAccepted && isLt50MB
 	}
 	return (
 		<div>
@@ -55,6 +74,7 @@ const Uploader = ({ setImageHash, label, description }) => {
 						onChange={handleOnChange}
 						multiple={false}
 						showUploadList={false}
+						beforeUpload={beforeUpload}
 					>
 						<div>
 							{uploading ? (

@@ -2309,7 +2309,7 @@
   dependencies:
     "color-convert" "^2.0.1"
 
-"antd@^4.13.0":
+"antd@^4.9.3":
   "integrity" "sha512-+lwc8QmBh4g3VxXeIiMUTXc2u2HeKUC2RKUyK2mUBtOBmT8aqs/oEDdj7g146vQk2M/WHnqNo4cfBlDQk5rbMg=="
   "resolved" "https://registry.npmjs.org/antd/-/antd-4.13.0.tgz"
   "version" "4.13.0"
