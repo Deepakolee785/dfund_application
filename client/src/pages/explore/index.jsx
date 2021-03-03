@@ -106,7 +106,6 @@ crowdfunding campaigns today.'
 			/>
 			<Container>
 				<div>
-					{info.isLoading && <Spin />}
 					{info.data && info.data.length === 0 && (
 						<div className='Center' style={{ minHeight: '70vh' }}>
 							{/* <h4 style={{ color: 'red' }}>
@@ -181,8 +180,21 @@ crowdfunding campaigns today.'
 							</Col>
 						</Row>
 					)}
-					<p>Total {myData.length} items available</p>
-					<Row gutter={[15, 15]} justify='center'>
+					<p>
+						{myData.length !== 0 &&
+							`Total ${myData.length} items available`}
+					</p>
+					{info.isLoading && (
+						<Spin
+							size='large'
+							style={{
+								height: '90vh',
+								width: '80vw',
+							}}
+							className='Center'
+						/>
+					)}
+					<Row gutter={[15, 15]}>
 						{myData.length !== 0 &&
 							myData.map((data, index) => {
 								const fundedPercentage =
