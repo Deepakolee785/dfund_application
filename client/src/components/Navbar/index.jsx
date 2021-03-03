@@ -33,7 +33,9 @@ const Navbar = () => {
 	return (
 		<NavComponent>
 			<NavContainer>
-				<img src={logo} alt='Dfund' />
+				<Link to='/'>
+					<img src={logo} alt='Dfund' />
+				</Link>
 				<NavMenuList>
 					<li>
 						<NavLink

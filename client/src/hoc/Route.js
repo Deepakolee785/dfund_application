@@ -29,9 +29,9 @@ export const PublicRoute = ({ component: Component, ...rest }) => {
 			{...rest}
 			render={props =>
 				isAuthenticated && !loading ? (
-					// <Redirect to='/' />
-					<>{history.goBack()}</>
+					<Redirect to='/' />
 				) : (
+					// <>{history.goBack()}</>
 					<Component {...props} />
 				)
 			}

@@ -4,10 +4,15 @@ export const pageVariant = {
 	},
 	animate: {
 		opacity: 1,
-		transition: { delay: 0.05 },
+		transition: {
+			type: 'spring',
+			damping: 20,
+			stiffness: 100,
+		},
 	},
 	exit: {
 		opacity: 0,
+		x: 0,
 		transition: { ease: 'easeInOut' },
 	},
 }
