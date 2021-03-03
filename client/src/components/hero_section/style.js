@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-
+import { motion } from 'framer-motion'
 export const HeroContainer = styled.div`
 	height: 80vh;
 	width: 100vw;
@@ -14,18 +14,18 @@ export const HeroContainer = styled.div`
 	padding-top: ${({ backgroundPosition }) =>
 		backgroundPosition === 'center' ? '1rem' : '4rem'};
 `
-export const Title = styled.p`
+export const Title = styled(motion.p)`
 	color: ${({ variant }) => (variant === 'white' ? '#fff' : '#294859')};
 	font-weight: 200;
 	font-size: 2.75rem;
 	margin-bottom: 0.5rem;
 `
-export const SubTitle = styled.p`
+export const SubTitle = styled(motion.p)`
 	color: ${({ variant }) => (variant === 'white' ? '#fff' : '#698598')};
 	font-weight: 200;
 	font-size: 1.1rem;
 `
-export const SubSubTitle = styled.p`
+export const SubSubTitle = styled(motion.p)`
 	color: ${({ variant }) => (variant === 'white' ? '#fff' : '#698598')};
 	font-weight: 200;
 	font-size: 0.85rem;

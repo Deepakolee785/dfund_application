@@ -4,6 +4,19 @@ import { PlusOutlined } from '@ant-design/icons'
 import { Button } from '../button'
 import { HeroContainer, Title, SubSubTitle, SubTitle } from './style'
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
+
+const animateVariant = {
+	initial: {
+		y: -150,
+		opacity: 0,
+	},
+	animate: {
+		y: 0,
+		opacity: 1,
+		transition: { type: 'spring', damping: 20, stiffness: 300 },
+	},
+}
 
 const HeroItem = ({
 	bgUrl,
@@ -22,12 +35,37 @@ const HeroItem = ({
 				overlay={overlay}
 				backgroundPosition={backgroundPosition}
 			>
-				<Title variant={textvariant}>{title}</Title>
-				<SubTitle variant={textvariant}>{subTitle}</SubTitle>
-				<SubSubTitle variant={textvariant}>{subSubTitle}</SubSubTitle>
+				<Title
+					variants={animateVariant}
+					initial='initial'
+					animate='animate'
+					variant={textvariant}
+				>
+					{title}
+				</Title>
+				<SubTitle
+					variants={animateVariant}
+					initial='initial'
+					animate='animate'
+					variant={textvariant}
+				>
+					{subTitle}
+				</SubTitle>
+				<SubSubTitle
+					variants={animateVariant}
+					initial='initial'
+					animate='animate'
+					variant={textvariant}
+				>
+					{subSubTitle}
+				</SubSubTitle>
 				<br />
 				<br />
-				<div>
+				<motion.div
+					variants={animateVariant}
+					initial='initial'
+					animate='animate'
+				>
 					<Link to='/create/campaign'>
 						<Button
 							type={'primary'}
@@ -54,7 +92,7 @@ const HeroItem = ({
 							</Button>
 						</Link>
 					)}
-				</div>
+				</motion.div>
 			</HeroContainer>
 		</Fragment>
 	)
