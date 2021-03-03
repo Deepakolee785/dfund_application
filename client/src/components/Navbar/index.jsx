@@ -1,33 +1,57 @@
 import React, { useContext } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { Menu, Dropdown } from 'antd'
-import { PlusOutlined } from '@ant-design/icons'
+import { Menu, Dropdown, Divider, Row, Col } from 'antd'
+import { PlusOutlined, UserOutlined } from '@ant-design/icons'
 import AuthContext from '../../context/auth/authContext'
 
 import { Button } from '../button'
 
 import logo from '../../assets/images/Logo.svg'
 import user_icon from '../../assets/images/user_icon.svg'
-import { NavComponent, NavContainer, NavMenuList } from './style'
+import {
+	MenuTitle,
+	NavComponent,
+	NavContainer,
+	NavMenuList,
+	SubTitle,
+} from './style'
 
 const Navbar = () => {
-	const { isAuthenticated, logout } = useContext(AuthContext)
+	const { isAuthenticated, logout, user } = useContext(AuthContext)
+	// console.log(user)
 	// const [showMenu, setShowMenu] = useState(false)
 	// const toggleMenu = () => setShowMenu(!showMenu)
 
 	const menu = (
-		<Menu>
-			<Menu.Item key='0'>
-				<Button
-					type='primary'
-					danger
-					onClick={() => {
-						logout()
-					}}
-				>
-					Logout
-				</Button>
-			</Menu.Item>
+		<Menu
+			style={{
+				width: '240px',
+				marginTop: '0.85rem',
+				padding: '1rem',
+			}}
+		>
+			<MenuTitle>
+				<UserOutlined /> {user && user.username}
+			</MenuTitle>
+			<SubTitle>{user && user.email}</SubTitle>
+			<Divider style={{ margin: '5px 0', marginBottom: '1rem' }} />
+			<Row justify='space-between' gutter={[10, 10]}>
+				<Col>
+					<Button
+						type='primary'
+						variant='primary'
+						style={{ background: '#E64560' }}
+						onClick={logout}
+					>
+						Logout
+					</Button>
+				</Col>
+				<Col>
+					<Button type='primary' variant='primary'>
+						Go to Profile
+					</Button>
+				</Col>
+			</Row>
 		</Menu>
 	)
 	return (
