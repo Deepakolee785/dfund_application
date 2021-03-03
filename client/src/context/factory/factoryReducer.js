@@ -1,4 +1,4 @@
-export default (state, action) => {
+const reducer = (state, action) => {
 	switch (action.type) {
 		case 'GET_WEB3':
 			return {
@@ -25,3 +25,4 @@ export default (state, action) => {
 			return state
 	}
 }
+export default reducer
