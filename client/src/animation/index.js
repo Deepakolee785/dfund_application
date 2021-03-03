@@ -31,3 +31,14 @@ export const slideVariant = {
 		transition: { ease: 'easeInOut' },
 	},
 }
+export const animateSlideVariant = {
+	initial: {
+		y: '-100vh',
+		opacity: 0,
+	},
+	animate: {
+		y: 0,
+		opacity: 1,
+		transition: { type: 'spring', damping: 20, stiffness: 300 },
+	},
+}
