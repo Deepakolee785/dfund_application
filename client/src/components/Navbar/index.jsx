@@ -84,7 +84,7 @@ const Navbar = () => {
 					</li>
 					<li>
 						<NavLink
-							to='/404'
+							to='/search'
 							className='inactiveNav'
 							exact
 							activeClassName='activeNav'
@@ -94,7 +94,7 @@ const Navbar = () => {
 					</li>
 					<li>
 						<NavLink
-							to='/405'
+							to='/how_it_works'
 							className='inactiveNav'
 							exact
 							activeClassName='activeNav'
@@ -104,7 +104,7 @@ const Navbar = () => {
 					</li>
 					<li>
 						<NavLink
-							to='/406'
+							to='/about'
 							className='inactiveNav'
 							exact
 							activeClassName='activeNav'

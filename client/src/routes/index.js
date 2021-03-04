@@ -17,6 +17,9 @@ import AdminPage from '../pages/admin'
 import AdminHome from '../pages/admin/admin_home'
 import NotFoundPage from '../pages/not_found_page'
 import UserProfile from '../pages/user_profile'
+import HowItWorks from '../pages/how_it_works'
+import About from '../pages/about'
+import Search from '../pages/search'
 
 const Routes = () => {
 	const location = useLocation()
@@ -24,6 +27,10 @@ const Routes = () => {
 		<AnimatePresence exitBeforeEnter>
 			<Switch location={location} key={location.key}>
 				<Route exact path='/' component={Home} />
+				<Route exact path='/explore' component={ExplorePage} />
+				<Route exact path='/how_it_works' component={HowItWorks} />
+				<Route exact path='/search' component={Search} />
+				<Route exact path='/about' component={About} />
 				<Route exact path='/explore' component={ExplorePage} />
 				<Route
 					exact
