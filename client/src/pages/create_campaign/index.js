@@ -5,7 +5,11 @@ import { useMutation } from 'react-query'
 import moment from 'moment'
 
 import FactoryContext from '../../context/factory/factoryContext'
-import { fromEtherToWei, createCampaign } from '../../api/web3Api'
+import {
+	fromEtherToWei,
+	createCampaign,
+	fromWeiToEther,
+} from '../../api/web3Api'
 import { getCountries } from '../../api/getCountries'
 import { saveCampaign } from '../../api/campaign'
 import Layout from '../../layout/user_layout'
@@ -80,9 +84,12 @@ const CreateCampaign = () => {
 					creator,
 					deadline,
 					description,
-					goalAmount,
+					goalAmount: fromWeiToEther(web3, goalAmount),
 					imageHash,
-					minimumContribution,
+					minimumContribution: fromWeiToEther(
+						web3,
+						minimumContribution
+					),
 					title,
 					status,
 					to,

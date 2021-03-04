@@ -90,7 +90,7 @@ const CampaignDetails = () => {
 				const myData = {
 					user: user._id,
 					sender: contributor,
-					amount,
+					amount: fromWeiToEther(web3, amount),
 					reciver: to,
 					blockHash,
 					blockNumber,

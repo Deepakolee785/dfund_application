@@ -3,7 +3,11 @@ import { Form, Input, Button, InputNumber, message } from 'antd'
 import { useMutation } from 'react-query'
 import FactoryContext from '../../context/factory/factoryContext'
 import { useParams, useHistory } from 'react-router-dom'
-import { fromEtherToWei, getCampaignSpendingRequests } from '../../api/web3Api'
+import {
+	fromEtherToWei,
+	fromWeiToEther,
+	getCampaignSpendingRequests,
+} from '../../api/web3Api'
 import Layout from '../../layout/user_layout'
 import { saveRequest } from '../../api/request'
 
@@ -39,7 +43,7 @@ const CreateRequestPage = () => {
 					description,
 					maker,
 					recipient,
-					value,
+					value: fromWeiToEther(web3, value),
 					blockHash,
 					blockNumber,
 					cumulativeGasUsed,
