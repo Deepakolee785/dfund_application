@@ -67,6 +67,13 @@ const FactoryState = props => {
 			})
 		}
 	}
+
+	const setLatestAccount = accounts => {
+		dispatch({
+			type: 'GET_ACCOUNTS',
+			payload: accounts,
+		})
+	}
 	return (
 		<FactoryContext.Provider
 			value={{
@@ -75,6 +82,7 @@ const FactoryState = props => {
 				contract: state.contract,
 				error: state.error,
 				initilizeWeb3,
+				setLatestAccount,
 			}}
 		>
 			{props.children}

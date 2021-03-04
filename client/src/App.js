@@ -18,8 +18,12 @@ if (localStorage.token) {
 // theme
 const Mode = 'standard'
 const App = () => {
-	const { initilizeWeb3 } = useContext(FactoryContext)
-	const { loadUser, logout } = useContext(AuthContext)
+	const { initilizeWeb3, setLatestAccount } = useContext(FactoryContext)
+	const {
+		loadUser,
+		logout,
+		//  isAuthenticated
+	} = useContext(AuthContext)
 	useEffect(() => {
 		initilizeWeb3()
 		loadUser()
@@ -28,6 +32,8 @@ const App = () => {
 
 	//logout from system on account change in Metamask
 	window.ethereum.on('accountsChanged', accounts => {
+		// if (isAuthenticated)
+		setLatestAccount(accounts)
 		logout()
 	})
 
