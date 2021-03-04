@@ -1,5 +1,7 @@
 const router = require('express').Router()
 const User = require('../../models/User')
+const Campaign = require('../../models/Campaign')
+const Transaction = require('../../models/Transaction')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const auth = require('../../middlewares/auth')
@@ -86,7 +88,31 @@ router.post('/login', async (req, res) => {
 router.get('/authUser', auth, async (req, res) => {
 	try {
 		const user = await User.findById(req.id).select('-password')
-		res.json(user)
+		const campaigns = await Campaign.find({ user: user._id })
+		const transactions = await Transaction.find({ user: user._id })
+
+		const {
+			_id,
+			username,
+			email,
+			wallet,
+			imageHash,
+			country,
+			updatedAt,
+		} = user
+
+		const data = {
+			_id,
+			username,
+			email,
+			wallet,
+			imageHash,
+			country,
+			updatedAt,
+			userCampaigns: campaigns,
+			userTransactions: transactions,
+		}
+		res.json(data)
 	} catch (err) {
 		console.error(err.message)
 		res.status(500).send('Server error')
