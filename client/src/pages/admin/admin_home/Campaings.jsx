@@ -5,10 +5,10 @@ import { DEV_URL, IPFS_INFURA_URL } from '../../../config'
 import { Image, Table } from 'antd'
 import { getRequests } from '../../../api/request'
 import { Button } from '../../../components/button'
+import { getTransactions } from '../../../api/transaction'
 
 const Campaings = () => {
 	const [showRequest, setShowRequests] = useState(false)
-	const [currentCampaign, setCurrentCampaign] = useState(null)
 	const [campaigns, setCampaigns] = useState([])
 	const [loading, setLoading] = useState(false)
 	useEffect(() => {
@@ -171,8 +171,11 @@ const Campaings = () => {
 			transactionHash,
 		}
 	})
+	const [currentCampaign, setCurrentCampaign] = useState(null)
+	const [currentCampaignAddress, setCurrentCampaignAddress] = useState(null)
 
 	const [requestData, setRequestData] = useState(null)
+	const [transactionData, setTransactionData] = useState(null)
 	useEffect(() => {
 		if (currentCampaign && showRequest) {
 			getRequests(currentCampaign)
@@ -183,8 +186,21 @@ const Campaings = () => {
 				.catch(err => {
 					console.log(err)
 				})
+			// console.log(currentCampaign)
 		}
 	}, [currentCampaign, showRequest])
+	useEffect(() => {
+		if (currentCampaignAddress && showRequest) {
+			getTransactions(currentCampaignAddress)
+				.then(res => {
+					// console.log(res.data)
+					setTransactionData(res.data)
+				})
+				.catch(err => {
+					console.log(err)
+				})
+		}
+	}, [currentCampaignAddress, showRequest])
 
 	if (showRequest)
 		return (
@@ -202,6 +218,12 @@ const Campaings = () => {
 						? JSON.stringify(requestData, null, 6)
 						: 'no requests'}
 				</pre>
+				<h3>Transactions</h3>
+				<pre>
+					{transactionData
+						? JSON.stringify(transactionData, null, 6)
+						: 'no transaction'}
+				</pre>
 			</div>
 		)
 	return (
@@ -218,6 +240,7 @@ const Campaings = () => {
 						onDoubleClick: event => {
 							setShowRequests(true)
 							setCurrentCampaign(record.key)
+							setCurrentCampaignAddress(record.addr)
 						}, // double click row
 					}
 				}}
