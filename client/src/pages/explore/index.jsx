@@ -197,10 +197,11 @@ crowdfunding campaigns today.'
 					<Row gutter={[15, 15]}>
 						{myData.length !== 0 &&
 							myData.map((data, index) => {
-								const fundedPercentage =
+								const fundedPercentage = (
 									(parseFloat(data.fundedBalance) /
 										parseFloat(data.goalAmount)) *
 									100
+								).toFixed(0)
 								// console.log(data)
 								return (
 									<Col key={index}>
