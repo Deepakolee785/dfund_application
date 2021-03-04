@@ -89,7 +89,7 @@ const CreateCampaign = () => {
 					transactionHash,
 				}
 
-				console.log('Created Data: ', myData)
+				// console.log('Created Data: ', myData)
 				saveCampaign(myData)
 					.then(res => {
 						console.log(res.data)
