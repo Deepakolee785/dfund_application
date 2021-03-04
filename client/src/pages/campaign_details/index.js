@@ -84,16 +84,18 @@ const CampaignDetails = () => {
 				} = data
 
 				const myData = {
+					campaign,
+					contributor,
+					amount,
+					to,
 					blockHash,
 					blockNumber,
 					cumulativeGasUsed,
 					status,
-					to,
 					transactionHash,
-					amount,
-					contributor,
 					projectAddress,
 					type,
+					transactionType: 'contribution',
 				}
 				console.log(myData)
 			},
