@@ -47,9 +47,11 @@ const Navbar = () => {
 					</Button>
 				</Col>
 				<Col>
-					<Button type='primary' variant='primary'>
-						Go to Profile
-					</Button>
+					<Link to='/profile'>
+						<Button type='primary' variant='primary'>
+							Go to Profile
+						</Button>
+					</Link>
 				</Col>
 			</Row>
 		</Menu>

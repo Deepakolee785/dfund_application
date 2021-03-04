@@ -16,6 +16,7 @@ import { AnimatePresence } from 'framer-motion'
 import AdminPage from '../pages/admin'
 import AdminHome from '../pages/admin/admin_home'
 import NotFoundPage from '../pages/not_found_page'
+import UserProfile from '../pages/user_profile'
 
 const Routes = () => {
 	const location = useLocation()
@@ -43,6 +44,7 @@ const Routes = () => {
 					path='/create/campaign'
 					component={CreateCampaign}
 				/>
+				<PrivateRoute path='/profile' component={UserProfile} />
 				<PublicRoute path='/login' component={LoginPage} />
 				<PublicRoute path='/register' component={RegisterPage} />
 				{/* Admin */}
