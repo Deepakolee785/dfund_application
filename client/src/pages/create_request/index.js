@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
-import { Form, Input, Button, InputNumber } from 'antd'
+import { Form, Input, Button, InputNumber, message } from 'antd'
 import { useMutation } from 'react-query'
 import FactoryContext from '../../context/factory/factoryContext'
 import { useParams, useHistory } from 'react-router-dom'
 import { fromEtherToWei, getCampaignSpendingRequests } from '../../api/web3Api'
 import Layout from '../../layout/user_layout'
+import { saveRequest } from '../../api/request'
 
 const CreateRequestPage = () => {
 	const { campaign } = useParams()
@@ -15,7 +16,6 @@ const CreateRequestPage = () => {
 		{
 			onSuccess: data => {
 				//console.log(data)
-				history.push(`/campaign/${campaign}/requests`)
 				const {
 					blockHash,
 					blockNumber,
@@ -46,8 +46,20 @@ const CreateRequestPage = () => {
 					status,
 					to,
 					transactionHash,
+					complete: false,
 				}
-				console.log('request', myData)
+				saveRequest(myData)
+					.then(res => {
+						// console.log(res.data)
+						message.success('Request saved.')
+						history.push(`/campaign/${campaign}/requests`)
+					})
+					.catch(err => {
+						message.success('Error saving request in DB.')
+
+						console.log(err)
+					})
+				// console.log('request', myData)
 			},
 		}
 	)
