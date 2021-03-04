@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Form, Select, Row, Col, Radio } from 'antd'
+import { Form, Select, Row, Col, Radio, message } from 'antd'
 import { useMutation } from 'react-query'
 import moment from 'moment'
 
@@ -115,6 +115,12 @@ const CreateCampaign = () => {
 	const [imageHash, setImageHash] = useState('')
 	const onFinish = values => {
 		// console.log(values)
+		if (values.goalAmount < 0.1)
+			return message.error('Goal Amount must me greater than 0.1 ETH')
+		if (values.minContribution >= values.goalAmount)
+			return message.error(
+				'Min contribution must be less than goal amount'
+			)
 		const data = {
 			...values,
 			goalAmount: fromEtherToWei(web3, values.goalAmount.toString()),
@@ -128,6 +134,7 @@ const CreateCampaign = () => {
 		// console.log(data)
 
 		//create campaign
+
 		create.mutate(data)
 	}
 
