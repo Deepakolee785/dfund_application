@@ -84,10 +84,9 @@ const CampaignDetails = () => {
 				} = data
 
 				const myData = {
-					campaign,
-					contributor,
+					sender: contributor,
 					amount,
-					to,
+					reciver: to,
 					blockHash,
 					blockNumber,
 					cumulativeGasUsed,

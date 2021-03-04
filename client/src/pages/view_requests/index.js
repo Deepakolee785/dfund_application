@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { Button, Table } from 'antd'
+import { Button, Table, Tag } from 'antd'
 import { Link, useParams } from 'react-router-dom'
 import FactoryContext from '../../context/factory/factoryContext'
 import Layout from '../../layout/user_layout'
@@ -36,8 +36,9 @@ const ViewRequestPage = () => {
 	const finilizeCampaignRequest = useMutation(
 		data => finilizeRequest(web3, campaign, data, accounts[0]),
 		{
-			onSuccess: () => {
+			onSuccess: data => {
 				// history.push('/')
+				console.log('finilized:', data)
 			},
 		}
 	)
@@ -89,12 +90,12 @@ const ViewRequestPage = () => {
 
 	const onApproveRequest = requestId => {
 		if (requestId || requestId === 0) {
-			console.log(requestId)
+			// console.log(requestId)
 			approveCampaignRequest.mutate(requestId)
 		}
 	}
 	const onFinilizeRequest = requestId => {
-		console.log(requestId)
+		// console.log(requestId)
 		if (requestId || requestId === 0) {
 			finilizeCampaignRequest.mutate(requestId)
 		}
@@ -135,7 +136,7 @@ const ViewRequestPage = () => {
 				const isReadyToFinilize =
 					parseInt(item.approvalCount) >
 					parseInt(approversCount.data) / 2
-
+				if (isCompleted) return <Tag color={'green'}>Finilized</Tag>
 				return (
 					<div>
 						<Button
@@ -178,6 +179,7 @@ const ViewRequestPage = () => {
 				desc: item.description,
 				amt: fromWeiToEther(web3, item.value),
 				recipient: item.recipient,
+				complete: item.complete,
 				approval: `${item.approvalCount}/${approversCount.data}`,
 				action: { index, item },
 			}
@@ -201,6 +203,10 @@ const ViewRequestPage = () => {
 				</Link>
 				<br />
 				<Table
+					rowClassName={(record, index) => {
+						// console.log(record)
+						return record.complete ? 'table-row-complete' : ''
+					}}
 					columns={columns}
 					dataSource={dataSource}
 					loading={requests.isLoading}
