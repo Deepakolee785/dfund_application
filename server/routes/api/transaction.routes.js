@@ -1,7 +1,8 @@
 const router = require('express').Router()
 const auth = require('../../middlewares/auth')
-// const admin_auth = require('../../middlewares/admin_auth')
+const admin_auth = require('../../middlewares/admin_auth')
 const Transaction = require('../../models/Transaction')
+const Campaign = require('../../models/Campaign')
 
 router.post('/save-transaction', auth, async (req, res) => {
 	// console.log(req.body)
@@ -41,23 +42,35 @@ router.post('/save-transaction', auth, async (req, res) => {
 		res.status(400).send(error)
 	}
 })
-// router.post('/get-campaign-request', admin_auth, async (req, res) => {
-// 	// console.log(req.body)
-// 	const { campaign } = req.body
-// 	const currentCampaign = await Campaign.find({ _id: campaign })
-// 	if (!currentCampaign)
-// 		return res.status(400).json({ message: 'Campaign not found.' })
+router.post('/get-campaign-transactions', admin_auth, async (req, res) => {
+	// console.log(req.body)
+	const { campaign } = req.body
+	const currentCampaign = await Campaign.find({ addr: campaign })
+	if (!currentCampaign)
+		return res.status(400).json({ message: 'Campaign not found.' })
+	// console.log(campaign)
+	const campaignTransactions = await Transaction.find({
+		projectAddress: campaign,
+	})
 
-// 	const campaignRequests = await Request.find({ campaign })
+	// console.log(campaignTransactions)
 
-// 	// console.log(currentCampaign[0])
+	try {
+		res.send({
+			campaignTransactions,
+		})
+	} catch (error) {
+		res.status(400).send(error)
+	}
+})
 
-// 	try {
-// 		res.send({
-// 			campaignRequests,
-// 		})
-// 	} catch (error) {
-// 		res.status(400).send(error)
-// 	}
-// })
+router.get('/get-transactions', admin_auth, async (req, res) => {
+	try {
+		const transactions = await Transaction.find({})
+		// console.log(campaigns)
+		res.json({ transactions })
+	} catch (error) {
+		res.status(400).send(error)
+	}
+})
 module.exports = router
