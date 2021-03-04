@@ -27,12 +27,12 @@ const RegisterPage = () => {
 
 	useEffect(() => {
 		form.setFieldsValue({
-			wallet: accounts[0],
+			wallet: accounts.length !== 0 ? accounts[0].toLowerCase() : '',
 		})
 	}, [accounts, form])
 	window.ethereum.on('accountsChanged', accounts => {
 		form.setFieldsValue({
-			wallet: accounts[0],
+			wallet: accounts.length !== 0 ? accounts[0].toLowerCase() : '',
 		})
 	})
 
