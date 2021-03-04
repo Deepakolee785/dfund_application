@@ -9,6 +9,7 @@ import {
 	Divider,
 	Image,
 	Tag,
+	message,
 } from 'antd'
 import { useQuery, useMutation } from 'react-query'
 import { Link, useParams } from 'react-router-dom'
@@ -26,14 +27,15 @@ import {
 	getContributions,
 } from '../../api/web3Api'
 import { IPFS_INFURA_URL } from '../../config'
+import { saveTransaction } from '../../api/transaction'
 
 const CampaignDetails = () => {
 	const { campaign } = useParams()
 	// console.log(campaign)
 
 	const { web3, accounts, contract } = useContext(FactoryContext)
-	const { isAuthenticated } = useContext(AuthContext)
-
+	const { isAuthenticated, user } = useContext(AuthContext)
+	// console.log(user)
 	const [balance, setBalance] = useState(0)
 
 	const isReady =
@@ -66,7 +68,7 @@ const CampaignDetails = () => {
 		},
 		{
 			onSuccess: data => {
-				console.log('success', data)
+				// console.log('success', data)
 				const {
 					blockHash,
 					blockNumber,
@@ -76,7 +78,6 @@ const CampaignDetails = () => {
 					transactionHash,
 					events: {
 						LogContributionSent: {
-							type,
 							returnValues: {
 								amount,
 								contributor,
@@ -87,6 +88,7 @@ const CampaignDetails = () => {
 				} = data
 
 				const myData = {
+					user: user._id,
 					sender: contributor,
 					amount,
 					reciver: to,
@@ -96,10 +98,16 @@ const CampaignDetails = () => {
 					status,
 					transactionHash,
 					projectAddress,
-					type,
 					transactionType: 'contribution',
 				}
 				console.log(myData)
+				saveTransaction(myData)
+					.then(res => {
+						message.success(res.data.message)
+					})
+					.catch(err => {
+						message.error('Error in saving transaction in DB!')
+					})
 			},
 		}
 	)

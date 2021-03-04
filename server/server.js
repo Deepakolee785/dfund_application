@@ -7,6 +7,7 @@ const authRoutes = require('./routes/api/auth.routes')
 const campaignRoutes = require('./routes/api/campaign.routes')
 const adminRoutes = require('./routes/api/admin.routes')
 const requestRoutes = require('./routes/api/request.routes')
+const transactionsRoutes = require('./routes/api/transaction.routes')
 
 // env variables
 require('dotenv').config()
@@ -28,6 +29,7 @@ app.use('/api/user', authRoutes)
 app.use('/api/campaign', campaignRoutes)
 app.use('/api/admin', adminRoutes)
 app.use('/api/request', requestRoutes)
+app.use('/api/transaction', transactionsRoutes)
 
 // MongoDB connection
 mongoose.connect(
