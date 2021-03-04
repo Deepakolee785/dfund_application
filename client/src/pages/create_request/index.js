@@ -14,6 +14,7 @@ const CreateRequestPage = () => {
 		data => getCampaignSpendingRequests(web3, campaign, data, accounts[0]),
 		{
 			onSuccess: data => {
+				//console.log(data)
 				history.push(`/campaign/${campaign}/requests`)
 				const {
 					blockHash,
@@ -22,18 +23,23 @@ const CreateRequestPage = () => {
 					status,
 					to,
 					transactionHash,
-					// events: {
-					// 	LogContributionSent: {
-					// 		type,
-					// 		returnValues: {
-					// 			amount,
-					// 			contributor,
-					// 			projectAddress,
-					// 		},
-					// 	},
-					// },
+					events: {
+						LogRequestCreated: {
+							returnValues: {
+								description,
+								maker,
+								recipient,
+								value,
+							},
+						},
+					},
 				} = data
 				const myData = {
+					campaign,
+					description,
+					maker,
+					recipient,
+					value,
 					blockHash,
 					blockNumber,
 					cumulativeGasUsed,
@@ -41,7 +47,7 @@ const CreateRequestPage = () => {
 					to,
 					transactionHash,
 				}
-				console.log(myData)
+				console.log('request', myData)
 			},
 		}
 	)
@@ -52,6 +58,7 @@ const CreateRequestPage = () => {
 			value: fromEtherToWei(web3, values.value.toString()),
 		}
 		// console.log(data)
+		// return
 		createRequest.mutate(data)
 	}
 
