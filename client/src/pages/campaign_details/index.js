@@ -100,7 +100,7 @@ const CampaignDetails = () => {
 					projectAddress,
 					transactionType: 'contribution',
 				}
-				console.log(myData)
+				// console.log(myData)
 				saveTransaction(myData)
 					.then(res => {
 						message.success(res.data.message)
