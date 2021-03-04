@@ -3,8 +3,12 @@ import axios from 'axios'
 
 import { DEV_URL, IPFS_INFURA_URL } from '../../../config'
 import { Image, Table } from 'antd'
+import { getRequests } from '../../../api/request'
+import { Button } from '../../../components/button'
 
 const Campaings = () => {
+	const [showRequest, setShowRequests] = useState(false)
+	const [currentCampaign, setCurrentCampaign] = useState(null)
 	const [campaigns, setCampaigns] = useState([])
 	const [loading, setLoading] = useState(false)
 	useEffect(() => {
@@ -168,6 +172,38 @@ const Campaings = () => {
 		}
 	})
 
+	const [requestData, setRequestData] = useState(null)
+	useEffect(() => {
+		if (currentCampaign && showRequest) {
+			getRequests(currentCampaign)
+				.then(res => {
+					// console.log(res)
+					setRequestData(res.data)
+				})
+				.catch(err => {
+					console.log(err)
+				})
+		}
+	}, [currentCampaign, showRequest])
+
+	if (showRequest)
+		return (
+			<div>
+				<Button
+					variant='primary'
+					type='primary'
+					onClick={() => setShowRequests(false)}
+				>
+					Back
+				</Button>
+				<h3>Requests</h3>
+				<pre>
+					{requestData
+						? JSON.stringify(requestData, null, 6)
+						: 'no requests'}
+				</pre>
+			</div>
+		)
 	return (
 		<div>
 			<h3>Campaigns</h3>
@@ -176,6 +212,15 @@ const Campaings = () => {
 				dataSource={dataSource}
 				scroll={{ x: true }}
 				loading={loading}
+				onRow={(record, rowIndex) => {
+					return {
+						// onClick: event => {}, // click row
+						onDoubleClick: event => {
+							setShowRequests(true)
+							setCurrentCampaign(record.key)
+						}, // double click row
+					}
+				}}
 			/>
 		</div>
 	)
