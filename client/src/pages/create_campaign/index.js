@@ -27,6 +27,7 @@ import {
 } from './style'
 import { Button } from '../../components/button'
 import LunchIcon from '../../assets/icons/startup.svg'
+import AuthContext from '../../context/auth/authContext'
 const { Option } = Select
 
 const dateFormat = 'YYYY/MM/DD'
@@ -35,6 +36,7 @@ const CreateCampaign = () => {
 	const history = useHistory()
 	const [campaignForm] = Form.useForm()
 	const { contract, accounts, web3 } = useContext(FactoryContext)
+	const { user } = useContext(AuthContext)
 	const [deadlineDaysValue, setDeadlineDaysValue] = useState(30)
 	useEffect(() => {
 		campaignForm.setFieldsValue({
@@ -74,6 +76,7 @@ const CreateCampaign = () => {
 				} = data
 
 				const myData = {
+					user: user._id,
 					blockHash,
 					blockNumber,
 					cumulativeGasUsed,

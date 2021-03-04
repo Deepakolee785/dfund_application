@@ -2,6 +2,11 @@ const mongoose = require('mongoose')
 
 const CampaignSchema = new mongoose.Schema(
 	{
+		user: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
+			required: true,
+		},
 		addr: {
 			type: String,
 			required: true,

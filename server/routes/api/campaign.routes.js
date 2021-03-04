@@ -5,6 +5,7 @@ const Campaign = require('../../models/Campaign')
 router.post('/save-campaign', async (req, res) => {
 	// console.log(req.body)
 	const {
+		user,
 		blockHash,
 		blockNumber,
 		cumulativeGasUsed,
@@ -25,6 +26,7 @@ router.post('/save-campaign', async (req, res) => {
 	} = req.body
 	const campaign = new Campaign({
 		blockHash,
+		user,
 		blockNumber,
 		cumulativeGasUsed,
 		type,
