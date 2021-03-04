@@ -8,6 +8,7 @@ import {
 	Table,
 	Divider,
 	Image,
+	Tag,
 } from 'antd'
 import { useQuery, useMutation } from 'react-query'
 import { Link, useParams } from 'react-router-dom'
@@ -15,6 +16,7 @@ import { Link, useParams } from 'react-router-dom'
 import Layout from '../../layout/user_layout'
 
 import FactoryContext from '../../context/factory/factoryContext'
+import AuthContext from '../../context/auth/authContext'
 import {
 	getCampaignDetails,
 	fromWeiToEther,
@@ -30,6 +32,7 @@ const CampaignDetails = () => {
 	// console.log(campaign)
 
 	const { web3, accounts, contract } = useContext(FactoryContext)
+	const { isAuthenticated } = useContext(AuthContext)
 
 	const [balance, setBalance] = useState(0)
 
@@ -227,36 +230,40 @@ const CampaignDetails = () => {
 				</Card>
 				<Divider style={{ backgroundColor: '#ccc' }} />
 				<h2 style={{}}>Contribute to this campaing from here!</h2>
-				<Form
-					name='fundInCampaign'
-					onFinish={onFinish}
-					style={{ width: '20rem', marginTop: '1rem' }}
-				>
-					<Form.Item
-						label='Amount'
-						name='amount'
-						rules={[
-							{
-								required: true,
-								message: 'Please input amount!',
-							},
-						]}
+				{isAuthenticated ? (
+					<Form
+						name='fundInCampaign'
+						onFinish={onFinish}
+						style={{ width: '20rem', marginTop: '1rem' }}
 					>
-						<InputNumber
-							min={0.00001}
-							style={{ width: '100%' }}
-							placeholder='amount in Eth'
-						/>
-					</Form.Item>
-					<Button
-						type='primary'
-						htmlType='submit'
-						loading={fund.isLoading}
-						block
-					>
-						Fund
-					</Button>
-				</Form>
+						<Form.Item
+							label='Amount'
+							name='amount'
+							rules={[
+								{
+									required: true,
+									message: 'Please input amount!',
+								},
+							]}
+						>
+							<InputNumber
+								min={0.00001}
+								style={{ width: '100%' }}
+								placeholder='amount in Eth'
+							/>
+						</Form.Item>
+						<Button
+							type='primary'
+							htmlType='submit'
+							loading={fund.isLoading}
+							block
+						>
+							Fund
+						</Button>
+					</Form>
+				) : (
+					<Tag color='red'>Login to contribute to this campaign</Tag>
+				)}
 				<Divider style={{ backgroundColor: '#ccc' }} />
 				<h2>Contributors of this campaigns!!</h2>
 				<Table columns={columns} dataSource={dataSource} />

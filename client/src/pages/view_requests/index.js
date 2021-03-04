@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { Button, Table, Tag } from 'antd'
 import { Link, useParams } from 'react-router-dom'
 import FactoryContext from '../../context/factory/factoryContext'
+import AuthContext from '../../context/auth/authContext'
 import Layout from '../../layout/user_layout'
 
 import {
@@ -17,6 +18,7 @@ import { useQuery, useMutation } from 'react-query'
 const ViewRequestPage = () => {
 	// const history = useHistory()
 	const { web3, accounts, contract } = useContext(FactoryContext)
+	const { isAuthenticated } = useContext(AuthContext)
 
 	const { campaign } = useParams()
 
@@ -136,6 +138,8 @@ const ViewRequestPage = () => {
 				const isReadyToFinilize =
 					parseInt(item.approvalCount) >
 					parseInt(approversCount.data) / 2
+				if (!isAuthenticated)
+					return <Tag color={'red'}>Login to perform actions</Tag>
 				if (isCompleted) return <Tag color={'green'}>Finilized</Tag>
 				return (
 					<div>
@@ -195,12 +199,14 @@ const ViewRequestPage = () => {
 			>
 				<h1> Campaign Requests Details</h1>
 				<br />
-				<Link
-					to={`/campaign/${campaign}/requests/new`}
-					style={{ marginBottom: '2rem' }}
-				>
-					<Button type='primary'>Create Request</Button>
-				</Link>
+				{isAuthenticated && (
+					<Link
+						to={`/campaign/${campaign}/requests/new`}
+						style={{ marginBottom: '2rem' }}
+					>
+						<Button type='primary'>Create Request</Button>
+					</Link>
+				)}
 				<br />
 				<Table
 					rowClassName={(record, index) => {
