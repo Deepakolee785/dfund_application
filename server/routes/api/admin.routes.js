@@ -1,6 +1,10 @@
 const router = require('express').Router()
+
 const Admin = require('../../models/Admin')
+const Campaign = require('../../models/Campaign')
+const Transaction = require('../../models/Transaction')
 const User = require('../../models/User')
+
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const {
@@ -108,6 +112,32 @@ router.get('/get-all-admins', auth_admin, async (req, res) => {
 		const admins = await Admin.find({}).select('-password')
 		// console.log(campaigns)
 		res.json({ admins })
+	} catch (err) {
+		console.error(err.message)
+		res.status(500).send('Server error')
+	}
+})
+//auth_admin
+router.get('/dashboard', auth_admin, async (req, res) => {
+	try {
+		const campaigns = await Campaign.find({})
+		const transactions = await Transaction.find({})
+		const users = await User.find({})
+		const admins = await Admin.find({})
+
+		const stats = {
+			campaigns: campaigns.length,
+			transactions: transactions.length,
+			users: users.length,
+			admins: admins.length,
+		}
+
+		// console.log(stats)
+		const transactionDetails = transactions.map(t => {
+			return { date: t.createdAt, amount: t.amount }
+		})
+
+		res.json({ stats, transactionDetails })
 	} catch (err) {
 		console.error(err.message)
 		res.status(500).send('Server error')
