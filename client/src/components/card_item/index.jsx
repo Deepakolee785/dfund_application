@@ -16,6 +16,7 @@ const CardItem = ({
 	goalAmount,
 	category,
 	description,
+	showProgress = true,
 }) => {
 	return (
 		<CardEl hoverable bordered>
@@ -51,21 +52,25 @@ const CardItem = ({
 						{address}
 					</p>
 				</Link> */}
-					<br />
-					<Amount>{`${fundedBalance} ETH`}</Amount>
-					{/* <Amount>{`${fundedBalance}  of ${goalAmount}`}</Amount> */}
+					{showProgress && (
+						<>
+							<br />
+							<Amount>{`${fundedBalance} ETH`}</Amount>
+							{/* <Amount>{`${fundedBalance}  of ${goalAmount}`}</Amount> */}
 
-					<div>
-						<Progress
-							strokeColor='#5F66F1'
-							percent={fundedPercentage}
-							size='small'
-							strokeWidth={15}
-						/>
-					</div>
+							<div>
+								<Progress
+									strokeColor='#5F66F1'
+									percent={fundedPercentage}
+									size='small'
+									strokeWidth={15}
+								/>
+							</div>
+							<br />
+						</>
+					)}
 				</Link>
 
-				<br />
 				<Link to={`/campaign/${address}`}>
 					<Button type='primary' variant='primary' block>
 						View details
