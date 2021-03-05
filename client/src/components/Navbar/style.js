@@ -23,7 +23,7 @@ export const NavMenuList = styled.ul`
 export const MenuTitle = styled.p`
 	font-weight: 500;
 	font-size: 1rem;
-	margin-right: 7rem;
+	/* margin-right: 7rem; */
 	margin-bottom: 0px;
 `
 export const SubTitle = styled.p`
