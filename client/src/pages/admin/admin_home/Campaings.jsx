@@ -6,6 +6,7 @@ import { Image, Table } from 'antd'
 import { getRequests } from '../../../api/request'
 import { Button } from '../../../components/button'
 import { getTransactions } from '../../../api/transaction'
+import { v4 as uuid } from 'uuid'
 
 const Campaings = () => {
 	const [showRequest, setShowRequests] = useState(false)
@@ -201,7 +202,199 @@ const Campaings = () => {
 				})
 		}
 	}, [currentCampaignAddress, showRequest])
+	const TransactionColumns = [
+		{
+			title: 'Sender',
+			dataIndex: 'sender',
+			key: 'sender',
+		},
+		{
+			title: 'Reciver',
+			dataIndex: 'reciver',
+			key: 'reciver',
+		},
+		{
+			title: 'Campaign',
+			dataIndex: 'projectAddress',
+			key: 'projectAddress',
+		},
+		{
+			title: 'Transaction Type',
+			dataIndex: 'transactionType',
+			key: 'transactionType',
+		},
+		{
+			title: 'Amount',
+			dataIndex: 'amount',
+			key: 'amount',
+		},
+		{
+			title: 'Date',
+			dataIndex: 'createdAt',
+			key: 'createdAt',
+		},
+		{
+			title: 'Block Hash',
+			dataIndex: 'blockHash',
+			key: 'blockHash',
+		},
+		{
+			title: 'Block Number',
+			dataIndex: 'blockNumber',
+			key: 'blockNumber',
+		},
+		{
+			title: 'Gas Used',
+			dataIndex: 'cumulativeGasUsed',
+			key: 'cumulativeGasUsed',
+		},
+		{
+			title: 'status',
+			dataIndex: 'status',
+			key: 'status',
+		},
+		{
+			title: 'Transaction Hash',
+			dataIndex: 'transactionHash',
+			key: 'transactionHash',
+		},
+	]
 
+	const RequestColumns = [
+		// {
+		// 	title: 'campaign',
+		// 	dataIndex: 'campaign',
+		// 	key: 'campaign',
+		// },
+		{
+			title: 'description',
+			dataIndex: 'description',
+			key: 'description',
+		},
+		{
+			title: 'maker',
+			dataIndex: 'maker',
+			key: 'maker',
+		},
+		{
+			title: 'recipient',
+			dataIndex: 'recipient',
+			key: 'recipient',
+		},
+		{
+			title: 'Amount(ETH)',
+			dataIndex: 'value',
+			key: 'value',
+		},
+		{
+			title: 'Complete',
+			dataIndex: 'complete',
+			key: 'complete',
+		},
+		{
+			title: 'To',
+			dataIndex: 'to',
+			key: 'to',
+		},
+		{
+			title: 'Date',
+			dataIndex: 'createdAt',
+			key: 'createdAt',
+		},
+		{
+			title: 'Block Hash',
+			dataIndex: 'blockHash',
+			key: 'blockHash',
+		},
+		{
+			title: 'Block Number',
+			dataIndex: 'blockNumber',
+			key: 'blockNumber',
+		},
+		{
+			title: 'Gas Used',
+			dataIndex: 'cumulativeGasUsed',
+			key: 'cumulativeGasUsed',
+		},
+		{
+			title: 'status',
+			dataIndex: 'status',
+			key: 'status',
+		},
+		{
+			title: 'Transaction Hash',
+			dataIndex: 'transactionHash',
+			key: 'transactionHash',
+		},
+	]
+
+	const RequestDataSource =
+		requestData &&
+		requestData.campaignRequests.map(request => {
+			// ​campaign,​description,​maker,​recipient,​value,​blockHash,​blockNumber,​cumulativeGasUsed,​status,to,transactionHash,complete,createdAt
+			const {
+				// campaign,
+				description,
+				maker,
+				recipient,
+				value,
+				blockHash,
+				blockNumber,
+				cumulativeGasUsed,
+				status,
+				transactionHash,
+				complete,
+				createdAt,
+			} = request
+			return {
+				key: uuid(),
+				// campaign,
+				description,
+				maker,
+				recipient,
+				value,
+				blockHash,
+				blockNumber,
+				cumulativeGasUsed,
+				status,
+				transactionHash,
+				complete: complete.toString(),
+				createdAt,
+			}
+		})
+	const TransactionDataSource =
+		transactionData &&
+		transactionData.campaignTransactions.map(transaction => {
+			const {
+				user,
+				sender,
+				amount,
+				reciver,
+				blockHash,
+				blockNumber,
+				cumulativeGasUsed,
+				status,
+				transactionHash,
+				projectAddress,
+				transactionType,
+				createdAt,
+			} = transaction
+			return {
+				key: uuid(),
+				user,
+				sender,
+				amount,
+				reciver,
+				blockHash,
+				blockNumber,
+				cumulativeGasUsed,
+				status,
+				transactionHash,
+				projectAddress,
+				transactionType,
+				createdAt,
+			}
+		})
 	if (showRequest)
 		return (
 			<div>
@@ -209,21 +402,32 @@ const Campaings = () => {
 					variant='primary'
 					type='primary'
 					onClick={() => setShowRequests(false)}
+					style={{ background: 'red' }}
 				>
 					Back
 				</Button>
 				<h3>Requests</h3>
-				<pre>
+				<Table
+					dataSource={RequestDataSource}
+					columns={RequestColumns}
+					scroll={{ x: true }}
+				/>
+				{/* <pre>
 					{requestData
 						? JSON.stringify(requestData, null, 6)
 						: 'no requests'}
-				</pre>
+				</pre> */}
 				<h3>Transactions</h3>
-				<pre>
+				<Table
+					scroll={{ x: true }}
+					dataSource={TransactionDataSource}
+					columns={TransactionColumns}
+				/>
+				{/* <pre>
 					{transactionData
 						? JSON.stringify(transactionData, null, 6)
 						: 'no transaction'}
-				</pre>
+				</pre> */}
 			</div>
 		)
 	return (
