@@ -9,6 +9,7 @@ import Routes from './routes/'
 import history from './utils/history'
 
 import setAuthToken from './utils/setAuthToken'
+import EthereumNotFound from './components/ethereum_na_modal'
 // import { getCurrentAcount } from './services/metamaskAccount'
 
 if (localStorage.token) {
@@ -31,11 +32,15 @@ const App = () => {
 	}, [])
 
 	//logout from system on account change in Metamask
-	window.ethereum.on('accountsChanged', accounts => {
-		// if (isAuthenticated)
-		setLatestAccount(accounts)
-		logout()
-	})
+	window.ethereum &&
+		window.ethereum.on('accountsChanged', accounts => {
+			// if (isAuthenticated)
+			setLatestAccount(accounts)
+			logout()
+		})
+
+	// show modal to install metamask if not found
+	if (!window.ethereum) return <EthereumNotFound />
 
 	return (
 		<ThemeProvider theme={{ mode: Mode }}>
