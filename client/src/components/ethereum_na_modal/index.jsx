@@ -1,21 +1,50 @@
+import Logo from '../../assets/images/Logo.svg'
+import { ModalHeader } from './style'
 import Modal from 'antd/lib/modal/Modal'
+import { motion } from 'framer-motion'
+import { animateSlideVariant } from '../../animation'
 
 const EthereumNotFound = () => {
 	return (
-		<Modal
-			title='Unable to connet to Network!'
-			visible={true}
-			closable={false}
-			footer={<></>}
+		<motion.div
+			variants={animateSlideVariant}
+			initial='initial'
+			animate='animate'
 		>
-			<p>
-				This Dapp requires Ethereum Blockchain to run. So, please intall{' '}
-				<a href='https://metamask.io/' target='_blank' rel='noreferrer'>
-					<strong>Metamask</strong>
-				</a>{' '}
-				browser extension to be the part of this amazing Dfund Network.
-			</p>
-		</Modal>
+			<Modal
+				title={
+					<ModalHeader>
+						<img src={Logo} alt='Dfund' />
+					</ModalHeader>
+				}
+				visible={true}
+				closable={false}
+				footer={null}
+			>
+				<h3
+					className='Center'
+					style={{ color: 'red', marginBottom: '1.5rem' }}
+				>
+					Unable to connet to Network!
+				</h3>
+
+				<p>
+					This Dapp requires Ethereum Blockchain to run. So, please
+					install{' '}
+					<a
+						href='https://metamask.io/'
+						target='_blank'
+						rel='noreferrer'
+					>
+						<strong>
+							<u>Metamask</u>
+						</strong>
+					</a>{' '}
+					browser extension to be the part of this amazing Dfund
+					Network.
+				</p>
+			</Modal>
+		</motion.div>
 	)
 }
 
