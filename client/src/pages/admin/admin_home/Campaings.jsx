@@ -28,6 +28,11 @@ const Campaings = () => {
 
 	const columns = [
 		{
+			title: 'S.N.',
+			dataIndex: 'sn',
+			key: 'sn',
+		},
+		{
 			title: 'Image',
 			dataIndex: 'imageHash',
 			key: 'imageHash',
@@ -56,6 +61,18 @@ const Campaings = () => {
 			title: 'Description',
 			dataIndex: 'description',
 			key: 'description',
+			render: description => {
+				return (
+					<p
+						style={{
+							width: '20rem',
+							height: '5.3rem',
+						}}
+					>
+						{description}
+					</p>
+				)
+			},
 		},
 		{
 			title: 'Creator',
@@ -129,7 +146,7 @@ const Campaings = () => {
 		},
 	]
 
-	const dataSource = campaigns.map(campaign => {
+	const dataSource = campaigns.map((campaign, index) => {
 		const {
 			_id: id,
 			blockHash,
@@ -153,6 +170,7 @@ const Campaings = () => {
 
 		return {
 			key: id,
+			sn: index + 1,
 			blockHash,
 			blockNumber,
 			cumulativeGasUsed,
