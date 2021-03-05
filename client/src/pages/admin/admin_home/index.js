@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 
-import { Layout, Menu, Avatar, Button, Dropdown } from 'antd'
+import { Layout, Menu, Avatar, Dropdown, Divider } from 'antd'
 import {
 	MenuUnfoldOutlined,
 	MenuFoldOutlined,
@@ -11,7 +11,7 @@ import {
 	TransactionOutlined,
 } from '@ant-design/icons'
 
-// import logo from '../../../assets/images/Logo.svg'
+import logo from '../../../assets/images/logo_initial.svg'
 import Dashboard from './dashboard'
 import Campaings from './Campaings'
 import Transaction from './Transaction'
@@ -19,13 +19,15 @@ import Users from './Users'
 import Admin from './Admin'
 
 import AdminAuthContext from '../../../context/admin_auth/adminAuthContext'
+import { MenuTitle, SubTitle } from '../../../components/Navbar/style'
+import { Button } from '../../../components/button'
 
 const { Header, Sider, Content } = Layout
 
 const AdminHome = () => {
-	const { logout } = useContext(AdminAuthContext)
+	const { logout, user } = useContext(AdminAuthContext)
 	const [selectedMenuIndex, setSelectedMenuIndex] = useState('1')
-
+	console.log(user)
 	const [collapsed, setCollapsed] = useState(false)
 	const toggle = () => {
 		setCollapsed(!collapsed)
@@ -52,23 +54,48 @@ const AdminHome = () => {
 	}
 
 	const menu = (
-		<Menu>
-			<strong style={{ margin: '1rem' }}>Admin</strong>
-			{/* <Menu.Item key='0'>admin</Menu.Item> */}
+		// <Menu>
+		// 	<strong style={{ margin: '1rem' }}>Admin</strong>
+		// 	{/* <Menu.Item key='0'>admin</Menu.Item> */}
 
-			<Menu.Divider />
-			<Menu.Item key='2'>
-				<Button type='text' danger onClick={logout}>
-					Logout
-				</Button>
-			</Menu.Item>
+		// 	<Menu.Divider />
+		// 	<Menu.Item key='2'>
+		// 		<Button type='text' danger onClick={logout}>
+		// 			Logout
+		// 		</Button>
+		// 	</Menu.Item>
+		// </Menu>
+
+		<Menu
+			style={{
+				width: '240px',
+				marginTop: '0.85rem',
+				padding: '1rem',
+			}}
+		>
+			<MenuTitle>
+				<UserOutlined /> {user && user.name}
+			</MenuTitle>
+			<SubTitle>{user && user.email}</SubTitle>
+			<Divider style={{ margin: '5px 0', marginBottom: '1rem' }} />
+
+			<Button
+				type='primary'
+				variant='primary'
+				style={{ background: '#E64560' }}
+				onClick={logout}
+				block
+			>
+				Logout
+			</Button>
 		</Menu>
 	)
+
 	return (
 		<div>
 			<Layout style={{ minHeight: '100vh' }}>
 				<Sider trigger={null} collapsible collapsed={collapsed}>
-					<h1
+					{/* <h1
 						className='logo'
 						style={{
 							height: '50px',
@@ -80,9 +107,31 @@ const AdminHome = () => {
 							color: '#fff',
 						}}
 					>
-						{/* <img src={logo} alt='' /> */}
-						Dfund
-					</h1>
+						Dfund 
+					</h1> */}
+					<div
+						style={{
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+						}}
+					>
+						<img
+							src={logo}
+							alt=''
+							style={{
+								height: collapsed ? '45px' : '62px',
+								marginLeft: !collapsed ? '-1rem' : '',
+								marginTop: '1rem',
+								marginBottom: '0.5rem',
+								display: 'flex',
+								justifyContent: 'center',
+								alignItems: 'center',
+								transition: 'all 2s easeInOut',
+							}}
+						/>
+					</div>
+
 					<Menu
 						theme='dark'
 						mode='inline'
