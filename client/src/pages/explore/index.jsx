@@ -7,6 +7,7 @@ import {
 	Row,
 	Col,
 	Select,
+	Tag,
 } from 'antd'
 import FactoryContext from '../../context/factory/factoryContext'
 import { PlusOutlined } from '@ant-design/icons'
@@ -96,8 +97,6 @@ const ExplorePage = () => {
 		// eslint-disable-next-line
 	}, [info.data])
 
-	// console.log(myData)
-
 	return (
 		<Layout>
 			<Header
@@ -106,6 +105,16 @@ const ExplorePage = () => {
 crowdfunding campaigns today.'
 			/>
 			<Container>
+				{info.isError && (
+					<Tag
+						color='red'
+						style={{ padding: '1rem', marginTop: '1rem' }}
+						className='Center'
+					>
+						Error fetching Campaigns. Please make sure contract is
+						migrated and Metamask has been installed.
+					</Tag>
+				)}
 				<div>
 					{info.data && info.data.length === 0 && (
 						<div className='Center' style={{ minHeight: '70vh' }}>
