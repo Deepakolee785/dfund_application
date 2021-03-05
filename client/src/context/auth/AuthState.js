@@ -9,7 +9,7 @@ import { DEV_URL } from '../../config'
 const AuthState = props => {
 	const initialState = {
 		token: localStorage.getItem('token'),
-		isAuthenticated: null,
+		isAuthenticated: !!localStorage.getItem('token'),
 		loading: false,
 		success: null,
 		user: null,
