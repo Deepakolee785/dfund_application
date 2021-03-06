@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 export const NavComponent = styled.div`
 	border-bottom: 1px solid #cccde7;
+	background-color: #fefefe;
 `
 
 export const NavContainer = styled.div`
