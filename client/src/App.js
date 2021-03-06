@@ -20,11 +20,7 @@ if (localStorage.token) {
 const Mode = 'standard'
 const App = () => {
 	const { initilizeWeb3, setLatestAccount } = useContext(FactoryContext)
-	const {
-		loadUser,
-		logout,
-		//  isAuthenticated
-	} = useContext(AuthContext)
+	const { loadUser, logout } = useContext(AuthContext)
 	useEffect(() => {
 		initilizeWeb3()
 		loadUser()
