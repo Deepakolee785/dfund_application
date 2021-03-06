@@ -3,20 +3,22 @@ import { Button as AntButton } from 'antd'
 import theme from 'styled-theming'
 
 const mainColor = '#5f66f1'
+const dangerColor = '#E64560'
+const successColor = 'green'
 
 const backgroundColor = theme.variants('mode', 'variant', {
 	default: { standard: 'transparent' },
 	primary: { standard: mainColor },
-	// secondary: { standard: '' },
-	// positive: { standard: '' },
+	danger: { standard: dangerColor },
+	success: { standard: successColor },
 	// negative: { standard: '' },
 })
 
 const color = theme.variants('mode', 'variant', {
 	default: { standard: mainColor },
 	primary: { standard: '' },
-	// positive: { standard: '' },
-	// negative: { standard: '' },
+	danger: { standard: '' },
+	success: { standard: '' },
 	// secondary: { standard: '' },
 })
 
