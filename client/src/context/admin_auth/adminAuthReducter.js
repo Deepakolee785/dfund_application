@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 const reducer = (state, action) => {
 	switch (action.type) {
 		case 'USER_LOADED':
@@ -27,11 +29,13 @@ const reducer = (state, action) => {
 		case 'LOGIN_FAIL':
 		case 'LOGOUT':
 			sessionStorage.removeItem('admin_token')
+			delete axios.defaults.headers.common['a-auth-token']
+
 			return {
-				...state,
 				token: null,
-				isAuthenticated: false,
 				loading: false,
+				isAuthenticated: false,
+				success: null,
 				user: null,
 				error: action.payload,
 			}

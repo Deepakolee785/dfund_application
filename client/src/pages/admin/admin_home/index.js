@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 
 import { Layout, Menu, Avatar, Dropdown, Divider } from 'antd'
 import {
@@ -25,13 +25,17 @@ import { Button } from '../../../components/button'
 const { Header, Sider, Content } = Layout
 
 const AdminHome = () => {
-	const { logout, user } = useContext(AdminAuthContext)
+	const { logout, user, loadUser: loadAdmin } = useContext(AdminAuthContext)
 	const [selectedMenuIndex, setSelectedMenuIndex] = useState('1')
-	console.log(user)
 	const [collapsed, setCollapsed] = useState(false)
 	const toggle = () => {
 		setCollapsed(!collapsed)
 	}
+
+	useEffect(() => {
+		loadAdmin()
+		// eslint-disable-next-line
+	}, [])
 
 	const getContent = () => {
 		switch (selectedMenuIndex) {

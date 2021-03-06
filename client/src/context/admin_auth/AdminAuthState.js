@@ -9,7 +9,7 @@ import { DEV_URL } from '../../config'
 const AdminAuthState = props => {
 	const initialState = {
 		token: sessionStorage.getItem('admin_token'),
-		isAuthenticated: null,
+		isAuthenticated: !!sessionStorage.getItem('admin_token'),
 		loading: false,
 		success: null,
 		user: null,
@@ -105,7 +105,9 @@ const AdminAuthState = props => {
 	}
 
 	// Logout
-	const logout = () => dispatch({ type: 'LOGOUT' })
+	const logout = () => {
+		dispatch({ type: 'LOGOUT' })
+	}
 
 	// Clear Errors
 	const clearError = () => dispatch({ type: 'CLEAR_ERROR' })
