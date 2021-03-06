@@ -12,7 +12,7 @@ const animateVariant = {
 		transition: { type: 'spring', damping: 20, stiffness: 300 },
 	},
 }
-const Header = ({ heading, subHeading }) => {
+const Header = ({ heading, subHeading, children }) => {
 	return (
 		<HeaderContainer>
 			<motion.h1
@@ -29,6 +29,13 @@ const Header = ({ heading, subHeading }) => {
 			>
 				{subHeading}
 			</motion.p>
+			<motion.div
+				variants={animateVariant}
+				initial='initial'
+				animate='animate'
+			>
+				{children}
+			</motion.div>
 		</HeaderContainer>
 	)
 }
