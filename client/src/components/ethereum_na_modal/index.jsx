@@ -40,8 +40,9 @@ const EthereumNotFound = () => {
 							<u>Metamask</u>
 						</strong>
 					</a>{' '}
-					browser extension to be the part of this amazing Dfund
-					Network.
+					browser extension and <strong>connect</strong> to{' '}
+					<strong>Ethereum Wallet</strong> to be the part of this
+					amazing Dfund Network.
 				</p>
 			</Modal>
 		</motion.div>
