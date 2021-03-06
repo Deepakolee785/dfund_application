@@ -198,7 +198,7 @@ const CampaignDetails = () => {
 	const fundedPercentage = data
 		? ((parseFloat(balance) / parseFloat(data.goalAmount)) * 100).toFixed(0)
 		: 0
-
+	console.log(fundedPercentage)
 	// if (isLoading) return <Spin />
 	if (isError) return <Alert message={error} type='error' />
 
@@ -270,7 +270,18 @@ const CampaignDetails = () => {
 									fontSize: '1rem',
 								}}
 							>
-								<strong>{data && fundedPercentage}% </strong> of{' '}
+								{/* <Progress
+									type='line'
+									percent={
+										fundedPercentage ? fundedPercentage : 0
+									}
+									width={82}
+									strokeWidth={15}
+									strokeColor='#5F66F1'
+									style={{ marginRight: '5px' }}
+								/> */}
+								<strong>{data && fundedPercentage}% </strong>
+								of{' '}
 								{data
 									? fromWeiToEther(web3, data.goalAmount)
 									: ''}{' '}
