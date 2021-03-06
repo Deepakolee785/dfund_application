@@ -145,7 +145,7 @@ const ViewRequestPage = ({ isCreator }) => {
 				const isReadyToFinilize =
 					parseInt(item.approvalCount) >
 					parseInt(approversCount.data) / 2
-				if (!isAuthenticated)
+				if (!isAuthenticated && !isCompleted)
 					return <Tag color={'red'}>Login to perform actions</Tag>
 				if (isCompleted) return <Tag color={'green'}>Finilized</Tag>
 				return (

@@ -200,8 +200,14 @@ const CampaignDetails = () => {
 		: 0
 
 	// calculate is current user is cleator of campaign
-	const isCreator =
-		accounts.length > 0 && data && accounts[0] === data.creator
+	const [isCreator, setIsCreator] = useState(false)
+	// let isCreator = accounts.length > 0 && data && accounts[0] === data.creator
+
+	useEffect(() => {
+		setIsCreator(
+			accounts.length > 0 && data && accounts[0] === data.creator
+		)
+	}, [data, accounts])
 
 	if (isError) return <Alert message={error} type='error' />
 
