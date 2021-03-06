@@ -1,24 +1,23 @@
 import React, { useEffect, useContext } from 'react'
 
-import { Form, Input, Button, message } from 'antd'
-import { useHistory } from 'react-router-dom'
+import { Col, Form, Input, message, Row } from 'antd'
+import { Link, useHistory } from 'react-router-dom'
 
 import AdminAuthContext from '../../../context/admin_auth/adminAuthContext'
-import { Redirect } from 'react-router-dom/cjs/react-router-dom.min'
-const layout = {
-	labelCol: {
-		span: 8,
-	},
-	wrapperCol: {
-		span: 16,
-	},
-}
-const tailLayout = {
-	wrapperCol: {
-		offset: 8,
-		span: 16,
-	},
-}
+import { Redirect } from 'react-router-dom'
+import { Button } from '../../../components/button'
+import { LoginContainer } from './style'
+import Logo from '../../../assets/images/logo_initial.svg'
+import bg from '../../../assets/images/bg1.svg'
+import { AdminLoginPageVariant } from '../../../animation'
+import { motion } from 'framer-motion'
+import {
+	UserOutlined,
+	LockOutlined,
+	LoginOutlined,
+	ArrowLeftOutlined,
+} from '@ant-design/icons'
+
 const AdminLogin = () => {
 	const history = useHistory()
 	const {
@@ -57,46 +56,116 @@ const AdminLogin = () => {
 	}, [success])
 	if (isAuthenticated) return <Redirect to='/control/home' />
 	return (
-		<div className='Center' style={{ height: '60vh' }}>
-			<h3>Admin Login</h3>
-			<Form
-				{...layout}
-				name='basic'
-				onFinish={onFinish}
-				onFinishFailed={onFinishFailed}
-			>
-				<Form.Item
-					label='Email'
-					name='email'
-					rules={[
-						{
-							required: true,
-							message: 'Please input your email!',
-						},
-					]}
-				>
-					<Input />
-				</Form.Item>
+		<div
+			className='Center'
+			style={{
+				height: '100vh',
+			}}
+		>
+			<Row gutter={[50, 5]}>
+				<Col>
+					<motion.img
+						initial={{
+							x: '-30vh',
+						}}
+						animate={{
+							x: 0,
+						}}
+						transition={{
+							type: 'spring',
+							damping: 20,
+							stiffness: 100,
+						}}
+						src={bg}
+						alt=''
+						width='500'
+					/>
+				</Col>
+				<Col></Col>
+				<Col>
+					<LoginContainer
+						variants={AdminLoginPageVariant}
+						initial='initial'
+						animate='animate'
+						exit='exit'
+					>
+						<div className='Center'>
+							<img src={Logo} alt='' width='50' />
+							<h3 style={{ fontWeight: 600, fontSize: '1.3rem' }}>
+								Admin Login
+							</h3>
+						</div>
+						<Form
+							name='basic'
+							onFinish={onFinish}
+							onFinishFailed={onFinishFailed}
+						>
+							<label htmlFor=''>
+								<strong>Email</strong>
+							</label>
 
-				<Form.Item
-					label='Password'
-					name='password'
-					rules={[
-						{
-							required: true,
-							message: 'Please input your password!',
-						},
-					]}
-				>
-					<Input.Password />
-				</Form.Item>
+							<Form.Item
+								// label='Email'
+								name='email'
+								rules={[
+									{
+										required: true,
+										message: 'Please input your email!',
+									},
+								]}
+							>
+								<Input
+									placeholder='test@email.com'
+									prefix={<UserOutlined />}
+								/>
+							</Form.Item>
+							<label htmlFor=''>
+								<strong>Password</strong>
+							</label>
 
-				<Form.Item {...tailLayout}>
-					<Button type='primary' htmlType='submit' loading={loading}>
-						Submit
-					</Button>
-				</Form.Item>
-			</Form>
+							<Form.Item
+								// label='Password'
+								name='password'
+								rules={[
+									{
+										required: true,
+										message: 'Please input your password!',
+									},
+								]}
+							>
+								<Input.Password
+									placeholder='******'
+									prefix={<LockOutlined />}
+								/>
+							</Form.Item>
+
+							<Form.Item>
+								<Button
+									type='primary'
+									htmlType='submit'
+									loading={loading}
+									block
+									variant='primary'
+									icon={<LoginOutlined />}
+								>
+									Admin Login
+								</Button>
+							</Form.Item>
+						</Form>
+						<strong className='Center'>or</strong>
+						<Link to='/'>
+							<Button
+								type='link'
+								block
+								danger
+								icon={<ArrowLeftOutlined />}
+							>
+								Go Back Home
+							</Button>
+						</Link>
+					</LoginContainer>
+				</Col>
+			</Row>
 		</div>
 	)
 }

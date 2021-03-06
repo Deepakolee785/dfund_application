@@ -16,6 +16,26 @@ export const pageVariant = {
 		transition: { ease: 'easeInOut' },
 	},
 }
+export const AdminLoginPageVariant = {
+	initial: {
+		opacity: 0,
+		y: '-10vh',
+	},
+	animate: {
+		opacity: 1,
+		y: 0,
+		transition: {
+			type: 'spring',
+			damping: 20,
+			stiffness: 100,
+		},
+	},
+	exit: {
+		opacity: 0,
+		x: 0,
+		transition: { ease: 'easeInOut' },
+	},
+}
 
 export const slideVariant = {
 	initial: {
