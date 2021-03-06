@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import getDashboardDetails from '../../../api/dashboard'
 import { DashboardItem } from './style'
 import { Badge, Col, Row } from 'antd'
@@ -8,19 +8,25 @@ import {
 	LockOutlined,
 	TransactionOutlined,
 } from '@ant-design/icons'
+import AdminAuthContext from '../../../context/admin_auth/adminAuthContext'
 
 const Dashboard = () => {
-	const [details, setDetails] = useState({ stats: {} })
+	const { isAuthenticated, loading } = useContext(AdminAuthContext)
+	const [details, setDetails] = useState({})
 	useEffect(() => {
-		getDashboardDetails()
-			.then(data => setDetails(data))
-			.catch(err => console.log(err))
-	}, [])
+		if (isAuthenticated && !loading) {
+			getDashboardDetails()
+				.then(data => {
+					data && setDetails(data.stats)
+				})
+				.catch(err => {
+					// console.log(err)
+				})
+		}
+	}, [isAuthenticated, loading])
 	// console.log(details)
 
-	const {
-		stats: { admins, campaigns, transactions, users },
-	} = details
+	const { admins, campaigns, transactions, users } = details
 
 	return (
 		<div>
