@@ -198,8 +198,11 @@ const CampaignDetails = () => {
 	const fundedPercentage = data
 		? ((parseFloat(balance) / parseFloat(data.goalAmount)) * 100).toFixed(0)
 		: 0
-	console.log(fundedPercentage)
-	// if (isLoading) return <Spin />
+
+	// calculate is current user is cleator of campaign
+	const isCreator =
+		accounts.length > 0 && data && accounts[0] === data.creator
+
 	if (isError) return <Alert message={error} type='error' />
 
 	return (
@@ -367,48 +370,57 @@ const CampaignDetails = () => {
 							</p>
 							<Divider />
 							{isAuthenticated ? (
-								<Form
-									form={fundForm}
-									name='fundInCampaign'
-									onFinish={onFinish}
-									style={{
-										width: '20rem',
-										marginTop: '1rem',
-									}}
-								>
-									<label
-										htmlFor=''
-										style={{ fontWeight: 500 }}
+								!isCreator ? (
+									<Form
+										form={fundForm}
+										name='fundInCampaign'
+										onFinish={onFinish}
+										style={{
+											width: '20rem',
+											marginTop: '1rem',
+										}}
 									>
-										Fund in this campaign
-									</label>
+										<label
+											htmlFor=''
+											style={{ fontWeight: 500 }}
+										>
+											Fund in this campaign
+										</label>
 
-									<Form.Item
-										// label='Amount'
-										name='amount'
-										rules={[
-											{
-												required: true,
-												message: 'Please input amount!',
-											},
-										]}
-									>
-										<InputNumberEl
-											min={0.00001}
-											style={{ width: '100%' }}
-											placeholder='Amount in Eth'
-										/>
-									</Form.Item>
-									<Button
-										type='primary'
-										htmlType='submit'
-										variant='primary'
-										loading={fund.isLoading}
-										block
-									>
-										Fund
-									</Button>
-								</Form>
+										<Form.Item
+											// label='Amount'
+											name='amount'
+											rules={[
+												{
+													required: true,
+													message:
+														'Please input amount!',
+												},
+											]}
+										>
+											<InputNumberEl
+												min={0.00001}
+												style={{ width: '100%' }}
+												placeholder='Amount in Eth'
+											/>
+										</Form.Item>
+										<Button
+											type='primary'
+											htmlType='submit'
+											variant='primary'
+											loading={fund.isLoading}
+											block
+										>
+											Fund
+										</Button>
+									</Form>
+								) : (
+									<Tag color='red'>
+										Your are the creator of this campaign.
+										<br />
+										So, You can't fund in this campaign
+									</Tag>
+								)
 							) : (
 								<Tag color='red'>
 									Login to contribute to this campaign
@@ -468,7 +480,7 @@ const CampaignDetails = () => {
 						key='3'
 					>
 						{/* <Table dataSource={dataSource} columns={columns} />; */}
-						<RequestDetails />
+						<RequestDetails isCreator={isCreator} />
 					</TabPane>
 				</Tabs>
 				{/*<h1>Campaign Details</h1>

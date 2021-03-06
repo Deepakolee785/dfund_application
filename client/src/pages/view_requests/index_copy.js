@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { Table, Tag } from 'antd'
+import { message, Table, Tag } from 'antd'
 import { Link, useParams } from 'react-router-dom'
 import FactoryContext from '../../context/factory/factoryContext'
 import AuthContext from '../../context/auth/authContext'
@@ -21,7 +21,7 @@ import {
 import DfundContract from '../../contracts/Dfund.json'
 
 import { useQuery, useMutation } from 'react-query'
-const ViewRequestPage = () => {
+const ViewRequestPage = ({ isCreator }) => {
 	// const history = useHistory()
 	const { web3, accounts, contract } = useContext(FactoryContext)
 	const { isAuthenticated } = useContext(AuthContext)
@@ -38,6 +38,7 @@ const ViewRequestPage = () => {
 		{
 			onSuccess: () => {
 				// history.push('/')
+				message.success('Approved')
 			},
 		}
 	)
@@ -158,7 +159,7 @@ const ViewRequestPage = () => {
 								onApproveRequest(index)
 							}}
 							loading={approveCampaignRequest.isLoading}
-							disabled={isCompleted}
+							disabled={isCompleted || isCreator}
 							style={{ marginRight: '0.2rem' }}
 						>
 							Approve
@@ -173,7 +174,9 @@ const ViewRequestPage = () => {
 								onFinilizeRequest(index)
 							}}
 							loading={finilizeCampaignRequest.isLoading}
-							disabled={isCompleted || !isReadyToFinilize}
+							disabled={
+								isCompleted || !isReadyToFinilize || !isCreator
+							}
 							icon={<SendOutlined />}
 						>
 							Finilize
@@ -211,7 +214,7 @@ const ViewRequestPage = () => {
 				> */}
 			{/* <h1> Campaign Requests Details</h1> */}
 			<br />
-			{isAuthenticated && (
+			{isAuthenticated && isCreator && (
 				<Link
 					to={`/campaign/${campaign}/requests/new`}
 					style={{ marginBottom: '2rem', float: 'right' }}
