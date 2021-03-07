@@ -49,6 +49,7 @@ import { Button } from '../../components/button'
 import LocationIcon from '../../assets/icons/location.svg'
 
 import RequestDetails from '../view_requests/index_copy'
+import { checkNumberKey } from '../../utils/checkValidInput'
 
 const { TabPane } = Tabs
 
@@ -399,6 +400,7 @@ const CampaignDetails = () => {
 											rules={[
 												{
 													required: true,
+
 													message:
 														'Please input amount!',
 												},
@@ -408,6 +410,7 @@ const CampaignDetails = () => {
 												min={0.00001}
 												style={{ width: '100%' }}
 												placeholder='Amount in Eth'
+												onKeyDown={checkNumberKey}
 											/>
 										</Form.Item>
 										<Button

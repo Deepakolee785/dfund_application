@@ -28,6 +28,7 @@ import {
 import { Button } from '../../components/button'
 import LunchIcon from '../../assets/icons/startup.svg'
 import AuthContext from '../../context/auth/authContext'
+import { checkNumberKey } from '../../utils/checkValidInput'
 const { Option } = Select
 
 const dateFormat = 'YYYY/MM/DD'
@@ -213,6 +214,7 @@ const CreateCampaign = () => {
 							<InputNumberEl
 								// style={{ width: '100%' }}
 								placeholder='Eg. 100 (in ETH)'
+								onKeyDown={checkNumberKey}
 							/>
 						</Form.Item>
 					</div>
@@ -233,6 +235,7 @@ const CreateCampaign = () => {
 							<InputNumberEl
 								// style={{ width: '100%' }}
 								placeholder='Eg. 10 (in ETH)'
+								onKeyDown={checkNumberKey}
 							/>
 						</Form.Item>
 						<SubText>
