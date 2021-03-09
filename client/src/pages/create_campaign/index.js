@@ -81,7 +81,7 @@ const CreateCampaign = () => {
 					blockHash,
 					blockNumber,
 					cumulativeGasUsed,
-					type,
+					type: type || 'mined',
 					addr,
 					category,
 					country,
@@ -100,7 +100,7 @@ const CreateCampaign = () => {
 					transactionHash,
 				}
 
-				// console.log('Created Data: ', myData)
+				console.log('Created Data: ', myData)
 				saveCampaign(myData)
 					.then(res => {
 						console.log(res.data)
@@ -132,7 +132,7 @@ const CreateCampaign = () => {
 			deadline: Number(values.deadline),
 			imagehash: imageHash,
 		}
-		// console.log(data)
+		console.log(data)
 
 		//create campaign
 
