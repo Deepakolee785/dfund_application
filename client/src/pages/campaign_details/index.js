@@ -14,6 +14,7 @@ import {
 	Tabs,
 	Progress,
 	Spin,
+	notification,
 } from 'antd'
 import { useQuery, useMutation } from 'react-query'
 import {
@@ -112,6 +113,7 @@ const CampaignDetails = () => {
 								amount,
 								contributor,
 								projectAddress,
+								isApprover,
 							},
 						},
 					},
@@ -129,6 +131,14 @@ const CampaignDetails = () => {
 					transactionHash,
 					projectAddress,
 					transactionType: 'contribution',
+				}
+				if (isApprover) {
+					notification.info({
+						message: `You are now Approver!`,
+						description:
+							'You have funded more than minimum contribution so your are considered as approver of this campaign. ',
+						duration: 25,
+					})
 				}
 				// console.log(myData)
 				saveTransaction(myData)
