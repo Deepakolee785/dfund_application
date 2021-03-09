@@ -43,7 +43,7 @@ contract Dfund{
     uint public approversCount;
     
     // EVENTS
-    event LogContributionSent(address projectAddress, address contributor, uint amount);
+    event LogContributionSent(address projectAddress, address contributor, uint amount,bool isApprover);
     event LogRequestCreated(address payable maker,string description, uint value, address payable recipient);
     event LogRequestFinilized();
     event LogRequestApproved();
@@ -116,7 +116,7 @@ contract Dfund{
             contributor:msg.sender
         });
 
-        emit LogContributionSent(address(this),msg.sender, msg.value);
+        emit LogContributionSent(address(this),msg.sender, msg.value,approvers[msg.sender]);
        
     }
     
