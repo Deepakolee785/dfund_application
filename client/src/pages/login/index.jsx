@@ -1,4 +1,6 @@
 import React, { useEffect, useContext } from 'react'
+import ReCAPTCHA from 'react-google-recaptcha'
+
 import { Link } from 'react-router-dom'
 import { Form, message } from 'antd'
 import FactoryContext from '../../context/factory/factoryContext.js'
@@ -109,6 +111,23 @@ const LoginPage = () => {
 								disabled={false}
 								isPasswordField={true}
 							/>
+							<Form.Item
+								name='recaptcha'
+								rules={[
+									{
+										required: true,
+										message:
+											"Please verify you're not a bot!",
+									},
+								]}
+							>
+								<ReCAPTCHA
+									sitekey={
+										process.env.REACT_APP_RECAPTCHA_SITE_KEY
+									}
+								/>
+							</Form.Item>
+							<br />
 
 							<Form.Item>
 								<Button

@@ -1,5 +1,7 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { Form, message, Input, Spin } from 'antd'
+import ReCAPTCHA from 'react-google-recaptcha'
+
 import FactoryContext from '../../context/factory/factoryContext'
 import AuthContext from '../../context/auth/authContext'
 import history from '../../utils/history'
@@ -19,6 +21,7 @@ import location_icon from '../../assets/icons/location.svg'
 import image_icon from '../../assets/icons/image.svg'
 import { Link } from 'react-router-dom'
 import Header from '../../components/header'
+import Checkbox from 'antd/lib/checkbox/Checkbox'
 
 const RegisterPage = () => {
 	const [form] = Form.useForm()
@@ -75,11 +78,12 @@ const RegisterPage = () => {
 	}
 
 	const onFinish = values => {
+		if (!imageHash) return message.error('Error in uploaded image')
 		const data = {
 			...values,
 			imageHash: imageHash,
 		}
-
+		// console.log(data)
 		register(data)
 	}
 
@@ -166,7 +170,16 @@ const RegisterPage = () => {
 								>
 									Profile Picture
 								</h4>
-								<Form.Item name='imageHash'>
+								<Form.Item
+									name='imageHash'
+									rules={[
+										{
+											required: true,
+											message:
+												'Please upload your image!',
+										},
+									]}
+								>
 									<Input
 										prefix={
 											<img
@@ -213,7 +226,40 @@ const RegisterPage = () => {
 								disabled={false}
 								isPasswordField={true}
 							/>
+							<Form.Item
+								name='termsAndContions'
+								valuePropName='checked'
+								rules={[
+									{
+										required: true,
+										message:
+											'Please read and agree to the terms!',
+									},
+								]}
+							>
+								<Checkbox>
+									I read and agree to the{' '}
+									<strong>terms of services.</strong>
+								</Checkbox>
+							</Form.Item>
 
+							<Form.Item
+								name='recaptcha'
+								rules={[
+									{
+										required: true,
+										message:
+											"Please verify you're not a bot!",
+									},
+								]}
+							>
+								<ReCAPTCHA
+									sitekey={
+										process.env.REACT_APP_RECAPTCHA_SITE_KEY
+									}
+								/>
+							</Form.Item>
+							<br />
 							<Form.Item>
 								<Button
 									type='primary'

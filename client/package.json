@@ -3,6 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
+		"@truffle/hdwallet-provider": "^1.2.2",
 		"animated-number-react": "^0.1.1",
 		"antd": "^4.9.3",
 		"axios": "^0.21.1",
@@ -11,6 +12,7 @@
 		"moment": "^2.29.1",
 		"react": "^17.0.1",
 		"react-dom": "^17.0.1",
+		"react-google-recaptcha": "^2.1.0",
 		"react-query": "^3.2.0",
 		"react-router-dom": "^5.2.0",
 		"react-scripts": "^4.0.3",
