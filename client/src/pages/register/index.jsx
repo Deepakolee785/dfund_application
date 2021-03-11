@@ -141,6 +141,11 @@ const RegisterPage = () => {
 										required: true,
 										message: 'Please input your email!',
 									},
+									{
+										type: 'email',
+										message:
+											'Please enter a valid email address!',
+									},
 								]}
 								placeholder='Email Address'
 								icon={email_icon}

@@ -111,6 +111,7 @@ const LoginPage = () => {
 								disabled={false}
 								isPasswordField={true}
 							/>
+							<br />
 							<Form.Item
 								name='recaptcha'
 								rules={[
