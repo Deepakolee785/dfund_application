@@ -15,6 +15,7 @@ import {
 	Progress,
 	Spin,
 	notification,
+	Button as AntButton,
 } from 'antd'
 import { useQuery, useMutation } from 'react-query'
 import {
@@ -29,6 +30,7 @@ import {
 	VideoCameraAddOutlined,
 	TransactionOutlined,
 	FileAddOutlined,
+	RedoOutlined,
 } from '@ant-design/icons'
 
 import {
@@ -45,7 +47,7 @@ import Header from '../../components/header'
 import { Container } from '../../components/container'
 import FallbackImage from '../../assets/images/fallback_img.svg'
 import moment from 'moment'
-import { InputNumberEl } from '../create_campaign/style'
+import { InputEl, InputNumberEl } from '../create_campaign/style'
 import { Button } from '../../components/button'
 import LocationIcon from '../../assets/icons/location.svg'
 
@@ -171,11 +173,6 @@ const CampaignDetails = () => {
 		}
 	}, [web3, accounts, contract, campaign, fund])
 
-	const onFinish = values => {
-		// console.log('Success:', values)
-		fund.mutate(fromEtherToWei(web3, values.amount.toString()))
-	}
-
 	// Contribution table list
 	const columns = [
 		{
@@ -219,6 +216,42 @@ const CampaignDetails = () => {
 			accounts.length > 0 && data && accounts[0] === data.creator
 		)
 	}, [data, accounts])
+	const getCaptcha = () => {
+		// Math.random().toString(26).substring(5, 10)
+
+		// console.log(status)
+		let alphabets = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz'
+
+		let first = alphabets[Math.floor(Math.random() * alphabets.length)]
+		let second = Math.floor(Math.random() * 10)
+		let third = Math.floor(Math.random() * 10)
+		let fourth = alphabets[Math.floor(Math.random() * alphabets.length)]
+		let fifth = alphabets[Math.floor(Math.random() * alphabets.length)]
+		let sixth = Math.floor(Math.random() * 10)
+		let captcha =
+			first.toString() +
+			second.toString() +
+			third.toString() +
+			fourth.toString() +
+			fifth.toString() +
+			sixth.toString()
+
+		return captcha
+	}
+
+	const [captcha, setCaptcha] = useState(getCaptcha())
+
+	const refreshCaptcha = () => setCaptcha(getCaptcha())
+
+	const onFinish = values => {
+		// console.log('Success:', values)
+		if (captcha !== values.captcha) {
+			message.error('Invalid captcha code!')
+			// refreshCaptcha()
+			return
+		}
+		fund.mutate(fromEtherToWei(web3, values.amount.toString()))
+	}
 
 	if (isError) return <Alert message={error} type='error' />
 
@@ -387,7 +420,7 @@ const CampaignDetails = () => {
 							</p>
 							<Divider />
 							{isAuthenticated ? (
-								!isCreator ? (
+								isCreator ? (
 									<Form
 										form={fundForm}
 										name='fundInCampaign'
@@ -423,6 +456,81 @@ const CampaignDetails = () => {
 												onKeyDown={checkNumberKey}
 											/>
 										</Form.Item>
+										<label
+											htmlFor=''
+											style={{ fontWeight: 500 }}
+										>
+											Enter Captcha
+										</label>
+										<Row gutter={[5, 2]} align='middle'>
+											<Col>
+												<Row>
+													<Col>
+														<p
+															style={{
+																padding:
+																	'0.3rem 0',
+																width: '15rem',
+																textAlign:
+																	'center',
+																background:
+																	'#eee',
+																fontSize:
+																	'1.3rem',
+																fontWeight: 600,
+																letterSpacing:
+																	'1.2px',
+																textDecoration:
+																	'line-through',
+															}}
+														>
+															{captcha}
+														</p>
+													</Col>
+													<Col>
+														<AntButton
+															type='primary'
+															shape='circle'
+															style={{
+																backgroundColor:
+																	'#5F66F1',
+																margin:
+																	'0.2rem 0 0 0.2rem',
+															}}
+															icon={
+																<RedoOutlined />
+															}
+															onClick={
+																refreshCaptcha
+															}
+														/>
+														{/* <Button
+															icon={
+																<RedoOutlined />
+															}
+															size='circle'
+															onClick={
+																refreshCaptcha
+															}
+														/> */}
+													</Col>
+												</Row>
+											</Col>
+											<Col>
+												<Form.Item
+													name='captcha'
+													rules={[
+														{
+															required: true,
+															message:
+																'Please input captcha',
+														},
+													]}
+												>
+													<InputEl placeholder='Type here...' />
+												</Form.Item>
+											</Col>
+										</Row>
 										<Button
 											type='primary'
 											htmlType='submit'
@@ -477,6 +585,9 @@ const CampaignDetails = () => {
 						key='1'
 					>
 						<p>{data ? data.description : ''}</p>
+						<Button type='primary' variant='danger'>
+							Kill campaign
+						</Button>
 					</TabPane>
 					<TabPane
 						tab={
