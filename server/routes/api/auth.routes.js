@@ -1,4 +1,6 @@
 const router = require('express').Router()
+const fetch = require('node-fetch')
+
 const User = require('../../models/User')
 const Campaign = require('../../models/Campaign')
 const Transaction = require('../../models/Transaction')
@@ -10,7 +12,24 @@ const {
 	loginValidation,
 } = require('../../validation/auth.validation')
 
+const validateHuman = async token => {
+	const secret = process.env.RECAPTCHA_SECRET_KEY
+	const response = await fetch(
+		`https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${token}`,
+		{
+			method: 'POST',
+		}
+	)
+	const data = await response.json()
+	return data.success
+}
+
 router.post('/register', async (req, res) => {
+	const isHuman = await validateHuman(req.body.recaptcha)
+	if (!isHuman) {
+		res.status(400).json({ message: 'It seems your are a bot!' })
+		return
+	}
 	// Validate
 	const { error } = registerValidation(req.body)
 	if (error)
@@ -53,6 +72,11 @@ router.post('/register', async (req, res) => {
 })
 
 router.post('/login', async (req, res) => {
+	const isHuman = await validateHuman(req.body.recaptcha)
+	if (!isHuman) {
+		res.status(400).json({ message: 'It seems your are a bot!' })
+		return
+	}
 	// Validate
 	const { error } = loginValidation(req.body)
 	if (error)

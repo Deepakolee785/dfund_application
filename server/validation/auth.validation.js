@@ -9,6 +9,7 @@ const registerValidation = data => {
 		password: Joi.string().min(6).required(),
 		imageHash: Joi.string().optional(),
 		country: Joi.string().required(),
+		recaptcha: Joi.string().required(),
 	})
 	return schema.validate(data)
 }
@@ -19,6 +20,7 @@ const loginValidation = data => {
 		username: Joi.string().min(5).required(),
 		password: Joi.string().required(),
 		wallet: Joi.string().required(),
+		recaptcha: Joi.string().required(),
 	})
 	return schema.validate(data)
 }
