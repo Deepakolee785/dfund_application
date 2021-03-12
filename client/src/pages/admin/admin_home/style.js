@@ -1,3 +1,4 @@
+import { Tooltip } from 'antd'
 import styled from 'styled-components'
 
 export const DashboardItem = styled.div`
@@ -15,3 +16,27 @@ export const DashboardItem = styled.div`
 		margin-top: 1.2rem;
 	}
 `
+export const LinkLabel = styled.p`
+	width: 8rem;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	color: #1890ff;
+`
+export const AddressLink = ({ addr }) => (
+	<Tooltip title={addr}>
+		<LinkLabel>{addr}</LinkLabel>
+	</Tooltip>
+)
+
+export const DescriptionLable = styled.p`
+	width: 8rem;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+`
+export const Description = ({ description }) => (
+	<Tooltip title={description}>
+		<DescriptionLable>{description}</DescriptionLable>
+	</Tooltip>
+)

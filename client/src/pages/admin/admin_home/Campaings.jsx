@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-
+import { EyeOutlined, InfoCircleOutlined } from '@ant-design/icons'
 import { DEV_URL, IPFS_INFURA_URL } from '../../../config'
-import { Image, Table } from 'antd'
+import { Image, Table, Button as AntButton } from 'antd'
 import { getRequests } from '../../../api/request'
 import { Button } from '../../../components/button'
 import { getTransactions } from '../../../api/transaction'
 import { v4 as uuid } from 'uuid'
+import { AddressLink } from './style'
+import Modal from 'antd/lib/modal/Modal'
 
 const Campaings = () => {
 	const [showRequest, setShowRequests] = useState(false)
@@ -26,11 +28,69 @@ const Campaings = () => {
 			.finally(() => setLoading(false))
 	}, [])
 
+	// const campaignDetailsDropdown = data => {
+	// 	const {
+	// 		blockHash,
+	// 		blockNumber,
+	// 		cumulativeGasUsed,
+	// 		type,
+	// 		status,
+	// 		to,
+	// 		transactionHash,
+	// 	} = data
+	// 	return (
+	// 		<Menu
+	// 			style={{
+	// 				width: '15rem',
+	// 				padding: '1rem',
+	// 				overflow: 'hidden',
+	// 				textOverflow: 'ellipsis',
+	// 				whiteSpace: 'nowrap',
+	// 			}}
+	// 		>
+	// 			<Menu.Item>
+	// 				<p>Additional Info</p>
+	// 			</Menu.Item>
+	// 			<p>
+	// 				Block Hash:
+	// 				{blockHash}
+	// 			</p>
+	// 			<p>Block Number: {blockNumber}</p>
+	// 			<p>Gas used: {cumulativeGasUsed}</p>
+	// 			<p>Type: {type}</p>
+	// 			<p>Status: {status}</p>
+	// 			<p>To: {to}</p>
+	// 			<p>Transaction Hash: {transactionHash}</p>
+	// 		</Menu>
+	// 	)
+	// }
+	function info() {
+		Modal.info({
+			title: 'This is a notification message',
+			content: (
+				<div>
+					<p>some messages...some messages...</p>
+					<p>some messages...some messages...</p>
+				</div>
+			),
+			onOk() {},
+		})
+	}
 	const columns = [
 		{
-			title: 'S.N.',
-			dataIndex: 'sn',
-			key: 'sn',
+			title: '',
+			dataIndex: 'info',
+			key: 'info',
+			render: () => {
+				return (
+					<AntButton
+						icon={<InfoCircleOutlined />}
+						shape='circle'
+						style={{ border: 0 }}
+						onClick={() => {}}
+					/>
+				)
+			},
 		},
 		{
 			title: 'Image',
@@ -39,7 +99,7 @@ const Campaings = () => {
 			render: imageHash => {
 				return (
 					<Image
-						width={50}
+						width={80}
 						height={50}
 						src={`${IPFS_INFURA_URL}/${imageHash}`}
 						fallback='data:image/png;base64,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'
@@ -51,33 +111,30 @@ const Campaings = () => {
 			title: 'Address',
 			dataIndex: 'addr',
 			key: 'addr',
+			render: addr => {
+				return <AddressLink addr={addr} />
+			},
 		},
 		{
 			title: 'Title',
 			dataIndex: 'title',
 			key: 'title',
 		},
-		{
-			title: 'Description',
-			dataIndex: 'description',
-			key: 'description',
-			render: description => {
-				return (
-					<p
-						style={{
-							width: '20rem',
-							height: '5.3rem',
-						}}
-					>
-						{description}
-					</p>
-				)
-			},
-		},
+		// {
+		// 	title: 'Description',
+		// 	dataIndex: 'description',
+		// 	key: 'description',
+		// 	render: description => {
+		// 		return <Description description={description} />
+		// 	},
+		// },
 		{
 			title: 'Creator',
 			dataIndex: 'creator',
 			key: 'creator',
+			render: creator => {
+				return <AddressLink addr={creator} />
+			},
 		},
 		{
 			title: 'Category',
@@ -104,45 +161,56 @@ const Campaings = () => {
 			dataIndex: 'minimumContribution',
 			key: 'minimumContribution',
 		},
+
+		// {
+		// 	title: 'Type',
+		// 	dataIndex: 'type',
+		// 	key: 'type',
+		// },
+		// {
+		// 	title: 'Block Hash',
+		// 	dataIndex: 'blockHash',
+		// 	key: 'blockHash',
+		// },
+		// {
+		// 	title: 'Block Number',
+		// 	dataIndex: 'blockNumber',
+		// 	key: 'blockNumber',
+		// },
+		// {
+		// 	title: 'Gas Used',
+		// 	dataIndex: 'cumulativeGasUsed',
+		// 	key: 'cumulativeGasUsed',
+		// },
+		// {
+		// 	title: 'Status',
+		// 	dataIndex: 'status',
+		// 	key: 'status',
+		// },
+		// {
+		// 	title: 'To',
+		// 	dataIndex: 'to',
+		// 	key: 'to',
+		// },
+		// {
+		// 	title: 'Transaction Hash',
+		// 	dataIndex: 'transactionHash',
+		// 	key: 'transactionHash',
+		// },
 		{
-			title: 'Country',
-			dataIndex: 'country',
-			key: 'country',
-		},
-		{
-			title: 'Type',
-			dataIndex: 'type',
-			key: 'type',
-		},
-		{
-			title: 'Block Hash',
-			dataIndex: 'blockHash',
-			key: 'blockHash',
-		},
-		{
-			title: 'Block Number',
-			dataIndex: 'blockNumber',
-			key: 'blockNumber',
-		},
-		{
-			title: 'Gas Used',
-			dataIndex: 'cumulativeGasUsed',
-			key: 'cumulativeGasUsed',
-		},
-		{
-			title: 'Status',
-			dataIndex: 'status',
-			key: 'status',
-		},
-		{
-			title: 'To',
-			dataIndex: 'to',
-			key: 'to',
-		},
-		{
-			title: 'Transaction Hash',
-			dataIndex: 'transactionHash',
-			key: 'transactionHash',
+			title: 'View',
+			dataIndex: 'view',
+			key: 'view',
+			render: data => {
+				return (
+					<AntButton
+						shape='circle'
+						type='primary'
+						icon={<EyeOutlined />}
+						onClick={() => setShowRequests(true)}
+					/>
+				)
+			},
 		},
 	]
 
@@ -188,6 +256,15 @@ const Campaings = () => {
 			status,
 			to,
 			transactionHash,
+			view: {
+				blockHash,
+				blockNumber,
+				cumulativeGasUsed,
+				type,
+				status,
+				to,
+				transactionHash,
+			},
 		}
 	})
 	const [currentCampaign, setCurrentCampaign] = useState(null)
@@ -452,6 +529,7 @@ const Campaings = () => {
 		<div>
 			<h3>Campaigns</h3>
 			<Table
+				bordered
 				columns={columns}
 				dataSource={dataSource}
 				scroll={{ x: true }}
@@ -459,8 +537,8 @@ const Campaings = () => {
 				onRow={(record, rowIndex) => {
 					return {
 						// onClick: event => {}, // click row
-						onDoubleClick: event => {
-							setShowRequests(true)
+						onClick: event => {
+							// setShowRequests(true)
 							setCurrentCampaign(record.key)
 							setCurrentCampaignAddress(record.addr)
 						}, // double click row
