@@ -8,7 +8,6 @@ import { Button } from '../../../components/button'
 import { getTransactions } from '../../../api/transaction'
 import { v4 as uuid } from 'uuid'
 import { AddressLink } from './style'
-import Modal from 'antd/lib/modal/Modal'
 
 const Campaings = () => {
 	const [showRequest, setShowRequests] = useState(false)
@@ -28,54 +27,6 @@ const Campaings = () => {
 			.finally(() => setLoading(false))
 	}, [])
 
-	// const campaignDetailsDropdown = data => {
-	// 	const {
-	// 		blockHash,
-	// 		blockNumber,
-	// 		cumulativeGasUsed,
-	// 		type,
-	// 		status,
-	// 		to,
-	// 		transactionHash,
-	// 	} = data
-	// 	return (
-	// 		<Menu
-	// 			style={{
-	// 				width: '15rem',
-	// 				padding: '1rem',
-	// 				overflow: 'hidden',
-	// 				textOverflow: 'ellipsis',
-	// 				whiteSpace: 'nowrap',
-	// 			}}
-	// 		>
-	// 			<Menu.Item>
-	// 				<p>Additional Info</p>
-	// 			</Menu.Item>
-	// 			<p>
-	// 				Block Hash:
-	// 				{blockHash}
-	// 			</p>
-	// 			<p>Block Number: {blockNumber}</p>
-	// 			<p>Gas used: {cumulativeGasUsed}</p>
-	// 			<p>Type: {type}</p>
-	// 			<p>Status: {status}</p>
-	// 			<p>To: {to}</p>
-	// 			<p>Transaction Hash: {transactionHash}</p>
-	// 		</Menu>
-	// 	)
-	// }
-	function info() {
-		Modal.info({
-			title: 'This is a notification message',
-			content: (
-				<div>
-					<p>some messages...some messages...</p>
-					<p>some messages...some messages...</p>
-				</div>
-			),
-			onOk() {},
-		})
-	}
 	const columns = [
 		{
 			title: '',
