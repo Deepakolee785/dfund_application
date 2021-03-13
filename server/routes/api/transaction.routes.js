@@ -3,6 +3,7 @@ const auth = require('../../middlewares/auth')
 const admin_auth = require('../../middlewares/admin_auth')
 const Transaction = require('../../models/Transaction')
 const Campaign = require('../../models/Campaign')
+const Approver = require('../../models/Approver')
 
 router.post('/save-transaction', auth, async (req, res) => {
 	// console.log(req.body)
@@ -18,8 +19,10 @@ router.post('/save-transaction', auth, async (req, res) => {
 		transactionHash,
 		projectAddress,
 		transactionType,
+		isApprover,
 	} = req.body
 	// return
+
 	const transaction = new Transaction({
 		user,
 		sender,
@@ -33,10 +36,22 @@ router.post('/save-transaction', auth, async (req, res) => {
 		projectAddress,
 		transactionType,
 	})
+
 	try {
 		const savedtransaction = await transaction.save()
+
+		if (isApprover) {
+			const approver = new Approver({
+				campaign: projectAddress,
+				user,
+			})
+			await approver.save()
+		}
+
 		res.send({
-			message: 'Successfully saved transaction.',
+			message: !isApprover
+				? 'Successfully saved transaction.'
+				: 'Successfully save transaction and added in approver list.',
 		})
 	} catch (error) {
 		res.status(400).send(error)
