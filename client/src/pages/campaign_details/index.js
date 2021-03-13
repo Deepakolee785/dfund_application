@@ -132,6 +132,7 @@ const CampaignDetails = () => {
 					status,
 					transactionHash,
 					projectAddress,
+					isApprover,
 					transactionType: 'contribution',
 				}
 				if (isApprover) {
@@ -424,7 +425,7 @@ const CampaignDetails = () => {
 							<Divider />
 							{isAuthenticated ? (
 								// ================================
-								isCreator ? (
+								!isCreator ? (
 									<Form
 										form={fundForm}
 										name='fundInCampaign'
