@@ -135,9 +135,17 @@ export const createCampaignSpendingRequest = (web3, campaign) => {
 }
 
 export const fromEtherToWei = (web3, ethValue) => {
-	return web3.utils.toWei(ethValue, 'ether')
+	try {
+		return web3.utils.toWei(ethValue, 'ether')
+	} catch (error) {
+		return 0
+	}
 }
 
 export const fromWeiToEther = (web3, weiValue) => {
-	return web3.utils.fromWei(weiValue, 'ether')
+	try {
+		return web3.utils.fromWei(weiValue, 'ether')
+	} catch (error) {
+		return 0
+	}
 }
