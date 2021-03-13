@@ -82,6 +82,7 @@ const RegisterPage = () => {
 		const data = {
 			...values,
 			imageHash: imageHash,
+			termsAndContions: values.termsAndContions.toString(),
 		}
 		// console.log(data)
 		register(data)

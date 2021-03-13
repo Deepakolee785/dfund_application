@@ -10,6 +10,7 @@ const registerValidation = data => {
 		imageHash: Joi.string().optional(),
 		country: Joi.string().required(),
 		recaptcha: Joi.string().required(),
+		termsAndContions: Joi.string().required(),
 	})
 	return schema.validate(data)
 }
