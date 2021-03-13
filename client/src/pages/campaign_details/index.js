@@ -247,7 +247,10 @@ const CampaignDetails = () => {
 		// console.log('Success:', values)
 		if (captcha !== values.captcha) {
 			message.error('Invalid captcha code!')
-			// refreshCaptcha()
+			refreshCaptcha()
+			fundForm.setFieldsValue({
+				captcha: '',
+			})
 			return
 		}
 		fund.mutate(fromEtherToWei(web3, values.amount.toString()))
@@ -420,6 +423,7 @@ const CampaignDetails = () => {
 							</p>
 							<Divider />
 							{isAuthenticated ? (
+								// ================================
 								isCreator ? (
 									<Form
 										form={fundForm}

@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 import { Form, Select, Row, Col, Radio, message } from 'antd'
 import { useMutation } from 'react-query'
 import moment from 'moment'
+import { countries as allCountires } from 'countries-list'
 
 import FactoryContext from '../../context/factory/factoryContext'
 import {
@@ -10,7 +11,7 @@ import {
 	createCampaign,
 	fromWeiToEther,
 } from '../../api/web3Api'
-import { getCountries } from '../../api/getCountries'
+// import { getCountries } from '../../api/getCountries'
 import { saveCampaign } from '../../api/campaign'
 import Layout from '../../layout/user_layout'
 import Header from '../../components/header'
@@ -100,7 +101,6 @@ const CreateCampaign = () => {
 					transactionHash,
 				}
 
-				console.log('Created Data: ', myData)
 				saveCampaign(myData)
 					.then(res => {
 						console.log(res.data)
@@ -132,27 +132,27 @@ const CreateCampaign = () => {
 			deadline: Number(values.deadline),
 			imagehash: imageHash,
 		}
-		console.log(data)
 
 		//create campaign
 
 		create.mutate(data)
 	}
+	const [countries] = useState(
+		Object.entries(allCountires).map(item => item[1])
+	)
 
-	const [countires, setCountires] = useState([])
-
-	useEffect(() => {
-		let isMounted = true
-		getCountries().then(data => {
-			if (data) {
-				if (isMounted) setCountires(data)
-			}
-			return
-		})
-		return () => {
-			isMounted = false
-		}
-	}, [])
+	// useEffect(() => {
+	// 	let isMounted = true
+	// 	getCountries().then(data => {
+	// 		if (data) {
+	// 			if (isMounted) setCountires(data)
+	// 		}
+	// 		return
+	// 	})
+	// 	return () => {
+	// 		isMounted = false
+	// 	}
+	// }, [])
 
 	return (
 		<Layout>
@@ -301,16 +301,17 @@ const CreateCampaign = () => {
 											0
 										}
 									>
-										{countires.map((country, index) => {
-											return (
-												<Option
-													key={index}
-													value={country.name}
-												>
-													{country.name}
-												</Option>
-											)
-										})}
+										{countries &&
+											countries.map((country, index) => {
+												return (
+													<Option
+														key={index}
+														value={country.name}
+													>
+														{country.name}
+													</Option>
+												)
+											})}
 									</SelectEl>
 								</Form.Item>
 							</div>
