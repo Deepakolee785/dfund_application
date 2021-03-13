@@ -3,6 +3,9 @@ const auth = require('../../middlewares/auth')
 const admin_auth = require('../../middlewares/admin_auth')
 const Request = require('../../models/Request')
 const Campaign = require('../../models/Campaign')
+const Approver = require('../../models/Approver')
+const User = require('../../models/User')
+const sendApproveEmails = require('../../services/nodemailer')
 
 router.post('/save-request', auth, async (req, res) => {
 	// console.log(req.body)
@@ -21,7 +24,21 @@ router.post('/save-request', auth, async (req, res) => {
 		complete,
 	} = req.body
 	const currentCampaign = await Campaign.find({ addr: campaign })
-	// console.log(currentCampaign[0])
+	const approvers = await Approver.find({ campaign })
+
+	const approversEmail = await Promise.all(
+		Array(approvers.length)
+			.fill()
+			.map((element, index) => {
+				return User.findById(approvers[index].user)
+					.then(data => {
+						return data.email
+					})
+					.catch(err => null)
+			})
+	)
+
+	// console.log(approversEmail)
 	// return
 	const request = new Request({
 		campaign: currentCampaign[0]._id,
@@ -39,6 +56,14 @@ router.post('/save-request', auth, async (req, res) => {
 	})
 	try {
 		const savedRequest = await request.save()
+		sendApproveEmails({
+			emailList: approversEmail,
+			campaingAddress: campaign,
+			title: currentCampaign[0].title,
+			request: description,
+			amount: value,
+			recipient: recipient,
+		})
 		res.send({
 			request: savedRequest._id,
 			campaign: savedRequest.campaign,
