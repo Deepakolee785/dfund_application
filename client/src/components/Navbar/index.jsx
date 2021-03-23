@@ -82,7 +82,7 @@ const Navbar = () => {
 							Explore
 						</NavLink>
 					</li>
-					<li>
+					{/* <li>
 						<NavLink
 							to='/search'
 							className='inactiveNav'
@@ -91,7 +91,7 @@ const Navbar = () => {
 						>
 							Search
 						</NavLink>
-					</li>
+					</li> */}
 					<li>
 						<NavLink
 							to='/how_it_works'
@@ -110,6 +110,16 @@ const Navbar = () => {
 							activeClassName='activeNav'
 						>
 							About
+						</NavLink>
+					</li>
+					<li>
+						<NavLink
+							to='/contact'
+							className='inactiveNav'
+							exact
+							activeClassName='activeNav'
+						>
+							Contact
 						</NavLink>
 					</li>
 				</NavMenuList>

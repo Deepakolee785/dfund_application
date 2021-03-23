@@ -1,14 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { v4 as uuid } from 'uuid'
-import {
-	Divider,
-	Spin,
-	// Image, Progress,
-	Row,
-	Col,
-	Select,
-	Tag,
-} from 'antd'
+import { Divider, Spin, Row, Col, Select, Tag } from 'antd'
 import FactoryContext from '../../context/factory/factoryContext'
 import { PlusOutlined } from '@ant-design/icons'
 
@@ -34,6 +26,7 @@ import {
 import Header from '../../components/header'
 import { SelectEl } from './style'
 import CardItem from '../../components/card_item'
+import { InputEl } from '../create_campaign/style'
 
 const { Option } = Select
 
@@ -97,6 +90,19 @@ const ExplorePage = () => {
 		// eslint-disable-next-line
 	}, [info.data])
 
+	const [status, setStatus] = useState('all')
+	const filterByStatus = rows => {
+		return rows.filter(row => {
+			if (status === 'active') return row.active
+			else if (status === 'inactive') return !row.active
+			else return true
+		})
+	}
+	const [query, setQuery] = useState('')
+	const search = rows => {
+		return rows.filter(row => row.title.toLowerCase().indexOf(query) > -1)
+	}
+
 	return (
 		<Layout>
 			<Header
@@ -144,11 +150,28 @@ crowdfunding campaigns today.'
 							style={{ margin: '2rem 0' }}
 						>
 							<Col>
+								<p>Filter by Status</p>
+								<SelectEl
+									placeholder='Select Status'
+									// allowClear
+									style={{
+										width: '15rem',
+									}}
+									onChange={val => setStatus(val)}
+									// defaultValue='all'
+								>
+									<Option value='all'>All</Option>
+									<Option value='active'>Active</Option>
+									<Option value='inactive'>Terminated</Option>
+								</SelectEl>
+							</Col>
+							<Col>
+								<p>Filter by Category</p>
 								<SelectEl
 									placeholder='Select category'
 									allowClear
 									style={{
-										width: '20rem',
+										width: '15rem',
 									}}
 								>
 									<Option value='food'>Food</Option>
@@ -159,11 +182,13 @@ crowdfunding campaigns today.'
 								</SelectEl>
 							</Col>
 							<Col>
+								<p>Filter by Country</p>
+
 								<SelectEl
-									placeholder='Select Location'
+									placeholder='Select Country'
 									allowClear
 									style={{
-										width: '20rem',
+										width: '15rem',
 									}}
 								>
 									<Option value='food'>Food</Option>
@@ -174,11 +199,17 @@ crowdfunding campaigns today.'
 								</SelectEl>
 							</Col>
 							<Col>
-								<SelectEl
+								<p style={{ marginBottom: '1.5rem' }}>Search</p>
+
+								<InputEl
+									placeholder='Search by ...'
+									onChange={e => setQuery(e.target.value)}
+								/>
+								{/* <SelectEl
 									placeholder='Trending'
 									allowClear
 									style={{
-										width: '20rem',
+										width: '15rem',
 									}}
 								>
 									<Option value='food'>Food</Option>
@@ -186,7 +217,7 @@ crowdfunding campaigns today.'
 										Technology
 									</Option>
 									<Option value='art'>Art</Option>
-								</SelectEl>
+								</SelectEl> */}
 							</Col>
 						</Row>
 					)}
@@ -206,36 +237,41 @@ crowdfunding campaigns today.'
 					)}
 					<Row gutter={[15, 15]}>
 						{myData.length !== 0 &&
-							myData.map((data, index) => {
-								const fundedPercentage = (
-									(parseFloat(data.fundedBalance) /
-										parseFloat(data.goalAmount)) *
-									100
-								).toFixed(0)
-								// console.log(data)
-								return (
-									<Col key={uuid()}>
-										<CardItem
-											title={data.title}
-											imageHash={data.imageHash}
-											address={info.data[index]}
-											fundedBalance={fromWeiToEther(
-												web3,
-												data.fundedBalance
-											)}
-											fundedPercentage={fundedPercentage}
-											goalAmount={fromWeiToEther(
-												web3,
-												data.goalAmount
-											)}
-											category={data.category}
-											description={data.description}
-										/>
+							search(filterByStatus(myData)).map(
+								(data, index) => {
+									const fundedPercentage = (
+										(parseFloat(data.fundedBalance) /
+											parseFloat(data.goalAmount)) *
+										100
+									).toFixed(0)
+									// console.log(data)
+									return (
+										<Col key={uuid()}>
+											<CardItem
+												isActive={data.active}
+												title={data.title}
+												imageHash={data.imageHash}
+												address={info.data[index]}
+												fundedBalance={fromWeiToEther(
+													web3,
+													data.fundedBalance
+												)}
+												fundedPercentage={
+													fundedPercentage
+												}
+												goalAmount={fromWeiToEther(
+													web3,
+													data.goalAmount
+												)}
+												category={data.category}
+												description={data.description}
+											/>
 
-										<Divider />
-									</Col>
-								)
-							})}
+											<Divider />
+										</Col>
+									)
+								}
+							)}
 					</Row>
 				</div>
 			</Container>

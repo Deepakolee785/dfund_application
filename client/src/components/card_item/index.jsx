@@ -1,12 +1,21 @@
-import { Image, Progress } from 'antd'
+import { Image, Progress, Tag } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { IPFS_INFURA_URL } from '../../config'
 import { CardEl } from '../../pages/explore/style'
 import { Button } from '../button'
-import { Category, Title, Amount, Description } from './style'
+import {
+	// Category,
+	Title,
+	Amount,
+	Description,
+} from './style'
 import fallback_img from '../../assets/images/fallback_img.svg'
-
+import {
+	TagOutlined,
+	EyeOutlined,
+	EyeInvisibleOutlined,
+} from '@ant-design/icons'
 const CardItem = ({
 	imageHash,
 	title,
@@ -17,6 +26,7 @@ const CardItem = ({
 	category,
 	description,
 	showProgress = true,
+	isActive,
 }) => {
 	return (
 		<CardEl hoverable bordered>
@@ -39,7 +49,22 @@ const CardItem = ({
 			</div>
 			<div style={{ padding: '1rem' }}>
 				<Link to={`/campaign/${address}`}>
-					<Category>{category}</Category>
+					<Tag color='default' icon={<TagOutlined />}>
+						{category}
+					</Tag>
+					<Tag
+						color={isActive ? 'success' : 'error'}
+						icon={
+							isActive ? (
+								<EyeOutlined />
+							) : (
+								<EyeInvisibleOutlined />
+							)
+						}
+					>
+						{isActive ? 'Active' : 'Terminated'}
+					</Tag>
+					<p></p> {/* <Category>{category}</Category> */}
 					<Title>{title}</Title>
 					<Description>{description}</Description>
 					{/* <Link to={`/campaign/${address}`}>
