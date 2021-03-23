@@ -96,3 +96,8 @@ body {
 .table-row-complete {
 	background-color: rgb(3, 146, 3, 0.1);
 }
+
+/* slider */
+.ant-slider-dot-active {
+	border-color: var(--main);
+}

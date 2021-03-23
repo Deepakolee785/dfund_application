@@ -36,3 +36,14 @@ export const CardEl = styled(Card)`
 		border-radius: 2px;
 	}
 `
+export const Label = styled.p`
+	font-style: normal;
+	font-weight: 600;
+	font-size: 12px;
+	/* line-height: 33px; */
+	/* identical to box height */
+
+	text-transform: uppercase;
+
+	color: rgba(0, 0, 0, 0.71);
+`
