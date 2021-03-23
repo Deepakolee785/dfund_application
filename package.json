@@ -18,7 +18,6 @@
 	},
 	"dependencies": {
 		"@truffle/hdwallet-provider": "^1.2.2",
-		"countries-list": "^2.6.1",
 		"npm": "^6.14.9"
 	}
 }

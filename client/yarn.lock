@@ -4255,6 +4255,11 @@
     "path-type" "^4.0.0"
     "yaml" "^1.10.0"
 
+"countries-list@^2.6.1":
+  "integrity" "sha512-jXM1Nv3U56dPQ1DsUSsEaGmLHburo4fnB7m+1yhWDUVvx5gXCd1ok/y3gXCjXzhqyawG+igcPYcAl4qjkvopaQ=="
+  "resolved" "https://registry.npmjs.org/countries-list/-/countries-list-2.6.1.tgz"
+  "version" "2.6.1"
+
 "create-ecdh@^4.0.0":
   "integrity" "sha512-GbEHQPMOswGpKXM9kCWVrremUcBmjteUaQ01T9rkKCPDXfUHX0IoP9LpHYo2NPFampa4e+/pFDc3jQdxrxQLaw=="
   "resolved" "https://registry.npmjs.org/create-ecdh/-/create-ecdh-4.0.3.tgz"

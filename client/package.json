@@ -7,6 +7,7 @@
 		"animated-number-react": "^0.1.1",
 		"antd": "^4.9.3",
 		"axios": "^0.21.1",
+		"countries-list": "^2.6.1",
 		"framer-motion": "^3.9.1",
 		"ipfs-http-client": "^48.2.2",
 		"moment": "^2.29.1",
