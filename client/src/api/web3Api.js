@@ -149,3 +149,22 @@ export const fromWeiToEther = (web3, weiValue) => {
 		return 0
 	}
 }
+
+export const killCampaign = (web3, campaign) => {
+	let myCampaign = new web3.eth.Contract(DfundContract.abi, campaign)
+	return myCampaign.methods
+		.kill()
+		.call()
+		.then(data => data)
+		.catch(err => err)
+}
+export const stopCampaign = (web3, campaign, account) => {
+	let myCampaign = new web3.eth.Contract(DfundContract.abi, campaign)
+	return myCampaign.methods
+		.stopCampaign()
+		.send({
+			from: account,
+		})
+		.then(data => data)
+		.catch(err => err)
+}

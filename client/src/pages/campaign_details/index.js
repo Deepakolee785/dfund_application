@@ -40,6 +40,7 @@ import {
 	fundAmount,
 	getContributionsCount,
 	getContributions,
+	stopCampaign,
 } from '../../api/web3Api'
 import { IPFS_INFURA_URL } from '../../config'
 import { saveTransaction } from '../../api/transaction'
@@ -73,13 +74,14 @@ const CampaignDetails = () => {
 		contract.length !== 0 &&
 		accounts.length !== 0
 
-	const { data, isError, error, isLoading } = useQuery(
+	const { data, isError, error, isLoading, refetch } = useQuery(
 		['campaign'],
 		() => getCampaignDetails(web3, campaign),
 		{
 			enabled: typeof web3 !== 'undefined',
 		}
 	)
+	// console.log(data)
 
 	const contributionCount = useQuery(
 		['contribution_count'],
@@ -257,6 +259,21 @@ const CampaignDetails = () => {
 		fund.mutate(fromEtherToWei(web3, values.amount.toString()))
 	}
 
+	const kill = () => {
+		// killCampaign(web3, campaign).then(res => {
+		// 	console.log(res)
+		// })
+		stopCampaign(web3, campaign, accounts[0])
+			.then(res => {
+				//refetch campaign details
+				refetch()
+				message.success('Campaign terminated successfully.')
+			})
+			.catch(err => {
+				// console.log('err', err)
+			})
+	}
+
 	if (isError) return <Alert message={error} type='error' />
 
 	return (
@@ -423,93 +440,95 @@ const CampaignDetails = () => {
 								ETH */}
 							</p>
 							<Divider />
-							{isAuthenticated ? (
-								// ================================
-								!isCreator ? (
-									<Form
-										form={fundForm}
-										name='fundInCampaign'
-										onFinish={onFinish}
-										style={{
-											width: '20rem',
-											marginTop: '1rem',
-										}}
-									>
-										<label
-											htmlFor=''
-											style={{ fontWeight: 500 }}
+							{data && data.active ? (
+								isAuthenticated ? (
+									// ================================
+									!isCreator ? (
+										<Form
+											form={fundForm}
+											name='fundInCampaign'
+											onFinish={onFinish}
+											style={{
+												width: '20rem',
+												marginTop: '1rem',
+											}}
 										>
-											Fund in this campaign
-										</label>
+											<label
+												htmlFor=''
+												style={{ fontWeight: 500 }}
+											>
+												Fund in this campaign
+											</label>
 
-										<Form.Item
-											// label='Amount'
-											name='amount'
-											rules={[
-												{
-													required: true,
+											<Form.Item
+												// label='Amount'
+												name='amount'
+												rules={[
+													{
+														required: true,
 
-													message:
-														'Please input amount!',
-												},
-											]}
-										>
-											<InputNumberEl
-												min={0.00001}
-												style={{ width: '100%' }}
-												placeholder='Amount in Eth'
-												onKeyDown={checkNumberKey}
-											/>
-										</Form.Item>
-										<label
-											htmlFor=''
-											style={{ fontWeight: 500 }}
-										>
-											Enter Captcha
-										</label>
-										<Row gutter={[5, 2]} align='middle'>
-											<Col>
-												<Row>
-													<Col>
-														<p
-															style={{
-																padding:
-																	'0.3rem 0',
-																width: '15rem',
-																textAlign:
-																	'center',
-																background:
-																	'#eee',
-																fontSize:
-																	'1.3rem',
-																fontWeight: 600,
-																letterSpacing:
-																	'1.2px',
-																textDecoration:
-																	'line-through',
-															}}
-														>
-															{captcha}
-														</p>
-													</Col>
-													<Col>
-														<AntButton
-															type='primary'
-															shape='circle'
-															style={{
-																backgroundColor:
-																	'#5F66F1',
-																margin:
-																	'0.2rem 0 0 0.2rem',
-															}}
-															icon={
-																<RedoOutlined />
-															}
-															onClick={
-																refreshCaptcha
-															}
-														/>
-														{/* <Button
+														message:
+															'Please input amount!',
+													},
+												]}
+											>
+												<InputNumberEl
+													min={0.00001}
+													style={{ width: '100%' }}
+													placeholder='Amount in Eth'
+													onKeyDown={checkNumberKey}
+												/>
+											</Form.Item>
+											<label
+												htmlFor=''
+												style={{ fontWeight: 500 }}
+											>
+												Enter Captcha
+											</label>
+											<Row gutter={[5, 2]} align='middle'>
+												<Col>
+													<Row>
+														<Col>
+															<p
+																style={{
+																	padding:
+																		'0.3rem 0',
+																	width:
+																		'15rem',
+																	textAlign:
+																		'center',
+																	background:
+																		'#eee',
+																	fontSize:
+																		'1.3rem',
+																	fontWeight: 600,
+																	letterSpacing:
+																		'1.2px',
+																	textDecoration:
+																		'line-through',
+																}}
+															>
+																{captcha}
+															</p>
+														</Col>
+														<Col>
+															<AntButton
+																type='primary'
+																shape='circle'
+																style={{
+																	backgroundColor:
+																		'#5F66F1',
+																	margin:
+																		'0.2rem 0 0 0.2rem',
+																}}
+																icon={
+																	<RedoOutlined />
+																}
+																onClick={
+																	refreshCaptcha
+																}
+															/>
+															{/* <Button
 															icon={
 																<RedoOutlined />
 															}
@@ -518,45 +537,49 @@ const CampaignDetails = () => {
 																refreshCaptcha
 															}
 														/> */}
-													</Col>
-												</Row>
-											</Col>
-											<Col>
-												<Form.Item
-													name='captcha'
-													rules={[
-														{
-															required: true,
-															message:
-																'Please input captcha',
-														},
-													]}
-												>
-													<InputEl placeholder='Type here...' />
-												</Form.Item>
-											</Col>
-										</Row>
-										<Button
-											type='primary'
-											htmlType='submit'
-											variant='primary'
-											loading={fund.isLoading}
-											block
-										>
-											Fund
-										</Button>
-									</Form>
+														</Col>
+													</Row>
+												</Col>
+												<Col>
+													<Form.Item
+														name='captcha'
+														rules={[
+															{
+																required: true,
+																message:
+																	'Please input captcha',
+															},
+														]}
+													>
+														<InputEl placeholder='Type here...' />
+													</Form.Item>
+												</Col>
+											</Row>
+											<Button
+												type='primary'
+												htmlType='submit'
+												variant='primary'
+												loading={fund.isLoading}
+												block
+											>
+												Fund
+											</Button>
+										</Form>
+									) : (
+										<Tag color='red'>
+											Your are the creator of this
+											campaign.
+											<br />
+											So, You can't fund in this campaign
+										</Tag>
+									)
 								) : (
 									<Tag color='red'>
-										Your are the creator of this campaign.
-										<br />
-										So, You can't fund in this campaign
+										Login to contribute to this campaign
 									</Tag>
 								)
 							) : (
-								<Tag color='red'>
-									Login to contribute to this campaign
-								</Tag>
+								<Tag color='red'>Campaign is inactive.</Tag>
 							)}
 
 							{/* <p>
@@ -590,9 +613,15 @@ const CampaignDetails = () => {
 						key='1'
 					>
 						<p>{data ? data.description : ''}</p>
-						<Button type='primary' variant='danger'>
-							Kill campaign
-						</Button>
+						{isCreator && data && data.active && (
+							<Button
+								type='primary'
+								variant='danger'
+								onClick={kill}
+							>
+								Terminate campaign
+							</Button>
+						)}
 					</TabPane>
 					<TabPane
 						tab={
