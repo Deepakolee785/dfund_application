@@ -47,6 +47,7 @@ contract Dfund{
     event LogRequestCreated(address payable maker,string description, uint value, address payable recipient);
     event LogRequestFinilized();
     event LogRequestApproved();
+    event LogCampaignConvertedToInActive(string title);
 
     event LogFailure(string message);
     
@@ -173,6 +174,14 @@ contract Dfund{
         return requests.length;
     }
 
+    function stopCampaign() public isCreator returns(bool){
+        Campaign storage c1 = campaign;
+        c1.title = "deepak";
+        c1.active = false;
+        emit LogCampaignConvertedToInActive(campaign.title);
+        return campaign.active;
+    }
+
     
     /// @notice Kill/Destroy contract by creator
      function kill() public isCreator {
@@ -184,6 +193,4 @@ contract Dfund{
     receive() external payable{
          revert();
     }
-    
-    
 }
