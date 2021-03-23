@@ -56,14 +56,16 @@ router.post('/save-request', auth, async (req, res) => {
 	})
 	try {
 		const savedRequest = await request.save()
-		sendApproveEmails({
-			emailList: approversEmail,
-			campaingAddress: campaign,
-			title: currentCampaign[0].title,
-			request: description,
-			amount: value,
-			recipient: recipient,
-		})
+		if (approversEmail.length !== 0) {
+			sendApproveEmails({
+				emailList: approversEmail,
+				campaingAddress: campaign,
+				title: currentCampaign[0].title,
+				request: description,
+				amount: value,
+				recipient: recipient,
+			})
+		}
 		res.send({
 			request: savedRequest._id,
 			campaign: savedRequest.campaign,
