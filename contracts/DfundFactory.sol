@@ -45,12 +45,12 @@ contract DfundFactory{
     ) public{
 
          if (goalAmount <= 0) {
-            LogFailure("Campaign goal amount must be greater than 0");
+            emit LogFailure("Campaign goal amount must be greater than 0");
              revert();
         }
 
         if (block.number >= deadline) {
-            LogFailure("Campaign deadline must be greater than the current block");
+            emit LogFailure("Campaign deadline must be greater than the current block");
             revert();
         }
 
