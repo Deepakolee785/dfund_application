@@ -4,6 +4,7 @@ import {
 	pageVariant,
 	// slideVariant
 } from '../animation'
+import Footer from '../components/footer'
 import Navbar from '../components/Navbar'
 
 const Layout = ({ children }) => {
@@ -18,6 +19,7 @@ const Layout = ({ children }) => {
 			>
 				{children}
 			</motion.div>
+			<Footer />
 		</>
 	)
 }
