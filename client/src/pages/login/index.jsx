@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 
 import { Link } from 'react-router-dom'
-import { Form, message } from 'antd'
+import { Form, message, Checkbox, Row, Col } from 'antd'
 import FactoryContext from '../../context/factory/factoryContext.js'
 import AuthContext from '../../context/auth/authContext'
 import history from '../../utils/history'
@@ -126,9 +126,43 @@ const LoginPage = () => {
 									sitekey={
 										process.env.REACT_APP_RECAPTCHA_SITE_KEY
 									}
+									style={{
+										display: 'flex',
+										justifyContent: 'center',
+										alignItems: 'center',
+									}}
 								/>
 							</Form.Item>
-							<br />
+							<Row align='middle' justify='space-between'>
+								<Col>
+									<Form.Item
+										name='remember'
+										valuePropName='checked'
+									>
+										<Checkbox>Remember me</Checkbox>
+									</Form.Item>
+								</Col>
+								<Col>
+									<div
+										style={{
+											marginTop: '-0.65rem',
+										}}
+									>
+										<Link href='/forgot-password'>
+											<strong
+												style={{
+													textDecoration: 'underline',
+													color: '#5f66f1',
+													fontWeight: 500,
+													marginTop: '-0.5rem',
+												}}
+											>
+												Forgot Password
+											</strong>
+										</Link>
+									</div>
+								</Col>
+							</Row>
 
 							<Form.Item>
 								<Button

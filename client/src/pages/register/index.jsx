@@ -232,6 +232,28 @@ const RegisterPage = () => {
 								disabled={false}
 								isPasswordField={true}
 							/>
+
+							<Form.Item
+								name='recaptcha'
+								rules={[
+									{
+										required: true,
+										message:
+											"Please verify you're not a bot!",
+									},
+								]}
+							>
+								<ReCAPTCHA
+									sitekey={
+										process.env.REACT_APP_RECAPTCHA_SITE_KEY
+									}
+									style={{
+										display: 'flex',
+										justifyContent: 'center',
+										alignItems: 'center',
+									}}
+								/>
+							</Form.Item>
 							<Form.Item
 								name='termsAndContions'
 								valuePropName='checked'
@@ -248,24 +270,6 @@ const RegisterPage = () => {
 									<strong>terms of services.</strong>
 								</Checkbox>
 							</Form.Item>
-
-							<Form.Item
-								name='recaptcha'
-								rules={[
-									{
-										required: true,
-										message:
-											"Please verify you're not a bot!",
-									},
-								]}
-							>
-								<ReCAPTCHA
-									sitekey={
-										process.env.REACT_APP_RECAPTCHA_SITE_KEY
-									}
-								/>
-							</Form.Item>
-							<br />
 							<Form.Item>
 								<Button
 									type='primary'
