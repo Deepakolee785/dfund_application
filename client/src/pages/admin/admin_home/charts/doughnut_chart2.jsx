@@ -1,10 +1,10 @@
-import { Pie } from 'react-chartjs-2'
+import { Doughnut } from 'react-chartjs-2'
 const DoughnutChart = () => {
 	const data = {
-		labels: ['Active', 'Inactive'],
+		labels: ['Successful', 'Unsuccessful'],
 		datasets: [
 			{
-				label: 'Sales for 2020(M)',
+				label: 'Campaign',
 				data: [2, 6],
 				backgroundColor: ['#00A10C', '#e91e63'],
 			},
@@ -13,7 +13,7 @@ const DoughnutChart = () => {
 	const options = {
 		title: {
 			display: true,
-			text: 'Campaign Status Chart',
+			text: 'Campaign Successful/Unsuccessful',
 		},
 	}
 	return (
@@ -26,7 +26,7 @@ const DoughnutChart = () => {
 				padding: '0.3rem',
 			}}
 		>
-			<Pie data={data} options={options} />
+			<Doughnut data={data} options={options} />
 		</div>
 	)
 }

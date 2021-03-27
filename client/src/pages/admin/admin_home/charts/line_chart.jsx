@@ -20,21 +20,13 @@ const LineChart = ({ transactionsData }) => {
 		labels: dataLabels,
 		datasets: [
 			{
-				label: 'Transactions for 2021(in ETH)',
+				label: `Transactions for ${year}(in ETH)`,
 				data: dataSet,
-				borderColor: ['rgb(233, 30, 99,0.2)'],
-				backgroundColor: ['rgb(233, 30, 99,0.2)'],
-				pointBackgroundColor: 'rgb(233, 30, 99,0.4)',
-				pointBorderColor: 'rgb(233, 30, 99,0.4)',
+				borderColor: ['rgb(95, 102, 241,0.65)'],
+				backgroundColor: ['rgb(95, 102, 241,0.65)'],
+				pointBackgroundColor: 'rgb(95, 102, 241,1)',
+				pointBorderColor: 'rgb(95, 102, 241,1)',
 			},
-			// {
-			// 	label: 'Sales for 2019(M)',
-			// 	data: [1, 3, 2, 2, 3],
-			// 	borderColor: ['rgb(156, 39, 176,0.3)'],
-			// 	backgroundColor: ['rgb(156, 39, 176,0.3)'],
-			// 	pointBackgroundColor: 'rgb(156, 39, 176,0.4)',
-			// 	pointBorderColor: 'rgb(156, 39, 176,0.4)',
-			// },
 		],
 	}
 	const options = {
@@ -57,19 +49,29 @@ const LineChart = ({ transactionsData }) => {
 		<div
 			style={{
 				width: '720px',
-				margin: '2rem 1rem 1rem 0',
+				margin: '0rem 1rem 1rem 0',
+				background: '#f7f4f4',
+				padding: '1rem',
 			}}
 		>
-			<strong>Select Year</strong>
-			<br />
-			<Select
-				defaultValue={year}
-				style={{ width: 120 }}
-				onChange={handleChange}
+			<div
+				style={{
+					float: 'right',
+					background: 'rgb(95, 102, 241,0.2)',
+					padding: '1rem',
+				}}
 			>
-				<Option value={2020}>2020</Option>
-				<Option value={2021}>2021</Option>
-			</Select>
+				<strong>Select Year</strong>
+				<br />
+				<Select
+					defaultValue={year}
+					style={{ width: 120 }}
+					onChange={handleChange}
+				>
+					<Option value={2020}>2020</Option>
+					<Option value={2021}>2021</Option>
+				</Select>
+			</div>
 			<Line data={data} options={options} />
 		</div>
 	)

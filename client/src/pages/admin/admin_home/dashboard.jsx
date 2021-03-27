@@ -12,17 +12,20 @@ import AdminAuthContext from '../../../context/admin_auth/adminAuthContext'
 import LineChart from './charts/line_chart'
 import BarChart from './charts/bar_chart'
 import DoughnutChart from './charts/doughnut_chart'
+import DoughnutChart2 from './charts/doughnut_chart2'
 
 const Dashboard = () => {
 	const { isAuthenticated, loading } = useContext(AdminAuthContext)
 	const [details, setDetails] = useState({})
 	const [transactionsData, setTransactionsData] = useState({})
+	const [campaignsDetails, setCampaignsDetails] = useState({})
 	useEffect(() => {
 		if (isAuthenticated && !loading) {
 			getDashboardDetails()
 				.then(data => {
 					data && setDetails(data.stats)
 					data && setTransactionsData(data.transactionDetails)
+					data && setCampaignsDetails(data.campaignsDetails)
 				})
 				.catch(err => {
 					// console.log(err)
@@ -38,7 +41,10 @@ const Dashboard = () => {
 			<Row gutter={[30, 10]}>
 				<Col>
 					<Badge count={campaigns} overflowCount={9999}>
-						<DashboardItem color='rgb(233, 30, 99)'>
+						<DashboardItem
+							// color='#e91e63'
+							color='#5f66f1'
+						>
 							<VideoCameraAddOutlined
 								style={{ fontSize: '2.2rem', color: '#fff' }}
 							/>
@@ -79,14 +85,18 @@ const Dashboard = () => {
 			</Row>
 			<Row>
 				<Col>
-					<LineChart transactionsData={transactionsData} />
-				</Col>
-				<Col>
-					<BarChart />
+					<BarChart campaignsData={campaignsDetails} />
 				</Col>
 				<Col>
 					<DoughnutChart />
+					<DoughnutChart2 />
 				</Col>
+				<Col>
+					<LineChart transactionsData={transactionsData} />
+				</Col>
+				{/* <Col>
+					<DoughnutChart2 />
+				</Col> */}
 			</Row>
 		</div>
 	)
