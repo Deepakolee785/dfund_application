@@ -166,9 +166,26 @@ router.get('/dashboard', auth_admin, async (req, res) => {
 			trans = { ...trans, [month]: trans[month] + t.amount }
 		})
 
+		//
+		const campaignsDate = campaigns.map(t => {
+			return {
+				date: moment(t.createdAt).format('MMM-YYYY'),
+			}
+		})
+		let campaignsStat = monthsData
+		let campaignsStat2020 = monthsData
+		campaignsDate.forEach(c => {
+			const month = c.date.split('-')[0]
+			campaignsStat = {
+				...campaignsStat,
+				[month]: campaignsStat[month] + 1,
+			}
+		})
+
 		res.json({
 			stats,
 			transactionDetails: { 2020: trans2020, 2021: trans },
+			campaignsDetails: { 2020: campaignsStat2020, 2021: campaignsStat },
 		})
 	} catch (err) {
 		console.error(err.message)
