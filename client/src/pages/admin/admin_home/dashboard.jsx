@@ -9,6 +9,9 @@ import {
 	TransactionOutlined,
 } from '@ant-design/icons'
 import AdminAuthContext from '../../../context/admin_auth/adminAuthContext'
+import LineChart from './charts/line_chart'
+import BarChart from './charts/bar_chart'
+import DoughnutChart from './charts/doughnut_chart'
 
 const Dashboard = () => {
 	const { isAuthenticated, loading } = useContext(AdminAuthContext)
@@ -33,7 +36,7 @@ const Dashboard = () => {
 			<Row gutter={[30, 10]}>
 				<Col>
 					<Badge count={campaigns} overflowCount={9999}>
-						<DashboardItem color='#E91E63'>
+						<DashboardItem color='rgb(233, 30, 99)'>
 							<VideoCameraAddOutlined
 								style={{ fontSize: '2.2rem', color: '#fff' }}
 							/>
@@ -43,7 +46,7 @@ const Dashboard = () => {
 				</Col>
 				<Col>
 					<Badge count={transactions} overflowCount={9999}>
-						<DashboardItem color='#9C27B0'>
+						<DashboardItem color='rgb(156, 39, 176)'>
 							<TransactionOutlined
 								style={{ fontSize: '2.2rem', color: '#fff' }}
 							/>
@@ -70,6 +73,17 @@ const Dashboard = () => {
 							<p>Admin</p>
 						</DashboardItem>
 					</Badge>
+				</Col>
+			</Row>
+			<Row>
+				<Col>
+					<LineChart />
+				</Col>
+				<Col>
+					<BarChart />
+				</Col>
+				<Col>
+					<DoughnutChart />
 				</Col>
 			</Row>
 		</div>
