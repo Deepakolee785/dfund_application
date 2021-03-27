@@ -257,6 +257,7 @@ const CampaignDetails = () => {
 			return
 		}
 		fund.mutate(fromEtherToWei(web3, values.amount.toString()))
+		refreshCaptcha()
 	}
 
 	const kill = () => {
