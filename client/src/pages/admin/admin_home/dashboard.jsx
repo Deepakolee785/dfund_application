@@ -16,11 +16,13 @@ import DoughnutChart from './charts/doughnut_chart'
 const Dashboard = () => {
 	const { isAuthenticated, loading } = useContext(AdminAuthContext)
 	const [details, setDetails] = useState({})
+	const [transactionsData, setTransactionsData] = useState({})
 	useEffect(() => {
 		if (isAuthenticated && !loading) {
 			getDashboardDetails()
 				.then(data => {
 					data && setDetails(data.stats)
+					data && setTransactionsData(data.transactionDetails)
 				})
 				.catch(err => {
 					// console.log(err)
@@ -77,7 +79,7 @@ const Dashboard = () => {
 			</Row>
 			<Row>
 				<Col>
-					<LineChart />
+					<LineChart transactionsData={transactionsData} />
 				</Col>
 				<Col>
 					<BarChart />

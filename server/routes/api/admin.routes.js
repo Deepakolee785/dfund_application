@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const moment = require('moment')
 
 const Admin = require('../../models/Admin')
 const Campaign = require('../../models/Campaign')
@@ -12,6 +13,21 @@ const {
 	adminRegisterValidation,
 } = require('../../validation/auth.validation')
 const auth_admin = require('../../middlewares/admin_auth')
+
+const months = [
+	'Jan',
+	'Feb',
+	'Mar',
+	'Apr',
+	'May',
+	'Jun',
+	'Jul',
+	'Aug',
+	'Sep',
+	'Oct',
+	'Nov',
+	'Dec',
+]
 
 router.post('/register', async (req, res) => {
 	// Validate
@@ -134,10 +150,26 @@ router.get('/dashboard', auth_admin, async (req, res) => {
 
 		// console.log(stats)
 		const transactionDetails = transactions.map(t => {
-			return { date: t.createdAt, amount: t.amount }
+			return {
+				date: moment(t.createdAt).format('MMM-YYYY'),
+				amount: parseFloat(t.amount),
+			}
+		})
+		const monthsData = {}
+		months.forEach(m => {
+			monthsData[m] = 0
+		})
+		let trans2020 = monthsData
+		let trans = monthsData
+		transactionDetails.forEach(t => {
+			const month = t.date.split('-')[0]
+			trans = { ...trans, [month]: trans[month] + t.amount }
 		})
 
-		res.json({ stats, transactionDetails })
+		res.json({
+			stats,
+			transactionDetails: { 2020: trans2020, 2021: trans },
+		})
 	} catch (err) {
 		console.error(err.message)
 		res.status(500).send('Server error')
