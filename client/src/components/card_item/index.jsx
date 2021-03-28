@@ -49,7 +49,11 @@ const CardItem = ({
 			</div>
 			<div style={{ padding: '1rem' }}>
 				<Link to={`/campaign/${address}`}>
-					<Tag color='default' icon={<TagOutlined />}>
+					<Tag
+						color='cyan'
+						icon={<TagOutlined />}
+						style={{ textTransform: 'capitalize' }}
+					>
 						{category}
 					</Tag>
 					<Tag
@@ -64,19 +68,10 @@ const CardItem = ({
 					>
 						{isActive ? 'Active' : 'Terminated'}
 					</Tag>
-					<p></p> {/* <Category>{category}</Category> */}
+					<p></p>
 					<Title>{title}</Title>
-					<Description>{description}</Description>
-					{/* <Link to={`/campaign/${address}`}>
-					<p
-						style={{
-							color: 'blue',
-							textDecoration: 'underline',
-						}}
-					>
-						{address}
-					</p>
-				</Link> */}
+					{description && <Description>{description}</Description>}
+					{!description && <p style={{ margin: '-1rem 0' }}></p>}
 					{showProgress && (
 						<>
 							<br />
