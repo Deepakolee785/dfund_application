@@ -1,16 +1,20 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, {
+	useContext,
+	useState,
+	//  useEffect
+} from 'react'
 import { v4 as uuid } from 'uuid'
 import { Divider, Spin, Row, Col, Select, Tag, Slider } from 'antd'
 import FactoryContext from '../../context/factory/factoryContext'
 import { PlusOutlined } from '@ant-design/icons'
 
-import { useQuery } from 'react-query'
+// import { useQuery } from 'react-query'
 
 import { Link } from 'react-router-dom'
 
 import {
-	getAllCampaigns,
-	getCampaignDetails,
+	// getAllCampaigns,
+	// getCampaignDetails,
 	fromWeiToEther,
 } from '../../api/web3Api'
 import { Button } from '../../components/button'
@@ -28,69 +32,76 @@ import Header from '../../components/header'
 import { SelectEl, Label } from './style'
 import CardItem from '../../components/card_item'
 import { InputEl } from '../create_campaign/style'
+import useCampaigns from '../../hooks/useCampaigns'
 
 const { Option } = Select
 
 const ExplorePage = () => {
-	const { web3, accounts, contract } = useContext(FactoryContext)
+	const {
+		web3,
+		// accounts, contract
+	} = useContext(FactoryContext)
 
-	const isReady =
-		typeof web3 !== 'undefined' &&
-		contract.length !== 0 &&
-		accounts.length !== 0
+	const { myData, campaignInfo: info } = useCampaigns()
+	// console.log(campaignsData)
 
-	const info = useQuery(
-		['deployed_campaigns'],
-		() => getAllCampaigns(contract),
-		{
-			enabled: isReady,
-		}
-	)
-	const getContractBalance = campaignAdd => {
-		return web3.eth
-			.getBalance(campaignAdd)
-			.then(data => data)
-			.catch(err => 'N/A')
-	}
+	// const isReady =
+	// 	typeof web3 !== 'undefined' &&
+	// 	contract.length !== 0 &&
+	// 	accounts.length !== 0
 
-	const [myData, setMyData] = useState([])
-	useEffect(() => {
-		let isMounted = true
-		if (info.data && info.data.length !== 0 && isReady) {
-			// eslint-disable-next-line
-			{
-				let myCampaignsList = []
-				// eslint-disable-next-line
-				info.data.map(async campaignAdd => {
-					if (campaignAdd) {
-						const balance = await getContractBalance(campaignAdd)
-						getCampaignDetails(web3, campaignAdd)
-							.then(data => {
-								// console.log(data)
-								myCampaignsList.push(data)
-								if (isMounted)
-									setMyData(oldData => [
-										...oldData,
-										{
-											...data,
-											fundedBalance: balance,
-											campaignAdd,
-										},
-									])
-							})
-							.catch(err => console.log(err))
-					}
-					// eslint-disable-next-line
-				})
-				// console.log(myCampaignsList)
-				// setMyData(myCampaignsList)
-			}
-		}
-		return () => {
-			isMounted = false
-		}
-		// eslint-disable-next-line
-	}, [info.data])
+	// const info = useQuery(
+	// 	['deployed_campaigns'],
+	// 	() => getAllCampaigns(contract),
+	// 	{
+	// 		enabled: isReady,
+	// 	}
+	// )
+	// const getContractBalance = campaignAdd => {
+	// 	return web3.eth
+	// 		.getBalance(campaignAdd)
+	// 		.then(data => data)
+	// 		.catch(err => 'N/A')
+	// }
+
+	// const [myData, setMyData] = useState([])
+	// useEffect(() => {
+	// 	let isMounted = true
+	// 	if (info.data && info.data.length !== 0 && isReady) {
+	// 		// eslint-disable-next-line
+	// 		{
+	// 			let myCampaignsList = []
+	// 			// eslint-disable-next-line
+	// 			info.data.map(async campaignAdd => {
+	// 				if (campaignAdd) {
+	// 					const balance = await getContractBalance(campaignAdd)
+	// 					getCampaignDetails(web3, campaignAdd)
+	// 						.then(data => {
+	// 							// console.log(data)
+	// 							myCampaignsList.push(data)
+	// 							if (isMounted)
+	// 								setMyData(oldData => [
+	// 									...oldData,
+	// 									{
+	// 										...data,
+	// 										fundedBalance: balance,
+	// 										campaignAdd,
+	// 									},
+	// 								])
+	// 						})
+	// 						.catch(err => console.log(err))
+	// 				}
+	// 				// eslint-disable-next-line
+	// 			})
+	// 			// console.log(myCampaignsList)
+	// 			// setMyData(myCampaignsList)
+	// 		}
+	// 	}
+	// 	return () => {
+	// 		isMounted = false
+	// 	}
+	// 	// eslint-disable-next-line
+	// }, [info.data])
 	const [countries] = useState(
 		Object.entries(allCountires).map(item => item[1])
 	)
