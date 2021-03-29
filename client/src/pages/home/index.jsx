@@ -17,6 +17,7 @@ import ImpactSection from './components/impact_section'
 import BenefitSection from './components/benefits_section'
 import DownloadSection from './components/download_section'
 import CampaignsNearYou from './components/campaings_near_you'
+import HomeBottom from './components/home_bottom'
 
 const Home = () => {
 	const { web3 } = useContext(FactoryContext)
@@ -107,7 +108,8 @@ const Home = () => {
 			<ImpactSection />
 			<BenefitSection />
 			<DownloadSection />
-			<CampaignsNearYou />
+			<CampaignsNearYou web3={web3} info={info} myData={myData} />
+			<HomeBottom />
 		</Layout>
 	)
 }

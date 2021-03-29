@@ -53,3 +53,18 @@ export const SubHeading = styled.p`
 	letter-spacing: 0.02em;
 	color: rgba(0, 0, 0, 0.65);
 `
+export const BottomSectionDiv = styled.div`
+	background-color: #fafafa;
+	height: 15rem;
+	margin: 7rem 0 -2rem 0;
+`
+export const BottomHeading = styled.p`
+	font-weight: 300;
+	font-size: 1.25rem;
+	line-height: 42px;
+	/* identical to box height */
+
+	letter-spacing: -0.02em;
+
+	color: rgba(0, 0, 0, 0.69);
+`

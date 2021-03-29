@@ -1,18 +1,13 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Row, Col, Tag, Spin, Alert } from 'antd'
 import { v4 as uuid } from 'uuid'
 import { Link } from 'react-router-dom'
 import { Container, Heading } from '../style'
 
-import FactoryContext from '../../../context/factory/factoryContext'
 import { fromWeiToEther } from '../../../api/web3Api'
-import useCampaigns from '../../../hooks/useCampaigns'
 import CardItem from '../../../components/card_item'
 
-const CampaignsNearYou = () => {
-	const { web3 } = useContext(FactoryContext)
-	const { myData, campaignInfo: info } = useCampaigns()
-
+const CampaignsNearYou = ({ web3, myData, info }) => {
 	const [country, setCountry] = useState(null)
 
 	useEffect(() => {
