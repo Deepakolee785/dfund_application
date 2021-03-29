@@ -13,6 +13,10 @@ import useCampaigns from '../../hooks/useCampaigns'
 import CardItem from '../../components/card_item'
 
 import { Container, Heading } from './style'
+import ImpactSection from './components/impact_section'
+import BenefitSection from './components/benefits_section'
+import DownloadSection from './components/download_section'
+import CampaignsNearYou from './components/campaings_near_you'
 
 const Home = () => {
 	const { web3 } = useContext(FactoryContext)
@@ -100,6 +104,10 @@ const Home = () => {
 					</Link>
 				)}
 			</Container>
+			<ImpactSection />
+			<BenefitSection />
+			<DownloadSection />
+			<CampaignsNearYou />
 		</Layout>
 	)
 }
