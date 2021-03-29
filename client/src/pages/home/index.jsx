@@ -1,9 +1,7 @@
 import { useContext } from 'react'
-import { Row, Col, Tag, Spin } from 'antd'
+import { Row, Col, Tag, Spin, Alert } from 'antd'
 import { v4 as uuid } from 'uuid'
-import { PlusOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
-import { Button } from '../../components/button'
 
 import FactoryContext from '../../context/factory/factoryContext'
 
@@ -14,12 +12,8 @@ import { fromWeiToEther } from '../../api/web3Api'
 import useCampaigns from '../../hooks/useCampaigns'
 import CardItem from '../../components/card_item'
 
-import CampaignsNotFound from '../../assets/images/campaign_not_found.svg'
-import {
-	//  CardEl,
-	Container,
-	Heading,
-} from './style'
+import { Container, Heading } from './style'
+
 const Home = () => {
 	const { web3 } = useContext(FactoryContext)
 	const { myData, campaignInfo: info } = useCampaigns()
@@ -42,29 +36,10 @@ const Home = () => {
 					</Tag>
 				)}
 				{info.data && info.data.length === 0 && (
-					<div className='Center' style={{ minHeight: '70vh' }}>
-						{/* <h4 style={{ color: 'red' }}>
-								No Campaigns available right now. Create your
-								campaign here.
-							</h4> */}
-						<img
-							src={CampaignsNotFound}
-							alt='No Campaigns available'
-							style={{
-								marginBottom: '2rem',
-								width: '25rem',
-							}}
-						/>
-						<Link to='/create/campaign'>
-							<Button
-								type='primary'
-								variant='primary'
-								icon={<PlusOutlined />}
-							>
-								Create campaign
-							</Button>
-						</Link>
-					</div>
+					<Alert
+						type='error'
+						message='No campaigns available at Dfund Factory!'
+					/>
 				)}
 				{info.isLoading && (
 					<Spin
