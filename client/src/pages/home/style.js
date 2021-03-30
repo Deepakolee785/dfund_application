@@ -56,7 +56,7 @@ export const SubHeading = styled.p`
 export const BottomSectionDiv = styled.div`
 	background-color: #fafafa;
 	height: 15rem;
-	margin: 7rem 0 -2rem 0;
+	margin: 7rem 0 -3rem 0;
 `
 export const BottomHeading = styled.p`
 	font-weight: 300;
