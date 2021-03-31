@@ -1,9 +1,14 @@
-import React, { useContext, useEffect } from 'react'
-import { message, Table, Tag } from 'antd'
-import { Link, useParams } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react'
+import { message, Table, Tag, Modal } from 'antd'
+import {
+	// Link,
+	useParams,
+} from 'react-router-dom'
 import FactoryContext from '../../context/factory/factoryContext'
 import AuthContext from '../../context/auth/authContext'
 // import Layout from '../../layout/user_layout'
+
+import CreateRequestPage from '../create_request/index copy'
 import {
 	PlusOutlined,
 	CheckCircleOutlined,
@@ -91,7 +96,7 @@ const ViewRequestPage = ({ isCreator }) => {
 	)
 
 	useEffect(() => {
-		if (requestCount.data) {
+		if (requestCount.data || requestCount.data === 0) {
 			requests.refetch()
 		}
 		// eslint-disable-next-line
@@ -108,6 +113,19 @@ const ViewRequestPage = ({ isCreator }) => {
 		if (requestId || requestId === 0) {
 			finilizeCampaignRequest.mutate(requestId)
 		}
+	}
+	const [isModalVisible, setIsModalVisible] = useState(false)
+
+	const showModal = () => {
+		setIsModalVisible(true)
+	}
+
+	const handleOk = () => {
+		setIsModalVisible(false)
+	}
+
+	const handleCancel = () => {
+		setIsModalVisible(false)
 	}
 
 	const columns = [
@@ -143,8 +161,11 @@ const ViewRequestPage = ({ isCreator }) => {
 			render: ({ index, item }) => {
 				const isCompleted = item.complete
 				const isReadyToFinilize =
-					parseInt(item.approvalCount) >
+					parseInt(item.approvalCount) >=
 					parseInt(approversCount.data) / 2
+				// 	||
+				// parseInt(item.approvalCount) ===
+				// 	parseInt(approversCount.data) / 2
 				if (!isAuthenticated && !isCompleted)
 					return <Tag color={'red'}>Login to perform actions</Tag>
 				if (isCompleted) return <Tag color={'green'}>Finilized</Tag>
@@ -158,7 +179,7 @@ const ViewRequestPage = ({ isCreator }) => {
 								// console.log(index)
 								onApproveRequest(index)
 							}}
-							loading={approveCampaignRequest.isLoading}
+							// loading={approveCampaignRequest.isLoading}
 							disabled={isCompleted || isCreator}
 							style={{ marginRight: '0.2rem' }}
 						>
@@ -173,7 +194,7 @@ const ViewRequestPage = ({ isCreator }) => {
 								// console.log(index)
 								onFinilizeRequest(index)
 							}}
-							loading={finilizeCampaignRequest.isLoading}
+							// loading={finilizeCampaignRequest.isLoading}
 							disabled={
 								isCompleted || !isReadyToFinilize || !isCreator
 							}
@@ -215,19 +236,30 @@ const ViewRequestPage = ({ isCreator }) => {
 			{/* <h1> Campaign Requests Details</h1> */}
 			<br />
 			{isAuthenticated && isCreator && (
-				<Link
-					to={`/campaign/${campaign}/requests/new`}
+				// <Link
+				// 	to={`/campaign/${campaign}/requests/new`}
+				// 	style={{ marginBottom: '2rem', float: 'right' }}
+				// >
+				<Button
+					type='primary'
+					variant='primary'
 					style={{ marginBottom: '2rem', float: 'right' }}
+					icon={<PlusOutlined />}
+					onClick={showModal}
 				>
-					<Button
-						type='primary'
-						variant='primary'
-						icon={<PlusOutlined />}
-					>
-						Create Request
-					</Button>
-				</Link>
+					Create Request
+				</Button>
+				// </Link>
 			)}
+			<Modal
+				title='Create Spending Request'
+				visible={isModalVisible}
+				onOk={handleOk}
+				onCancel={handleCancel}
+				footer={null}
+			>
+				<CreateRequestPage />
+			</Modal>
 			<br />
 			<p>(Total {requestCount.data} requests found.)</p>
 

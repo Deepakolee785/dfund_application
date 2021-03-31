@@ -54,6 +54,7 @@ import LocationIcon from '../../assets/icons/location.svg'
 
 import RequestDetails from '../view_requests/index_copy'
 import { checkNumberKey } from '../../utils/checkValidInput'
+import { getCaptcha } from '../../utils/getCaptcha'
 
 const { TabPane } = Tabs
 
@@ -219,28 +220,28 @@ const CampaignDetails = () => {
 			accounts.length > 0 && data && accounts[0] === data.creator
 		)
 	}, [data, accounts])
-	const getCaptcha = () => {
-		// Math.random().toString(26).substring(5, 10)
+	// const getCaptcha = () => {
+	// 	// Math.random().toString(26).substring(5, 10)
 
-		// console.log(status)
-		let alphabets = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz'
+	// 	// console.log(status)
+	// 	let alphabets = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz'
 
-		let first = alphabets[Math.floor(Math.random() * alphabets.length)]
-		let second = Math.floor(Math.random() * 10)
-		let third = Math.floor(Math.random() * 10)
-		let fourth = alphabets[Math.floor(Math.random() * alphabets.length)]
-		let fifth = alphabets[Math.floor(Math.random() * alphabets.length)]
-		let sixth = Math.floor(Math.random() * 10)
-		let captcha =
-			first.toString() +
-			second.toString() +
-			third.toString() +
-			fourth.toString() +
-			fifth.toString() +
-			sixth.toString()
+	// 	let first = alphabets[Math.floor(Math.random() * alphabets.length)]
+	// 	let second = Math.floor(Math.random() * 10)
+	// 	let third = Math.floor(Math.random() * 10)
+	// 	let fourth = alphabets[Math.floor(Math.random() * alphabets.length)]
+	// 	let fifth = alphabets[Math.floor(Math.random() * alphabets.length)]
+	// 	let sixth = Math.floor(Math.random() * 10)
+	// 	let captcha =
+	// 		first.toString() +
+	// 		second.toString() +
+	// 		third.toString() +
+	// 		fourth.toString() +
+	// 		fifth.toString() +
+	// 		sixth.toString()
 
-		return captcha
-	}
+	// 	return captcha
+	// }
 
 	const [captcha, setCaptcha] = useState(getCaptcha())
 
@@ -313,8 +314,16 @@ const CampaignDetails = () => {
 							style={{ borderRadius: '0.3rem' }}
 						/>
 						<p>
-							<strong>Campaign Address: </strong>
-							{campaign}
+							<strong>View more in Etherscan: </strong>
+							<a
+								href={`https://ropsten.etherscan.io/address/${campaign}`}
+								target='_blank'
+								rel='noopener noreferrer'
+								style={{ textDecoration: 'underline' }}
+							>
+								{' '}
+								{campaign}
+							</a>
 						</p>
 					</Col>
 					<Col>
