@@ -16,6 +16,7 @@ const Layout = ({ children }) => {
 				initial='initial'
 				animate='animate'
 				exit='exit'
+				style={{ minHeight: '80vh' }}
 			>
 				{children}
 			</motion.div>
