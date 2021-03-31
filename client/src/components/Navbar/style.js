@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Button } from '../button'
 
 export const NavComponent = styled.div`
 	border-bottom: 1px solid #cccde7;
@@ -13,12 +14,25 @@ export const NavContainer = styled.div`
 	justify-content: space-between;
 	justify-items: center;
 	height: 4.5rem;
+
+	@media (max-width: 1148px) {
+		width: 90%;
+	}
+	@media (max-width: 990px) {
+		width: 95%;
+		.logo_img {
+			height: 3rem;
+		}
+	}
 `
 export const NavMenuList = styled.ul`
 	display: flex;
 	gap: 2rem;
 	list-style-type: none;
 	margin-top: 0.75rem;
+	@media (max-width: 990px) {
+		display: none;
+	}
 `
 
 export const MenuTitle = styled.p`
@@ -33,4 +47,30 @@ export const SubTitle = styled.p`
 	margin-top: -2px;
 	font-weight: 500;
 	margin-left: 1.4rem;
+`
+export const HamburgerButton = styled(Button)`
+	margin-right: 1rem;
+
+	@media (min-width: 990px) {
+		display: none;
+	}
+`
+export const AuthButtons = styled.span`
+	@media (max-width: 990px) {
+		display: none;
+	}
+`
+export const MobileMenu = styled.div`
+	@media (min-width: 990px) {
+		display: none;
+	}
+`
+export const MobileNavMenuList = styled.ul`
+	display: flex;
+	justify-content: flex-start;
+	flex-direction: column;
+	gap: 0.5rem;
+	list-style-type: none;
+	margin-top: 0.75rem;
+	margin-left: -2rem;
 `
