@@ -12,6 +12,7 @@ import {
 	fromWeiToEther,
 } from '../../api/web3Api'
 // import { getCountries } from '../../api/getCountries'
+import { categories } from '../../utils/campaign_categories'
 import { saveCampaign } from '../../api/campaign'
 import Layout from '../../layout/user_layout'
 import Header from '../../components/header'
@@ -267,11 +268,16 @@ const CreateCampaign = () => {
 										placeholder='Select category'
 										allowClear
 									>
-										<Option value='food'>Food</Option>
+										{categories.map(category => (
+											<Option value={category}>
+												{category}
+											</Option>
+										))}
+										{/* <Option value='food'>Food</Option>
 										<Option value='technology'>
 											Technology
 										</Option>
-										<Option value='art'>Art</Option>
+										<Option value='art'>Art</Option> */}
 									</SelectEl>
 								</Form.Item>
 							</div>

@@ -33,6 +33,7 @@ import { SelectEl, Label } from './style'
 import CardItem from '../../components/card_item'
 import { InputEl } from '../create_campaign/style'
 import useCampaigns from '../../hooks/useCampaigns'
+import { categories } from '../../utils/campaign_categories'
 
 const { Option } = Select
 
@@ -245,12 +246,17 @@ crowdfunding campaigns today.'
 											setSelectedCategory(val)
 										}
 									>
-										<Option value='all'>All</Option>
+										{categories.map(category => (
+											<Option value={category}>
+												{category}
+											</Option>
+										))}
+										{/* <Option value='all'>All</Option>
 										<Option value='food'>Food</Option>
 										<Option value='technology'>
 											Technology
 										</Option>
-										<Option value='art'>Art</Option>
+										<Option value='art'>Art</Option> */}
 									</SelectEl>
 								</Col>
 								<Col>
