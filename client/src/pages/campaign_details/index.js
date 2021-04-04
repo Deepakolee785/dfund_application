@@ -55,6 +55,7 @@ import LocationIcon from '../../assets/icons/location.svg'
 import RequestDetails from '../view_requests/index_copy'
 import { checkNumberKey } from '../../utils/checkValidInput'
 import { getCaptcha } from '../../utils/getCaptcha'
+import { ROPSTEN_ETHERSCAN_URL } from '../../config'
 
 const { TabPane } = Tabs
 
@@ -316,7 +317,7 @@ const CampaignDetails = () => {
 						<p>
 							<strong>View more in Etherscan: </strong>
 							<a
-								href={`https://ropsten.etherscan.io/address/${campaign}`}
+								href={`${ROPSTEN_ETHERSCAN_URL}/${campaign}`}
 								target='_blank'
 								rel='noopener noreferrer'
 								style={{ textDecoration: 'underline' }}
