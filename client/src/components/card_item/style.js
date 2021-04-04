@@ -13,9 +13,9 @@ export const Category = styled.h4`
 export const Title = styled.h3`
 	font-weight: 500;
 	font-size: 17px;
-	line-height: 1rem;
+	line-height: 1.5rem;
 	letter-spacing: -0.035em;
-	color: #000000;
+	color: rgb(0, 0, 0, 0.87);
 `
 export const Amount = styled.h3`
 	font-weight: 500;
