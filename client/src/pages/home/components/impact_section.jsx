@@ -43,7 +43,7 @@ const ImpactSection = () => {
 											}}
 										>
 											<AnimatedNumber
-												value={99}
+												value={8}
 												formatValue={formatValue}
 											/>
 										</span>
@@ -73,7 +73,7 @@ const ImpactSection = () => {
 											}}
 										>
 											<AnimatedNumber
-												value={99}
+												value={0}
 												formatValue={formatValue}
 											/>
 										</span>
@@ -110,7 +110,7 @@ const ImpactSection = () => {
 											}}
 										>
 											<AnimatedNumber
-												value={99}
+												value={5}
 												formatValue={formatValue}
 											/>{' '}
 											{/* <small>ETH</small> */}
@@ -141,7 +141,7 @@ const ImpactSection = () => {
 											}}
 										>
 											<AnimatedNumber
-												value={99}
+												value={9}
 												formatValue={formatValue}
 											/>
 										</span>
