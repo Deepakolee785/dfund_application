@@ -17,6 +17,7 @@ import CardItem from '../../components/card_item/index.jsx'
 import { Link } from 'react-router-dom'
 import { Button } from '../../components/button/index.jsx'
 import moment from 'moment'
+import { ROPSTEN_ETHERSCAN_URL } from '../../config'
 
 const { TabPane } = Tabs
 
@@ -95,7 +96,22 @@ const UserProfile = () => {
 						<IconLabel icon={UserIcon} label={username} />
 						<IconLabel icon={EmailIcon} label={email} />
 						<IconLabel icon={LocationIcon} label={country} />
-						<IconLabel icon={WalletIcon} label={wallet} />
+						<Row align='middle'>
+							<Col>
+								<IconLabel icon={WalletIcon} label={wallet} />
+							</Col>
+							<Col>
+								<a
+									href={`${ROPSTEN_ETHERSCAN_URL}/${wallet}`}
+									target='_blank'
+									rel='noopener noreferrer'
+								>
+									<Button type='link'>
+										View in Etherscan
+									</Button>
+								</a>
+							</Col>
+						</Row>
 						<div style={{ margin: '1rem 0 1rem 2rem' }}>
 							<p>
 								<strong>Last Updated at:</strong>{' '}
