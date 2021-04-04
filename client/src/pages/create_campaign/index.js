@@ -266,7 +266,8 @@ const CreateCampaign = () => {
 								>
 									<SelectEl
 										placeholder='Select category'
-										allowClear
+										allowClear={false}
+										showSearch
 									>
 										{categories.map(category => (
 											<Option value={category}>
@@ -298,7 +299,7 @@ const CreateCampaign = () => {
 								>
 									<SelectEl
 										placeholder='Select Country'
-										allowClear
+										allowClear={false}
 										showSearch
 										filterOption={(input, option) =>
 											option.children
