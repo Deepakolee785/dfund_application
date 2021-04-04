@@ -1,6 +1,7 @@
 import { Button } from '../../../components/button'
 import { BottomSectionDiv, BottomHeading } from '../style'
 
+import { Link } from 'react-router-dom'
 const HomeBottom = () => {
 	return (
 		<BottomSectionDiv
@@ -14,10 +15,11 @@ const HomeBottom = () => {
 			<BottomHeading>
 				Ready to start fundrasing through Dfund Network?
 			</BottomHeading>
-
-			<Button type='primary' variant='primary'>
-				Create a Dfund Campaign
-			</Button>
+			<Link to='/create/campaign'>
+				<Button type='primary' variant='primary'>
+					Create a Dfund Campaign
+				</Button>
+			</Link>
 		</BottomSectionDiv>
 	)
 }
