@@ -624,7 +624,7 @@ const CampaignDetails = () => {
 						key='1'
 					>
 						<p>{data ? data.description : ''}</p>
-						{isCreator && data && data.active && (
+						{isCreator && isAuthenticated && data && data.active && (
 							<Button
 								type='primary'
 								variant='danger'
