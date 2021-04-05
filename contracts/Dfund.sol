@@ -176,7 +176,6 @@ contract Dfund{
 
     function stopCampaign() public isCreator returns(bool){
         Campaign storage c1 = campaign;
-        c1.title = "deepak";
         c1.active = false;
         emit LogCampaignConvertedToInActive(campaign.title);
         return campaign.active;
