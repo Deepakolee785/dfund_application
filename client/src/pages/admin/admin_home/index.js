@@ -28,6 +28,8 @@ const AdminHome = () => {
 	const { logout, user, loadUser: loadAdmin } = useContext(AdminAuthContext)
 	const [selectedMenuIndex, setSelectedMenuIndex] = useState('1')
 	const [collapsed, setCollapsed] = useState(false)
+
+	const changeSelectedIndex = index => setSelectedMenuIndex(index)
 	const toggle = () => {
 		setCollapsed(!collapsed)
 	}
@@ -40,7 +42,7 @@ const AdminHome = () => {
 	const getContent = () => {
 		switch (selectedMenuIndex) {
 			case '1':
-				return <Dashboard />
+				return <Dashboard changeSelectedIndex={changeSelectedIndex} />
 			case '2':
 				return <Campaings />
 			case '3':
@@ -96,7 +98,7 @@ const AdminHome = () => {
 	)
 
 	return (
-		<div>
+		<div style={{}}>
 			<Layout style={{ minHeight: '100vh' }}>
 				<Sider trigger={null} collapsible collapsed={collapsed}>
 					{/* <h1
@@ -139,6 +141,7 @@ const AdminHome = () => {
 					<Menu
 						theme='dark'
 						mode='inline'
+						selectedKeys={[selectedMenuIndex]}
 						defaultSelectedKeys={[selectedMenuIndex]}
 						onClick={({ item, key, keyPath, domEvent }) => {
 							// console.log(key)
@@ -163,10 +166,7 @@ const AdminHome = () => {
 					</Menu>
 				</Sider>
 				<Layout className='site-layout'>
-					<Header
-						className='site-layout-background'
-						style={{ padding: 0 }}
-					>
+					<Header className='site-layout-background' style={{ padding: 0 }}>
 						{/* {React.createElement(
 							collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
 							{
@@ -178,13 +178,7 @@ const AdminHome = () => {
 							className='trigger'
 							onClick={toggle}
 							style={{ marginLeft: '0.5rem' }}
-							icon={
-								collapsed ? (
-									<MenuUnfoldOutlined />
-								) : (
-									<MenuFoldOutlined />
-								)
-							}
+							icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
 						/>
 
 						<span
@@ -208,6 +202,7 @@ const AdminHome = () => {
 							margin: '24px 16px',
 							padding: 24,
 							minHeight: 280,
+							overflow: 'auto',
 						}}
 					>
 						{getContent()}

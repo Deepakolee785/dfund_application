@@ -1,8 +1,9 @@
 import { Tooltip } from 'antd'
 import styled from 'styled-components'
+import { motion } from 'framer-motion'
 import { ROPSTEN_ETHERSCAN_URL } from '../../../config'
 
-export const DashboardItem = styled.div`
+export const DashboardItem = styled(motion.div)`
 	height: 120px;
 	width: 200px;
 	border-radius: 0.85rem;
@@ -11,6 +12,7 @@ export const DashboardItem = styled.div`
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
+	cursor: pointer;
 	p {
 		color: #fff;
 		font-weight: 600;
