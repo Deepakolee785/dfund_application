@@ -44,65 +44,7 @@ const ExplorePage = () => {
 	} = useContext(FactoryContext)
 
 	const { myData, campaignInfo: info } = useCampaigns()
-	// console.log(campaignsData)
 
-	// const isReady =
-	// 	typeof web3 !== 'undefined' &&
-	// 	contract.length !== 0 &&
-	// 	accounts.length !== 0
-
-	// const info = useQuery(
-	// 	['deployed_campaigns'],
-	// 	() => getAllCampaigns(contract),
-	// 	{
-	// 		enabled: isReady,
-	// 	}
-	// )
-	// const getContractBalance = campaignAdd => {
-	// 	return web3.eth
-	// 		.getBalance(campaignAdd)
-	// 		.then(data => data)
-	// 		.catch(err => 'N/A')
-	// }
-
-	// const [myData, setMyData] = useState([])
-	// useEffect(() => {
-	// 	let isMounted = true
-	// 	if (info.data && info.data.length !== 0 && isReady) {
-	// 		// eslint-disable-next-line
-	// 		{
-	// 			let myCampaignsList = []
-	// 			// eslint-disable-next-line
-	// 			info.data.map(async campaignAdd => {
-	// 				if (campaignAdd) {
-	// 					const balance = await getContractBalance(campaignAdd)
-	// 					getCampaignDetails(web3, campaignAdd)
-	// 						.then(data => {
-	// 							// console.log(data)
-	// 							myCampaignsList.push(data)
-	// 							if (isMounted)
-	// 								setMyData(oldData => [
-	// 									...oldData,
-	// 									{
-	// 										...data,
-	// 										fundedBalance: balance,
-	// 										campaignAdd,
-	// 									},
-	// 								])
-	// 						})
-	// 						.catch(err => console.log(err))
-	// 				}
-	// 				// eslint-disable-next-line
-	// 			})
-	// 			// console.log(myCampaignsList)
-	// 			// setMyData(myCampaignsList)
-	// 		}
-	// 	}
-	// 	return () => {
-	// 		isMounted = false
-	// 	}
-	// 	// eslint-disable-next-line
-	// }, [info.data])
 	const [countries] = useState(
 		Object.entries(allCountires).map(item => item[1])
 	)
@@ -111,9 +53,7 @@ const ExplorePage = () => {
 		if (selectedCountry === 'all') return rows
 		return rows.filter(
 			row =>
-				row.country
-					.toLowerCase()
-					.indexOf(selectedCountry.toLowerCase()) > -1
+				row.country.toLowerCase().indexOf(selectedCountry.toLowerCase()) > -1
 		)
 	}
 	const [selectedCategory, setSelectedCategory] = useState('all')
@@ -121,9 +61,7 @@ const ExplorePage = () => {
 		if (selectedCategory === 'all') return rows
 		return rows.filter(
 			row =>
-				row.category
-					.toLowerCase()
-					.indexOf(selectedCategory.toLowerCase()) > -1
+				row.category.toLowerCase().indexOf(selectedCategory.toLowerCase()) > -1
 		)
 	}
 
@@ -143,8 +81,7 @@ const ExplorePage = () => {
 	const filterByGoalAmount = rows => {
 		return rows.filter(row => {
 			const amt = fromWeiToEther(web3, row.goalAmount)
-			if (amt >= goalAmountRange[0] && amt <= goalAmountRange[1])
-				return true
+			if (amt >= goalAmountRange[0] && amt <= goalAmountRange[1]) return true
 			else return false
 			// row.goalAmount.toLowerCase().indexOf(query) > -1
 		})
@@ -164,8 +101,8 @@ crowdfunding campaigns today.'
 						style={{ padding: '1rem', marginTop: '1rem' }}
 						className='Center'
 					>
-						Error fetching Campaigns. Please make sure contract is
-						migrated and Metamask has been installed.
+						Error fetching Campaigns. Please make sure contract is migrated and
+						Metamask has been installed.
 					</Tag>
 				)}
 				<div>
@@ -195,6 +132,7 @@ crowdfunding campaigns today.'
 						<>
 							<Row
 								justify='space-between'
+								align='middle'
 								style={{ margin: '2rem 0' }}
 							>
 								<Col>
@@ -208,9 +146,7 @@ crowdfunding campaigns today.'
 										max={1000}
 										dots={true}
 										defaultValue={goalAmountRange}
-										onChange={val =>
-											setGoalAmountRange(val)
-										}
+										onChange={val => setGoalAmountRange(val)}
 										style={{ width: '18rem' }}
 
 										// onAfterChange={onAfterChange}
@@ -229,9 +165,7 @@ crowdfunding campaigns today.'
 									>
 										<Option value='all'>All</Option>
 										<Option value='active'>Active</Option>
-										<Option value='inactive'>
-											Terminated
-										</Option>
+										<Option value='inactive'>Terminated</Option>
 									</SelectEl>
 								</Col>
 								<Col>
@@ -242,14 +176,10 @@ crowdfunding campaigns today.'
 										style={{
 											width: '15rem',
 										}}
-										onChange={val =>
-											setSelectedCategory(val)
-										}
+										onChange={val => setSelectedCategory(val)}
 									>
 										{categories.map(category => (
-											<Option value={category}>
-												{category}
-											</Option>
+											<Option value={category}>{category}</Option>
 										))}
 										{/* <Option value='all'>All</Option>
 										<Option value='food'>Food</Option>
@@ -272,21 +202,15 @@ crowdfunding campaigns today.'
 										filterOption={(input, option) =>
 											option.children
 												.toLowerCase()
-												.indexOf(input.toLowerCase()) >=
-											0
+												.indexOf(input.toLowerCase()) >= 0
 										}
-										onChange={val =>
-											setSelectedCountry(val)
-										}
+										onChange={val => setSelectedCountry(val)}
 									>
 										<Option value='all'>All </Option>
 										{countries &&
 											countries.map((country, index) => {
 												return (
-													<Option
-														key={index}
-														value={country.name}
-													>
+													<Option key={index} value={country.name}>
 														{country.name}
 													</Option>
 												)
@@ -329,8 +253,7 @@ crowdfunding campaigns today.'
 						</>
 					)}
 					<p>
-						{myData.length !== 0 &&
-							`Total ${myData.length} items available`}
+						{myData.length !== 0 && `Total ${myData.length} items available`}
 					</p>
 					{info.isLoading && (
 						<Spin
@@ -346,11 +269,7 @@ crowdfunding campaigns today.'
 						{myData.length !== 0 &&
 							search(
 								filterByStatus(
-									filterByCountry(
-										filterByCategory(
-											filterByGoalAmount(myData)
-										)
-									)
+									filterByCountry(filterByCategory(filterByGoalAmount(myData)))
 								)
 							).map((data, index) => {
 								const fundedPercentage = (
@@ -366,15 +285,9 @@ crowdfunding campaigns today.'
 											title={data.title}
 											imageHash={data.imageHash}
 											address={data.campaignAdd}
-											fundedBalance={fromWeiToEther(
-												web3,
-												data.fundedBalance
-											)}
+											fundedBalance={fromWeiToEther(web3, data.fundedBalance)}
 											fundedPercentage={fundedPercentage}
-											goalAmount={fromWeiToEther(
-												web3,
-												data.goalAmount
-											)}
+											goalAmount={fromWeiToEther(web3, data.goalAmount)}
 											category={data.category}
 											description={data.description}
 										/>
