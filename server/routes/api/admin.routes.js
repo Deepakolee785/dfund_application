@@ -32,8 +32,7 @@ const months = [
 router.post('/register', async (req, res) => {
 	// Validate
 	const { error } = adminRegisterValidation(req.body)
-	if (error)
-		return res.status(400).send({ message: error.details[0].message })
+	if (error) return res.status(400).send({ message: error.details[0].message })
 	// Check if user already exists
 	const adminExist = await Admin.findOne({ email: req.body.email })
 	if (adminExist)
@@ -76,15 +75,10 @@ router.post('/login', async (req, res) => {
 
 	// console.log('checked' + user)
 	if (!admin)
-		return res
-			.status(400)
-			.send({ message: 'Email or password is incorrect.' })
+		return res.status(400).send({ message: 'Email or password is incorrect.' })
 
 	// Check if password is correct
-	const validPassword = await bcrypt.compare(
-		req.body.password,
-		admin.password
-	)
+	const validPassword = await bcrypt.compare(req.body.password, admin.password)
 	if (!validPassword)
 		return res.status(400).send({ message: 'Password is incorrect.' })
 
