@@ -1,5 +1,6 @@
 import { Tooltip } from 'antd'
 import styled from 'styled-components'
+import { ROPSTEN_ETHERSCAN_URL } from '../../../config'
 
 export const DashboardItem = styled.div`
 	height: 120px;
@@ -25,7 +26,13 @@ export const LinkLabel = styled.p`
 `
 export const AddressLink = ({ addr }) => (
 	<Tooltip title={addr}>
-		<LinkLabel>{addr}</LinkLabel>
+		<a
+			href={`${ROPSTEN_ETHERSCAN_URL}/${addr}`}
+			target='_blank'
+			rel='noopener noreferrer'
+		>
+			<LinkLabel>{addr}</LinkLabel>
+		</a>
 	</Tooltip>
 )
 
