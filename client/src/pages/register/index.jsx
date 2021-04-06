@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState, useRef } from 'react'
-import { Form, message, Input, Spin } from 'antd'
+import { Form, message, Spin } from 'antd'
 import ReCAPTCHA from 'react-google-recaptcha'
 
 import FactoryContext from '../../context/factory/factoryContext'
@@ -22,6 +22,7 @@ import image_icon from '../../assets/icons/image.svg'
 import { Link } from 'react-router-dom'
 import Header from '../../components/header'
 import Checkbox from 'antd/lib/checkbox/Checkbox'
+import { StyledInput } from '../../components/input/style'
 
 const RegisterPage = () => {
 	const [form] = Form.useForm()
@@ -196,7 +197,7 @@ const RegisterPage = () => {
 										},
 									]}
 								>
-									<Input
+									<StyledInput
 										prefix={
 											<img
 												src={image_icon}
@@ -208,12 +209,6 @@ const RegisterPage = () => {
 										}
 										type='file'
 										onChange={captureImage}
-										style={{
-											height: '2.5rem',
-											width: '26rem',
-											border: '1px solid rgba(0,0,0,0,0.2)',
-											borderLeft: '7px solid #5F66F1',
-										}}
 									/>
 								</Form.Item>
 								{uploading && <Spin />}

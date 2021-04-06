@@ -1,6 +1,7 @@
 import React from 'react'
-import { Form, Input, Tooltip } from 'antd'
+import { Form, Tooltip } from 'antd'
 import { InfoCircleOutlined } from '@ant-design/icons'
+import { StyledInput, StyledInputPassword } from './style'
 
 const InputEl = ({
 	label,
@@ -33,7 +34,7 @@ const InputEl = ({
 					// label='name'
 				>
 					{isPasswordField ? (
-						<Input.Password
+						<StyledInputPassword
 							placeholder='Password'
 							prefix={
 								<img
@@ -44,15 +45,9 @@ const InputEl = ({
 									style={{ marginLeft: '-6px' }}
 								/>
 							}
-							style={{
-								height: '2.5rem',
-								width: '26rem',
-								border: '1px solid rgba(0,0,0,0,0.2)',
-								borderLeft: '7px solid #5F66F1',
-							}}
 						/>
 					) : (
-						<Input
+						<StyledInput
 							disabled={disabled}
 							placeholder={placeholder}
 							type={type}
@@ -65,12 +60,6 @@ const InputEl = ({
 									style={{ marginLeft: '-6px' }}
 								/>
 							}
-							style={{
-								height: '2.5rem',
-								width: '26rem',
-								border: '1px solid rgba(0,0,0,0,0.2)',
-								borderLeft: '7px solid #5F66F1',
-							}}
 						/>
 					)}
 				</Form.Item>
