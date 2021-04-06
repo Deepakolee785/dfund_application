@@ -52,8 +52,10 @@ const Routes = () => {
 					component={CreateCampaign}
 				/>
 				<PrivateRoute path='/profile' component={UserProfile} />
-				<PublicRoute path='/login' component={LoginPage} />
+				{/* <PublicRoute path='/login' component={LoginPage} /> */}
+				<Route path='/login' component={LoginPage} />
 				<PublicRoute path='/register' component={RegisterPage} />
+				{/* <Route path='/register' component={RegisterPage} /> */}
 				{/* Admin */}
 				<Route exact path='/control' component={AdminPage} />
 				<AdminRoute path='/control/home' component={AdminHome} />
