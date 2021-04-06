@@ -72,7 +72,8 @@ const RegisterPage = () => {
 			const bufferArray = Buffer(reader.result)
 			console.log('buffer', bufferArray)
 			if (bufferArray) {
-				ipfs.add(bufferArray)
+				ipfs
+					.add(bufferArray)
 					.then(result => {
 						console.log(result)
 						message.success('Uploaded to IPFS')
@@ -122,14 +123,13 @@ const RegisterPage = () => {
 								validationRule={[
 									{
 										required: true,
-										message:
-											'You need to have your wallet!',
+										message: 'You need to have your wallet!',
 									},
 								]}
 								placeholder=''
 								icon={wallet_icon}
-								// disabled={true}
-								disabled={false}
+								disabled={true}
+								// disabled={false}
 							/>
 
 							<InputEl
@@ -156,8 +156,7 @@ const RegisterPage = () => {
 									},
 									{
 										type: 'email',
-										message:
-											'Please enter a valid email address!',
+										message: 'Please enter a valid email address!',
 									},
 								]}
 								placeholder='Email Address'
@@ -193,8 +192,7 @@ const RegisterPage = () => {
 									rules={[
 										{
 											required: true,
-											message:
-												'Please upload your image!',
+											message: 'Please upload your image!',
 										},
 									]}
 								>
@@ -213,8 +211,7 @@ const RegisterPage = () => {
 										style={{
 											height: '2.5rem',
 											width: '26rem',
-											border:
-												'1px solid rgba(0,0,0,0,0.2)',
+											border: '1px solid rgba(0,0,0,0,0.2)',
 											borderLeft: '7px solid #5F66F1',
 										}}
 									/>
@@ -233,10 +230,27 @@ const RegisterPage = () => {
 							<InputEl
 								label='Password'
 								name='password'
+								// validationRule={[
+								// 	{
+								// 		required: true,
+								// 		message: 'Please input your password!',
+								// 	},
+								// ]}
 								validationRule={[
-									{
-										required: true,
-										message: 'Please input your password!',
+									() => {
+										return {
+											validator(rule, value) {
+												if (
+													/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,15}$/.test(
+														value
+													)
+												) {
+													return Promise.resolve()
+												}
+
+												return Promise.reject('Invalid Password')
+											},
+										}
 									},
 								]}
 								placeholder='Password'
@@ -250,16 +264,13 @@ const RegisterPage = () => {
 								rules={[
 									{
 										required: true,
-										message:
-											"Please verify you're not a bot!",
+										message: "Please verify you're not a bot!",
 									},
 								]}
 							>
 								<ReCAPTCHA
 									ref={repatchRef}
-									sitekey={
-										process.env.REACT_APP_RECAPTCHA_SITE_KEY
-									}
+									sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
 									style={{
 										display: 'flex',
 										justifyContent: 'center',
@@ -273,14 +284,12 @@ const RegisterPage = () => {
 								rules={[
 									{
 										required: true,
-										message:
-											'Please read and agree to the terms!',
+										message: 'Please read and agree to the terms!',
 									},
 								]}
 							>
 								<Checkbox>
-									I read and agree to the{' '}
-									<strong>terms of services.</strong>
+									I read and agree to the <strong>terms of services.</strong>
 								</Checkbox>
 							</Form.Item>
 							<Form.Item>

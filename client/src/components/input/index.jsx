@@ -1,5 +1,6 @@
 import React from 'react'
-import { Form, Input } from 'antd'
+import { Form, Input, Tooltip } from 'antd'
+import { InfoCircleOutlined } from '@ant-design/icons'
 
 const InputEl = ({
 	label,
@@ -13,9 +14,24 @@ const InputEl = ({
 }) => {
 	return (
 		<div style={{ marginBottom: '-0.5rem' }}>
-			<h4 style={{ marginBottom: '0.1rem', opacity: 0.85 }}>{label}</h4>
+			<h4 style={{ marginBottom: '0.1rem', opacity: 0.85 }}>
+				{label}
+				{isPasswordField && (
+					<Tooltip title='Passwords must have at least 8 characters with one lowercase, uppercase, number, and special character.'>
+						<InfoCircleOutlined style={{ marginLeft: '0.3rem' }} />
+					</Tooltip>
+				)}
+			</h4>
 			<div>
-				<Form.Item name={name} rules={validationRule}>
+				<Form.Item
+					name={name}
+					rules={validationRule}
+					tooltip={{
+						title: 'Tooltip with customize icon',
+						icon: <InfoCircleOutlined />,
+					}}
+					// label='name'
+				>
 					{isPasswordField ? (
 						<Input.Password
 							placeholder='Password'
