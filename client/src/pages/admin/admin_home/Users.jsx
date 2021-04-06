@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { DEV_URL, IPFS_INFURA_URL } from '../../../config'
-import { Image, Table } from 'antd'
+import {
+	DEV_URL,
+	IPFS_INFURA_URL,
+	ROPSTEN_ETHERSCAN_URL,
+} from '../../../config'
+import { Image } from 'antd'
+import { Table } from 'ant-table-extensions'
+import { ExternalLink } from './Transaction'
 
 const Users = () => {
 	const [users, setUsers] = useState([])
@@ -23,7 +29,7 @@ const Users = () => {
 
 	const columns = [
 		{
-			title: 'Image',
+			title: 'Profile Picture',
 			dataIndex: 'imageHash',
 			key: 'imageHash',
 			render: imageHash => {
@@ -41,6 +47,10 @@ const Users = () => {
 			title: 'Wallet',
 			dataIndex: 'wallet',
 			key: 'wallet',
+			render: wallet => {
+				const href = `${ROPSTEN_ETHERSCAN_URL}/${wallet}`
+				return <ExternalLink href={href} addr={wallet} />
+			},
 		},
 		{
 			title: 'Username',
@@ -82,8 +92,13 @@ const Users = () => {
 	})
 	return (
 		<div>
-			<h3>Users</h3>
+			<h3>All Users</h3>
 			<Table
+				searchable
+				bordered
+				exportable
+				exportableProps={{ showColumnPicker: true }}
+				searchableProps={{ fuzzySearch: true }}
 				columns={columns}
 				dataSource={dataSource}
 				scroll={{ x: true }}
