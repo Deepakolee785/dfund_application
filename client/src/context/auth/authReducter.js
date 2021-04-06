@@ -14,6 +14,10 @@ const reducer = (state, action) => {
 				...state,
 				loading: false,
 				success: action.payload,
+				token: null,
+				isAuthenticated: false,
+				user: null,
+				error: null,
 			}
 		case 'LOGIN_SUCCESS':
 			localStorage.setItem('token', action.payload.token)
@@ -43,6 +47,7 @@ const reducer = (state, action) => {
 			return {
 				...state,
 				error: null,
+				success: null,
 			}
 		case 'SET_LOADING':
 			return {

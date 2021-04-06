@@ -70,6 +70,8 @@ const AuthState = props => {
 				type: 'REGISTER_FAIL',
 				payload: err.response.data.message,
 			})
+		} finally {
+			clearError()
 		}
 	}
 
