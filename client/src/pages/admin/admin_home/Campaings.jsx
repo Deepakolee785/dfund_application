@@ -488,7 +488,7 @@ const Campaings = () => {
 		)
 	return (
 		<div>
-			<h3>Campaigns</h3>
+			<h3>All Campaigns in the network</h3>
 			<TableExtra
 				searchable
 				bordered
