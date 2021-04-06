@@ -32,7 +32,7 @@ const LineChart = ({ transactionsData }) => {
 	const options = {
 		title: {
 			display: true,
-			text: 'Line Chart',
+			text: 'Amount funded in a Month',
 		},
 		scales: {
 			yAxes: [

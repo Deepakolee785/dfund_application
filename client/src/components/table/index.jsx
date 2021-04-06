@@ -1,5 +1,5 @@
 import { Table } from 'ant-table-extensions'
-const TableEl = ({ heading, columns, dataSource, loading }) => {
+const TableEl = ({ heading, columns, dataSource, loading, onRow }) => {
 	return (
 		<div>
 			<h3>{heading}</h3>
@@ -13,6 +13,7 @@ const TableEl = ({ heading, columns, dataSource, loading }) => {
 				dataSource={dataSource}
 				scroll={{ x: true }}
 				loading={loading}
+				onRow={onRow}
 			/>
 		</div>
 	)

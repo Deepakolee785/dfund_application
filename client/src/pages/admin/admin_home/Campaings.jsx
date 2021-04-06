@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Table as TableExtra } from 'ant-table-extensions'
+import { v4 as uuid } from 'uuid'
 import moment from 'moment'
 import axios from 'axios'
 import { EyeOutlined, InfoCircleOutlined } from '@ant-design/icons'
@@ -12,8 +12,8 @@ import { Image, Table, Button as AntButton, Row, Col, Tooltip } from 'antd'
 import { getRequests } from '../../../api/request'
 import { Button } from '../../../components/button'
 import { getTransactions } from '../../../api/transaction'
-import { v4 as uuid } from 'uuid'
 import { AddressLink } from './style'
+import TableExtra from '../../../components/table'
 
 const Campaings = () => {
 	const [showRequest, setShowRequests] = useState(false)
@@ -487,30 +487,22 @@ const Campaings = () => {
 			</div>
 		)
 	return (
-		<div>
-			<h3>All Campaigns in the network</h3>
-			<TableExtra
-				searchable
-				bordered
-				exportable
-				exportableProps={{ showColumnPicker: true }}
-				searchableProps={{ fuzzySearch: true }}
-				columns={columns}
-				dataSource={dataSource}
-				scroll={{ x: true }}
-				loading={loading}
-				onRow={(record, rowIndex) => {
-					return {
-						// onClick: event => {}, // click row
-						onClick: event => {
-							// setShowRequests(true)
-							setCurrentCampaign(record.key)
-							setCurrentCampaignAddress(record.addr)
-						}, // double click row
-					}
-				}}
-			/>
-		</div>
+		<TableExtra
+			heading='All Campaigns in the network'
+			columns={columns}
+			dataSource={dataSource}
+			loading={loading}
+			onRow={record => {
+				return {
+					//on click row
+					onClick: event => {
+						// setShowRequests(true)
+						setCurrentCampaign(record.key)
+						setCurrentCampaignAddress(record.addr)
+					},
+				}
+			}}
+		/>
 	)
 }
 

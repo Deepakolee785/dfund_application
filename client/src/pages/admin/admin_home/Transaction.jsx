@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { getAllTransactions } from '../../../api/transaction'
 import { v4 as uuid } from 'uuid'
 import { Tooltip, Button as AntButton } from 'antd'
-import { Table } from 'ant-table-extensions'
+import Table from '../../../components/table'
 import { InfoCircleOutlined } from '@ant-design/icons'
 
 import { LinkLabel } from './style'
@@ -181,20 +181,12 @@ const Transaction = () => {
 			}
 		})
 	return (
-		<div>
-			<h1>All Transactions</h1>
-			<Table
-				searchable
-				bordered
-				exportable
-				exportableProps={{ showColumnPicker: true }}
-				searchableProps={{ fuzzySearch: true }}
-				scroll={{ x: true }}
-				loading={loading}
-				dataSource={dataSource}
-				columns={columns}
-			/>
-		</div>
+		<Table
+			heading='All Transactions'
+			loading={loading}
+			dataSource={dataSource}
+			columns={columns}
+		/>
 	)
 }
 

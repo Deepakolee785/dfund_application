@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
 import { DEV_URL } from '../../../config'
-import { Table } from 'antd'
+import Table from '../../../components/table'
 const Admin = () => {
 	const [admins, setAdmins] = useState([])
 	const [loading, setLoading] = useState(false)
@@ -47,15 +47,12 @@ const Admin = () => {
 	})
 
 	return (
-		<div>
-			<h3>Admins</h3>
-			<Table
-				columns={columns}
-				dataSource={dataSource}
-				scroll={{ x: true }}
-				loading={loading}
-			/>
-		</div>
+		<Table
+			heading='All Admins'
+			loading={loading}
+			columns={columns}
+			dataSource={dataSource}
+		/>
 	)
 }
 
