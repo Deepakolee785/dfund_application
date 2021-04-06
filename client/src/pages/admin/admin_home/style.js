@@ -18,7 +18,7 @@ export const DashboardItem = styled.div`
 	}
 `
 export const LinkLabel = styled.p`
-	width: 8rem;
+	width: 5rem;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
