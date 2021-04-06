@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react'
+import { Table as TableExtra } from 'ant-table-extensions'
+import moment from 'moment'
 import axios from 'axios'
 import { EyeOutlined, InfoCircleOutlined } from '@ant-design/icons'
-import { DEV_URL, IPFS_INFURA_URL } from '../../../config'
-import { Image, Table, Button as AntButton } from 'antd'
+import {
+	DEV_URL,
+	IPFS_INFURA_URL,
+	ROPSTEN_ETHERSCAN_URL,
+} from '../../../config'
+import { Image, Table, Button as AntButton, Row, Col, Tooltip } from 'antd'
 import { getRequests } from '../../../api/request'
 import { Button } from '../../../components/button'
 import { getTransactions } from '../../../api/transaction'
@@ -28,21 +34,6 @@ const Campaings = () => {
 	}, [])
 
 	const columns = [
-		{
-			title: '',
-			dataIndex: 'info',
-			key: 'info',
-			render: () => {
-				return (
-					<AntButton
-						icon={<InfoCircleOutlined />}
-						shape='circle'
-						style={{ border: 0 }}
-						onClick={() => {}}
-					/>
-				)
-			},
-		},
 		{
 			title: 'Image',
 			dataIndex: 'imageHash',
@@ -101,6 +92,7 @@ const Campaings = () => {
 			title: 'Deadline',
 			dataIndex: 'deadline',
 			key: 'deadline',
+			render: date => <p>{moment(parseInt(date)).format('MMMM Do, YYYY')}</p>,
 		},
 		{
 			title: 'Goal Amount',
@@ -149,17 +141,43 @@ const Campaings = () => {
 		// 	key: 'transactionHash',
 		// },
 		{
-			title: 'View',
+			title: 'Action',
 			dataIndex: 'view',
 			key: 'view',
-			render: data => {
+			render: addr => {
 				return (
-					<AntButton
-						shape='circle'
-						type='primary'
-						icon={<EyeOutlined />}
-						onClick={() => setShowRequests(true)}
-					/>
+					<Row justify='space-between' style={{ width: '5rem' }}>
+						<Col>
+							<Tooltip title='View more details'>
+								<AntButton
+									type='primary'
+									shape='circle'
+									icon={<EyeOutlined />}
+									onClick={() => setShowRequests(true)}
+								/>
+							</Tooltip>
+						</Col>
+						<Col>
+							<Tooltip title='View more in Etherscan'>
+								<a
+									href={`${ROPSTEN_ETHERSCAN_URL}/${addr}`}
+									target='_blank'
+									rel='noopener noreferrer'
+								>
+									<AntButton
+										type='primary'
+										shape='circle'
+										icon={<InfoCircleOutlined />}
+										style={{
+											marginLeft: '1px',
+											backgroundColor: '#E64560',
+											borderColor: '#E64560',
+										}}
+									/>
+								</a>
+							</Tooltip>
+						</Col>
+					</Row>
 				)
 			},
 		},
@@ -207,15 +225,7 @@ const Campaings = () => {
 			status,
 			to,
 			transactionHash,
-			view: {
-				blockHash,
-				blockNumber,
-				cumulativeGasUsed,
-				type,
-				status,
-				to,
-				transactionHash,
-			},
+			view: addr,
 		}
 	})
 	const [currentCampaign, setCurrentCampaign] = useState(null)
@@ -479,8 +489,12 @@ const Campaings = () => {
 	return (
 		<div>
 			<h3>Campaigns</h3>
-			<Table
+			<TableExtra
+				searchable
 				bordered
+				exportable
+				exportableProps={{ showColumnPicker: true }}
+				searchableProps={{ fuzzySearch: true }}
 				columns={columns}
 				dataSource={dataSource}
 				scroll={{ x: true }}
