@@ -7,13 +7,15 @@ import {
 	DEV_URL,
 	IPFS_INFURA_URL,
 	ROPSTEN_ETHERSCAN_URL,
+	ROPSTEN_ETHERSCAN_TX_URL,
 } from '../../../config'
-import { Image, Table, Button as AntButton, Row, Col, Tooltip } from 'antd'
+import { Image, Button as AntButton, Row, Col, Tooltip, Divider } from 'antd'
 import { getRequests } from '../../../api/request'
 import { Button } from '../../../components/button'
 import { getTransactions } from '../../../api/transaction'
 import { AddressLink } from './style'
 import TableExtra from '../../../components/table'
+import { ExternalLink } from './Transaction'
 
 const Campaings = () => {
 	const [showRequest, setShowRequests] = useState(false)
@@ -263,16 +265,28 @@ const Campaings = () => {
 			title: 'Sender',
 			dataIndex: 'sender',
 			key: 'sender',
+			render: sender => {
+				const href = `${ROPSTEN_ETHERSCAN_URL}/${sender}`
+				return <ExternalLink href={href} addr={sender} />
+			},
 		},
 		{
 			title: 'Reciver',
 			dataIndex: 'reciver',
 			key: 'reciver',
+			render: receiver => {
+				const href = `${ROPSTEN_ETHERSCAN_URL}/${receiver}`
+				return <ExternalLink href={href} addr={receiver} />
+			},
 		},
 		{
 			title: 'Campaign',
 			dataIndex: 'projectAddress',
 			key: 'projectAddress',
+			render: projectAddress => {
+				const href = `${ROPSTEN_ETHERSCAN_URL}/${projectAddress}`
+				return <ExternalLink href={href} addr={projectAddress} />
+			},
 		},
 		{
 			title: 'Transaction Type',
@@ -289,11 +303,22 @@ const Campaings = () => {
 			dataIndex: 'createdAt',
 			key: 'createdAt',
 		},
-		{
-			title: 'Block Hash',
-			dataIndex: 'blockHash',
-			key: 'blockHash',
-		},
+		// {
+		// 	title: 'Block Hash',
+		// 	dataIndex: 'blockHash',
+		// 	key: 'blockHash',
+		// 	render: blockHash => {
+		// 		return (
+		// 			<a
+		// 				href={`${ROPSTEN_ETHERSCAN_URL}/${blockHash}`}
+		// 				target='_blank'
+		// 				rel='noopener noreferrer'
+		// 			>
+		// 				<LinkLabel>{blockHash}</LinkLabel>
+		// 			</a>
+		// 		)
+		// 	},
+		// },
 		{
 			title: 'Block Number',
 			dataIndex: 'blockNumber',
@@ -304,17 +329,106 @@ const Campaings = () => {
 			dataIndex: 'cumulativeGasUsed',
 			key: 'cumulativeGasUsed',
 		},
-		{
-			title: 'status',
-			dataIndex: 'status',
-			key: 'status',
-		},
+		// {
+		// 	title: 'status',
+		// 	dataIndex: 'status',
+		// 	key: 'status',
+		// },
 		{
 			title: 'Transaction Hash',
 			dataIndex: 'transactionHash',
 			key: 'transactionHash',
+			render: transactionHash => {
+				const href = `${ROPSTEN_ETHERSCAN_TX_URL}/${transactionHash}`
+				return <ExternalLink href={href} addr={transactionHash} />
+			},
+		},
+		{
+			title: 'Action',
+			dataIndex: 'action',
+			key: 'action',
+			render: addr => {
+				return (
+					<Tooltip title='View more in Etherscan'>
+						<a
+							href={`${ROPSTEN_ETHERSCAN_TX_URL}/${addr}`}
+							target='_blank'
+							rel='noopener noreferrer'
+						>
+							<AntButton
+								type='primary'
+								shape='circle'
+								icon={<InfoCircleOutlined />}
+								style={{
+									marginLeft: '1px',
+									backgroundColor: '#E64560',
+									borderColor: '#E64560',
+								}}
+							/>
+						</a>
+					</Tooltip>
+				)
+			},
 		},
 	]
+
+	// const TransactionColumns = [
+	// 	{
+	// 		title: 'Sender',
+	// 		dataIndex: 'sender',
+	// 		key: 'sender',
+	// 	},
+	// 	{
+	// 		title: 'Reciver',
+	// 		dataIndex: 'reciver',
+	// 		key: 'reciver',
+	// 	},
+	// 	{
+	// 		title: 'Campaign',
+	// 		dataIndex: 'projectAddress',
+	// 		key: 'projectAddress',
+	// 	},
+	// 	{
+	// 		title: 'Transaction Type',
+	// 		dataIndex: 'transactionType',
+	// 		key: 'transactionType',
+	// 	},
+	// 	{
+	// 		title: 'Amount',
+	// 		dataIndex: 'amount',
+	// 		key: 'amount',
+	// 	},
+	// 	{
+	// 		title: 'Date',
+	// 		dataIndex: 'createdAt',
+	// 		key: 'createdAt',
+	// 	},
+	// 	{
+	// 		title: 'Block Hash',
+	// 		dataIndex: 'blockHash',
+	// 		key: 'blockHash',
+	// 	},
+	// 	{
+	// 		title: 'Block Number',
+	// 		dataIndex: 'blockNumber',
+	// 		key: 'blockNumber',
+	// 	},
+	// 	{
+	// 		title: 'Gas Used',
+	// 		dataIndex: 'cumulativeGasUsed',
+	// 		key: 'cumulativeGasUsed',
+	// 	},
+	// 	{
+	// 		title: 'status',
+	// 		dataIndex: 'status',
+	// 		key: 'status',
+	// 	},
+	// 	{
+	// 		title: 'Transaction Hash',
+	// 		dataIndex: 'transactionHash',
+	// 		key: 'transactionHash',
+	// 	},
+	// ]
 
 	const RequestColumns = [
 		// {
@@ -331,11 +445,19 @@ const Campaings = () => {
 			title: 'maker',
 			dataIndex: 'maker',
 			key: 'maker',
+			render: maker => {
+				const href = `${ROPSTEN_ETHERSCAN_URL}/${maker}`
+				return <ExternalLink href={href} addr={maker} />
+			},
 		},
 		{
 			title: 'recipient',
 			dataIndex: 'recipient',
 			key: 'recipient',
+			render: recipient => {
+				const href = `${ROPSTEN_ETHERSCAN_URL}/${recipient}`
+				return <ExternalLink href={href} addr={recipient} />
+			},
 		},
 		{
 			title: 'Amount(ETH)',
@@ -343,15 +465,15 @@ const Campaings = () => {
 			key: 'value',
 		},
 		{
-			title: 'Complete',
+			title: 'Complete?',
 			dataIndex: 'complete',
 			key: 'complete',
 		},
-		{
-			title: 'To',
-			dataIndex: 'to',
-			key: 'to',
-		},
+		// {
+		// 	title: 'To',
+		// 	dataIndex: 'to',
+		// 	key: 'to',
+		// },
 		{
 			title: 'Date',
 			dataIndex: 'createdAt',
@@ -361,6 +483,10 @@ const Campaings = () => {
 			title: 'Block Hash',
 			dataIndex: 'blockHash',
 			key: 'blockHash',
+			render: blockHash => {
+				const href = `${ROPSTEN_ETHERSCAN_URL}/${blockHash}`
+				return <ExternalLink href={href} addr={blockHash} />
+			},
 		},
 		{
 			title: 'Block Number',
@@ -372,15 +498,19 @@ const Campaings = () => {
 			dataIndex: 'cumulativeGasUsed',
 			key: 'cumulativeGasUsed',
 		},
-		{
-			title: 'status',
-			dataIndex: 'status',
-			key: 'status',
-		},
+		// {
+		// 	title: 'status',
+		// 	dataIndex: 'status',
+		// 	key: 'status',
+		// },
 		{
 			title: 'Transaction Hash',
 			dataIndex: 'transactionHash',
 			key: 'transactionHash',
+			render: transactionHash => {
+				const href = `${ROPSTEN_ETHERSCAN_TX_URL}/${transactionHash}`
+				return <ExternalLink href={href} addr={transactionHash} />
+			},
 		},
 	]
 
@@ -415,7 +545,7 @@ const Campaings = () => {
 				status,
 				transactionHash,
 				complete: complete.toString(),
-				createdAt,
+				createdAt: moment(createdAt).format('MMM Do, YYYY'),
 			}
 		})
 	const TransactionDataSource =
@@ -462,28 +592,20 @@ const Campaings = () => {
 				>
 					Back
 				</Button>
-				<h3>Requests</h3>
-				<Table
+				<br />
+				<br />
+
+				<TableExtra
+					heading='All Requests related to the campaign'
 					dataSource={RequestDataSource}
 					columns={RequestColumns}
-					scroll={{ x: true }}
 				/>
-				{/* <pre>
-					{requestData
-						? JSON.stringify(requestData, null, 6)
-						: 'no requests'}
-				</pre> */}
-				<h3>Transactions</h3>
-				<Table
-					scroll={{ x: true }}
+				<Divider />
+				<TableExtra
+					heading='All Transactions related to the campaign'
 					dataSource={TransactionDataSource}
 					columns={TransactionColumns}
 				/>
-				{/* <pre>
-					{transactionData
-						? JSON.stringify(transactionData, null, 6)
-						: 'no transaction'}
-				</pre> */}
 			</div>
 		)
 	return (
