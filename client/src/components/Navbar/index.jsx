@@ -292,7 +292,7 @@ const Navbar = () => {
 								type='vertical'
 								style={{ height: '2rem' }}
 							/>
-							<Link to='/Register'>
+							<Link to='/register'>
 								<Button
 									variant='default'
 									type='text'
