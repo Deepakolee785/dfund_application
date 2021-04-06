@@ -22,6 +22,7 @@ const validateHuman = async token => {
 	)
 	const data = await response.json()
 	return data.success
+	// return true
 }
 
 router.post('/register', async (req, res) => {
@@ -32,8 +33,7 @@ router.post('/register', async (req, res) => {
 	}
 	// Validate
 	const { error } = registerValidation(req.body)
-	if (error)
-		return res.status(400).send({ message: error.details[0].message })
+	if (error) return res.status(400).send({ message: error.details[0].message })
 	// Check if user already exists
 	const walletExist = await User.findOne({ wallet: req.body.wallet })
 	if (walletExist)
@@ -92,9 +92,7 @@ router.post('/login', async (req, res) => {
 
 	// console.log('checked' + user)
 	if (!user)
-		return res
-			.status(400)
-			.send({ message: 'Username or wallet is incorrect.' })
+		return res.status(400).send({ message: 'Username or wallet is incorrect.' })
 
 	// Check if password is correct
 	const validPassword = await bcrypt.compare(req.body.password, user.password)
@@ -115,15 +113,7 @@ router.get('/authUser', auth, async (req, res) => {
 		const campaigns = await Campaign.find({ user: user._id })
 		const transactions = await Transaction.find({ user: user._id })
 
-		const {
-			_id,
-			username,
-			email,
-			wallet,
-			imageHash,
-			country,
-			updatedAt,
-		} = user
+		const { _id, username, email, wallet, imageHash, country, updatedAt } = user
 
 		const data = {
 			_id,

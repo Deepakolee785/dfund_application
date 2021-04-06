@@ -21,4 +21,20 @@ let campaign = {
 		'0x8d9bae670ea0ffcaec5b465700c96be90c74fd4016bb86dae8b6639979c6806c',
 }
 
-module.exports = { campaign }
+let user = {
+	username: 'test_username',
+	email: 'test@gmail.com',
+	password: 'Test@123',
+	country: 'Nepal',
+	recaptcha: 'test',
+	wallet: 'jest65asdfasdf9adsfakjkajsdf',
+	termsAndContions: 'true',
+}
+let loginUser = {
+	username: 'test_username',
+	password: 'Test@123',
+	wallet: 'jest65asdfasdf9adsfakjkajsdf',
+	recaptcha: 'test',
+}
+
+module.exports = { campaign, user, loginUser }
