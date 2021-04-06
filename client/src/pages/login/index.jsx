@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, useRef } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 
 import { Link } from 'react-router-dom'
@@ -19,7 +19,9 @@ import Header from '../../components/header'
 const LoginPage = () => {
 	const [form] = Form.useForm()
 	const { accounts } = useContext(FactoryContext)
-	const { login, loading, success, error } = useContext(AuthContext)
+	const { login, loading, error, isAuthenticated } = useContext(AuthContext)
+
+	const recaptchaRef = useRef()
 
 	useEffect(() => {
 		form.setFieldsValue({
@@ -36,6 +38,7 @@ const LoginPage = () => {
 	const onFinish = values => {
 		// console.log('Success:', values)
 		login(values)
+		recaptchaRef.current.reset()
 	}
 
 	const onFinishFailed = errorInfo => {
@@ -48,11 +51,11 @@ const LoginPage = () => {
 		}
 	}, [error])
 	useEffect(() => {
-		if (success) {
-			message.success(success)
+		if (isAuthenticated) {
+			// message.success(success)
 			history.push('/')
 		}
-	}, [success])
+	}, [isAuthenticated])
 
 	return (
 		<Layout>
@@ -126,6 +129,7 @@ const LoginPage = () => {
 									sitekey={
 										process.env.REACT_APP_RECAPTCHA_SITE_KEY
 									}
+									ref={recaptchaRef}
 									style={{
 										display: 'flex',
 										justifyContent: 'center',
