@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react'
+import React, { useEffect, useContext, useState, useRef } from 'react'
 import { Form, message, Input, Spin } from 'antd'
 import ReCAPTCHA from 'react-google-recaptcha'
 
@@ -28,6 +28,8 @@ const RegisterPage = () => {
 	const { accounts } = useContext(FactoryContext)
 	const { register, loading, success, error } = useContext(AuthContext)
 
+	const repatchRef = useRef()
+
 	useEffect(() => {
 		form.setFieldsValue({
 			wallet: accounts.length !== 0 ? accounts[0].toLowerCase() : '',
@@ -47,9 +49,17 @@ const RegisterPage = () => {
 	useEffect(() => {
 		if (success) {
 			message.success(success)
-			history.push('/login')
+
+			// history.push('/login')
 		}
 	}, [success])
+
+	useEffect(() => {
+		if (success && !loading) {
+			history.push('/login')
+		}
+		// eslint-disable-next-line
+	}, [loading])
 
 	const [imageHash, setImageHash] = useState('')
 	const [uploading, setUploading] = useState(false)
@@ -86,6 +96,7 @@ const RegisterPage = () => {
 		}
 		// console.log(data)
 		register(data)
+		repatchRef.current.reset()
 	}
 
 	const onFinishFailed = errorInfo => {
@@ -117,7 +128,8 @@ const RegisterPage = () => {
 								]}
 								placeholder=''
 								icon={wallet_icon}
-								disabled={true}
+								// disabled={true}
+								disabled={false}
 							/>
 
 							<InputEl
@@ -244,6 +256,7 @@ const RegisterPage = () => {
 								]}
 							>
 								<ReCAPTCHA
+									ref={repatchRef}
 									sitekey={
 										process.env.REACT_APP_RECAPTCHA_SITE_KEY
 									}
