@@ -14,6 +14,10 @@ export const HeaderContainer = styled.header`
 		line-height: 3.9rem;
 		letter-spacing: -0.02em;
 		color: #fbfbfb;
+
+		@media (max-width: 450px) {
+			font-size: 1.2rem;
+		}
 	}
 	p {
 		margin-top: -1rem;
@@ -25,5 +29,9 @@ export const HeaderContainer = styled.header`
 		text-align: center;
 		letter-spacing: 0.02em;
 		color: #e8e8e8;
+		@media (max-width: 450px) {
+			margin: 0 0.5rem;
+			line-height: 1.5rem;
+		}
 	}
 `
