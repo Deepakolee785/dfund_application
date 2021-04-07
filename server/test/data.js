@@ -37,4 +37,14 @@ let loginUser = {
 	recaptcha: 'test',
 }
 
-module.exports = { campaign, user, loginUser }
+const adminUser = {
+	name: 'Deepak A',
+	email: 'deepaka@gmail.com',
+	password: 'Test@12',
+}
+const adminUserLogin = {
+	email: 'deepaka@gmail.com',
+	password: 'Test@12',
+}
+
+module.exports = { campaign, user, loginUser, adminUser, adminUserLogin }

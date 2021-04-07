@@ -21,8 +21,8 @@ const validateHuman = async token => {
 		}
 	)
 	const data = await response.json()
-	return data.success
-	// return true
+	// return data.success
+	return true
 }
 
 router.post('/register', async (req, res) => {

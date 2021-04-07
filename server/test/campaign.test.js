@@ -3,7 +3,7 @@ process.env.NODE_ENV = 'test'
 let mongoose = require('mongoose')
 let Campaign = require('../models/Campaign')
 
-let { campaign } = require('./data')
+let { campaign, adminUserLogin } = require('./data')
 
 let chai = require('chai')
 let chaiHttp = require('chai-http')
@@ -60,7 +60,7 @@ describe('Campaigns', () => {
 					chai
 						.request(server)
 						.post('/api/admin/login')
-						.send({ email: 'deepak@gmail.com', password: '123456' })
+						.send(adminUserLogin)
 						.end((err, res) => {
 							res.should.have.status(200)
 							res.body.should.be.a('object')
