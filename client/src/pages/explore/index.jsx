@@ -77,7 +77,7 @@ const ExplorePage = () => {
 	const search = rows => {
 		return rows.filter(row => row.title.toLowerCase().indexOf(query) > -1)
 	}
-	const [goalAmountRange, setGoalAmountRange] = useState([0, 1000])
+	const [goalAmountRange, setGoalAmountRange] = useState([0, 10000])
 	const filterByGoalAmount = rows => {
 		return rows.filter(row => {
 			const amt = fromWeiToEther(web3, row.goalAmount)
@@ -143,7 +143,7 @@ crowdfunding campaigns today.'
 									<Slider
 										range
 										step={1}
-										max={1000}
+										max={10000}
 										dots={true}
 										defaultValue={goalAmountRange}
 										onChange={val => setGoalAmountRange(val)}
