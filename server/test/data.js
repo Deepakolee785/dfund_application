@@ -48,11 +48,10 @@ const adminUserLogin = {
 }
 
 const requestDetail = {
-	campaign: 'kadsjfla89a7sfdka',
 	description: 'test desc',
 	maker: 'asdaf987',
 	recipient: 'sadfasdf98',
-	value: '2',
+	value: 2,
 	blockHash: 'alksdjflaskdf98',
 	blockNumber: 123,
 	cumulativeGasUsed: 789,
