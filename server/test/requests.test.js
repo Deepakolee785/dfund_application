@@ -3,7 +3,7 @@ process.env.NODE_ENV = 'test'
 let mongoose = require('mongoose')
 let Request = require('../models/Request')
 
-let { requestDetail, loginUser, campaign } = require('./data')
+let { requestDetail, loginUser, campaign, adminUserLogin } = require('./data')
 
 let chai = require('chai')
 let chaiHttp = require('chai-http')
@@ -19,7 +19,9 @@ describe('Request', () => {
 	// 	})
 	// })
 
+	let token
 	let campaignAdd
+
 	describe('/POST create request', () => {
 		it('Should save new spending request of campaign', done => {
 			// create campaign
@@ -48,7 +50,7 @@ describe('Request', () => {
 							res.should.have.status(200)
 							res.body.should.be.a('object')
 							res.body.should.have.property('token')
-							let token = res.body.token
+							token = res.body.token
 
 							// create request
 							chai
@@ -57,9 +59,36 @@ describe('Request', () => {
 								.send({ ...requestDetail, campaign: campaignAdd })
 								.set('x-auth-token', token)
 								.end((err, res) => {
-									console.log(res)
+									res.should.have.status(200)
+									res.body.should.be.a('object')
+									res.body.should.have.property('campaign')
+									res.body.should.have.property('request')
+									res.body.should.have
+										.property('message')
+										.eql('Successfully saved request.')
 									done()
 								})
+						})
+				})
+		})
+		it('Should get requests that related to specific campaign', done => {
+			chai
+				.request(server)
+				.post('/api/admin/login')
+				.send(adminUserLogin)
+				.end((err, res) => {
+					res.should.have.status(200)
+					res.body.should.be.a('object')
+					res.body.should.have.property('token')
+					let admin_token = res.body.token
+
+					// get all campaigns using jwt token
+					chai
+						.request(server)
+						.post('api/request/get-campaign-request')
+						.send({ campaign: campaignAdd })
+						.set('a-auth-token', admin_token)
+						.end((err, res) => {
 							done()
 						})
 				})
