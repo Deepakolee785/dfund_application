@@ -106,9 +106,7 @@ const UserProfile = () => {
 									target='_blank'
 									rel='noopener noreferrer'
 								>
-									<Button type='link'>
-										View in Etherscan
-									</Button>
+									<Button type='link'>View in Etherscan</Button>
 								</a>
 							</Col>
 						</Row>
@@ -168,6 +166,7 @@ const UserProfile = () => {
 												goalAmount={data.goalAmount}
 												category={data.category}
 												description={data.description}
+												isActive={data.status}
 											/>
 
 											<Divider />
