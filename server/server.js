@@ -33,7 +33,9 @@ app.use('/api/transaction', transactionsRoutes)
 
 // MongoDB connection
 mongoose.connect(
-	process.env.DB_CONNECTION_URL,
+	process.env.NODE_ENV === 'test'
+		? process.env.DB_CONNECTION_URL_TEST
+		: process.env.DB_CONNECTION_URL,
 	{
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
