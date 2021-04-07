@@ -47,4 +47,25 @@ const adminUserLogin = {
 	password: 'Test@12',
 }
 
-module.exports = { campaign, user, loginUser, adminUser, adminUserLogin }
+const requestDetail = {
+	campaign: 'kadsjfla89a7sfdka',
+	description: 'test desc',
+	maker: 'asdaf987',
+	recipient: 'sadfasdf98',
+	value: '2',
+	blockHash: 'alksdjflaskdf98',
+	blockNumber: 123,
+	cumulativeGasUsed: 789,
+	status: true,
+	to: 'aklsdfal98',
+	transactionHash: 'asldfkas8a7sd',
+	complete: false,
+}
+module.exports = {
+	campaign,
+	user,
+	loginUser,
+	adminUser,
+	adminUserLogin,
+	requestDetail,
+}
