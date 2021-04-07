@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { PlusOutlined } from '@ant-design/icons'
 
 import { Button } from '../button'
-import { HeroContainer, Title, SubSubTitle, SubTitle } from './style'
+import { HeroContainer, Title, SubSubTitle, SubTitle, ButtonDiv } from './style'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 
@@ -59,40 +59,37 @@ const HeroItem = ({
 				>
 					{subSubTitle}
 				</SubSubTitle>
-				<br />
-				<br />
-				<motion.div
-					variants={animateVariant}
-					initial='initial'
-					animate='animate'
-				>
-					<Link to='/create/campaign'>
-						<Button
-							type={'primary'}
-							icon={<PlusOutlined />}
-							style={{ marginRight: '1rem' }}
-							variant='primary'
-						>
-							Create a Dfund
-						</Button>
-					</Link>
-					{buttonType === 'secondary' ? (
-						<Link to='/explore'>
+				<ButtonDiv>
+					<motion.div
+						variants={animateVariant}
+						initial='initial'
+						animate='animate'
+					>
+						<Link to='/create/campaign'>
 							<Button
-								variant='default'
-								className='outline_btn transparent'
+								type={'primary'}
+								icon={<PlusOutlined />}
+								style={{ marginRight: '1rem' }}
+								variant='primary'
 							>
-								Explore
+								Create a Dfund
 							</Button>
 						</Link>
-					) : (
-						<Link to='/explore'>
-							<Button variant='default' className='outline_btn'>
-								Explore
-							</Button>
-						</Link>
-					)}
-				</motion.div>
+						{buttonType === 'secondary' ? (
+							<Link to='/explore'>
+								<Button variant='default' className='outline_btn transparent'>
+									Explore
+								</Button>
+							</Link>
+						) : (
+							<Link to='/explore'>
+								<Button variant='default' className='outline_btn'>
+									Explore
+								</Button>
+							</Link>
+						)}
+					</motion.div>
+				</ButtonDiv>
 			</HeroContainer>
 		</Fragment>
 	)
