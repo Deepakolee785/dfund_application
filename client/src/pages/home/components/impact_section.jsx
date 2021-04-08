@@ -25,15 +25,10 @@ const ImpactSection = () => {
 				<Row justify='space-around'>
 					<Col>
 						<Row justify='space-around' style={{ width: '35vw' }}>
-							<div>
-								<Row align='bottom' justify='space-between'>
+							<div style={{ width: '9rem' }}>
+								<Row align='bottom' gutter={[10, 0]}>
 									<Col>
-										<img
-											src={Goal1}
-											alt=''
-											width='58'
-											height='58'
-										/>
+										<img src={Goal1} alt='' width='58' height='58' />
 									</Col>
 									<Col>
 										<span
@@ -42,28 +37,18 @@ const ImpactSection = () => {
 												fontSize: '2rem',
 											}}
 										>
-											<AnimatedNumber
-												value={8}
-												formatValue={formatValue}
-											/>
+											<AnimatedNumber value={8} formatValue={formatValue} />
 										</span>
 									</Col>
 								</Row>
 								<Row>
-									<p style={{ color: '#698598' }}>
-										Active Campaigns
-									</p>
+									<p style={{ color: '#698598' }}>Active Campaigns</p>
 								</Row>
 							</div>
-							<div>
+							<div style={{ width: '9rem' }}>
 								<Row align='bottom' justify='space-around'>
 									<Col>
-										<img
-											src={Goal2}
-											alt=''
-											width='58'
-											height='58'
-										/>
+										<img src={Goal2} alt='' width='58' height='58' />
 									</Col>
 									<Col>
 										<span
@@ -72,35 +57,22 @@ const ImpactSection = () => {
 												fontSize: '2rem',
 											}}
 										>
-											<AnimatedNumber
-												value={0}
-												formatValue={formatValue}
-											/>
+											<AnimatedNumber value={0} formatValue={formatValue} />
 										</span>
 									</Col>
 								</Row>
 								<Row>
-									<p style={{ color: '#698598' }}>
-										Successful campaigns
-									</p>
+									<p style={{ color: '#698598' }}>Successful campaigns</p>
 								</Row>
 							</div>
 						</Row>
 						<br />
 						<br />
-						<Row
-							justify='space-around'
-							style={{ marginLeft: '-1.5rem' }}
-						>
-							<div>
+						<Row justify='space-around' style={{ marginLeft: '-1.5rem' }}>
+							<div style={{ width: '9rem' }}>
 								<Row align='bottom' justify='space-between'>
 									<Col>
-										<img
-											src={Goal3}
-											alt=''
-											width='62'
-											height='62'
-										/>
+										<img src={Goal3} alt='' width='62' height='62' />
 									</Col>
 									<Col>
 										<span
@@ -109,29 +81,19 @@ const ImpactSection = () => {
 												fontSize: '2rem',
 											}}
 										>
-											<AnimatedNumber
-												value={5}
-												formatValue={formatValue}
-											/>{' '}
+											<AnimatedNumber value={5} formatValue={formatValue} />{' '}
 											{/* <small>ETH</small> */}
 										</span>
 									</Col>
 								</Row>
 								<Row>
-									<p style={{ color: '#698598' }}>
-										Toal fund collected
-									</p>
+									<p style={{ color: '#698598' }}>Toal fund collected</p>
 								</Row>
 							</div>
-							<div>
-								<Row align='bottom' justify='space-between'>
+							<div style={{ width: '9rem' }}>
+								<Row align='bottom' gutter={[10, 0]}>
 									<Col>
-										<img
-											src={Goal4}
-											alt=''
-											width='62'
-											height='62'
-										/>
+										<img src={Goal4} alt='' width='62' height='62' />
 									</Col>
 									<Col>
 										<span
@@ -140,28 +102,21 @@ const ImpactSection = () => {
 												fontSize: '2rem',
 											}}
 										>
-											<AnimatedNumber
-												value={9}
-												formatValue={formatValue}
-											/>
+											<AnimatedNumber value={9} formatValue={formatValue} />
 										</span>
 									</Col>
 								</Row>
 								<Row>
-									<p style={{ color: '#698598' }}>
-										Total campaigns
-									</p>
+									<p style={{ color: '#698598' }}>Total campaigns</p>
 								</Row>
 							</div>
 						</Row>
 					</Col>
 					<Col>
-						<Heading>
-							Nepal’s first decentralized crowdfunding platform
-						</Heading>
+						<Heading>Nepal’s first decentralized crowdfunding platform</Heading>
 						<SubHeading>
-							Dfund gives you tool to raise funds for anything you
-							wish for using Blockchain technologies.
+							Dfund gives you tool to raise funds for anything you wish for
+							using Blockchain technologies.
 						</SubHeading>
 						<br />
 						<br />
