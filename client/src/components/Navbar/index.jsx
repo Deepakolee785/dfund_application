@@ -132,7 +132,7 @@ const Navbar = () => {
 							exact
 							activeClassName='activeNav'
 						>
-							Contact
+							Support
 						</NavLink>
 					</li>
 				</NavMenuList>
@@ -239,10 +239,7 @@ const Navbar = () => {
 										Login
 									</Button>
 								</Link>
-								<Divider
-									type='vertical'
-									style={{ height: '2rem' }}
-								/>
+								<Divider type='vertical' style={{ height: '2rem' }} />
 								<Link to='/Register'>
 									<Button
 										variant='default'
@@ -256,11 +253,7 @@ const Navbar = () => {
 							</>
 						) : (
 							<Dropdown overlay={menu} trigger={['click']}>
-								<img
-									src={user_icon}
-									alt='user'
-									style={{ cursor: 'pointer' }}
-								/>
+								<img src={user_icon} alt='user' style={{ cursor: 'pointer' }} />
 							</Dropdown>
 						)}
 					</Drawer>
@@ -288,10 +281,7 @@ const Navbar = () => {
 									Login
 								</Button>
 							</Link>
-							<Divider
-								type='vertical'
-								style={{ height: '2rem' }}
-							/>
+							<Divider type='vertical' style={{ height: '2rem' }} />
 							<Link to='/register'>
 								<Button
 									variant='default'
@@ -305,11 +295,7 @@ const Navbar = () => {
 						</>
 					) : (
 						<Dropdown overlay={menu} trigger={['click']}>
-							<img
-								src={user_icon}
-								alt='user'
-								style={{ cursor: 'pointer' }}
-							/>
+							<img src={user_icon} alt='user' style={{ cursor: 'pointer' }} />
 						</Dropdown>
 					)}
 				</AuthButtons>
