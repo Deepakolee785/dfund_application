@@ -61,14 +61,10 @@ const LoginPage = () => {
 		<Layout>
 			<div style={{ minHeight: '70vh' }}>
 				<div>
-					{/* <h2 style={{ color: '#294859' }}>
-						Login to Your Dfund Account
-					</h2> */}
 					<Header heading='Login to Your Dfund Account' />
 					<br />
 					<div className='Center'>
 						<Form
-							// {...layout}
 							name='basic'
 							form={form}
 							onFinish={onFinish}
@@ -120,15 +116,12 @@ const LoginPage = () => {
 								rules={[
 									{
 										required: true,
-										message:
-											"Please verify you're not a bot!",
+										message: "Please verify you're not a bot!",
 									},
 								]}
 							>
 								<ReCAPTCHA
-									sitekey={
-										process.env.REACT_APP_RECAPTCHA_SITE_KEY
-									}
+									sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
 									ref={recaptchaRef}
 									style={{
 										display: 'flex',
@@ -139,10 +132,7 @@ const LoginPage = () => {
 							</Form.Item>
 							<Row align='middle' justify='space-between'>
 								<Col>
-									<Form.Item
-										name='remember'
-										valuePropName='checked'
-									>
+									<Form.Item name='remember' valuePropName='checked'>
 										<Checkbox>Remember me</Checkbox>
 									</Form.Item>
 								</Col>
